@@ -1,0 +1,99 @@
+{
+  "permissions": {
+    "deny": [
+      "Bash(rm -rf /*)","Bash(rm -rf ~*)","Bash(rm -rf .*)","Bash(rm -rf /home*)",
+      "Bash(sudo rm*)",
+      "Bash(git push --force*)", "Bash(git push -f *)",
+      "Bash(git reset --hard*)",
+      "Bash(git checkout -- .*)", "Bash(git checkout -- /*)",
+      "Bash(git clean -fd*)", "Bash(git clean -df*)",
+      "Bash(chmod -R 777*)",
+      "Bash(curl*POST*)", "Bash(curl*PUT*)", "Bash(curl*-d *)", "Bash(curl*--data*)",
+      "Bash(wget --post*)",
+      "Bash(nc *)", "Bash(ncat *)",
+      "Bash(> /etc/*)",
+      "Read(**/.env)", "Read(**/.env.*)", "Read(**/.env.local)", "Read(**/.env.production)",
+      "Read(**/.env.development)", "Read(**/credentials.*)",
+      "Read(**/*.key)", "Read(**/*.pem)", "Read(**/*.secret)",
+      "Read(**/.ssh/*)", "Read(**/.aws/*)", "Read(**/.kube/*)",
+      "Read(**/settings.local.json)",
+      "Write(**/.env*)", "Write(**/credentials.*)", "Write(**/*.key)", "Write(**/*.pem)",
+      "Write(**/CLAUDE.md)", "Write(**/.claude/settings.json)", "Write(**/.claude/settings.local.json)",
+      "Write(**/.claude/hooks/*)",
+      "Edit(**/CLAUDE.md)", "Edit(**/.claude/settings.json)", "Edit(**/.claude/settings.local.json)",
+      "Edit(**/.claude/hooks/*)"
+    ],
+    "ask": [
+      "Bash(git push*)", "Bash(git merge*)", "Bash(git rebase*)",
+      "Bash(git tag*)", "Bash(git stash drop*)",
+      "Bash(npm publish*)", "Bash(npx wrangler deploy*)", "Bash(npx wrangler pages deploy*)",
+      "Bash(pip install*)", "Bash(npm install*)",
+      "Bash(DROP *)", "Bash(TRUNCATE *)", "Bash(DELETE *)",
+      "Bash(psql*)", "Bash(pg_dump*)", "Bash(pg_restore*)"
+    ],
+    "allow": [
+      "Bash(git status*)", "Bash(git log*)", "Bash(git diff*)", "Bash(git branch*)",
+      "Bash(git show*)", "Bash(git remote*)",
+      "Bash(ls*)", "Bash(cat*)", "Bash(head*)", "Bash(tail*)", "Bash(grep*)", "Bash(find*)",
+      "Bash(python*)", "Bash(pytest*)", "Bash(pip list*)",
+      "Bash(npm run*)", "Bash(npm test*)", "Bash(npx*)",
+      "Read", "Write", "Edit"
+    ]
+  },
+  "sandbox": {
+    "enabled": true,
+    "failIfUnavailable": false,
+    "allowUnsandboxedCommands": false,
+    "filesystem": {
+      "denyRead": [
+        "~/.ssh",
+        "~/.aws",
+        "~/.kube",
+        "~/.gnupg",
+        "/etc/shadow",
+        "/etc/passwd"
+      ],
+      "denyWrite": [
+        "~/.ssh",
+        "~/.aws",
+        "~/.kube",
+        "/etc"
+      ]
+    }
+  },
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash .claude/hooks/protect-files.sh"
+          }
+        ]
+      }
+    ],
+    "Stop": [
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash .claude/hooks/auto-commit.sh"
+          }
+        ]
+      }
+    ],
+    "ConfigChange": [
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash .claude/hooks/config-guard.sh"
+          }
+        ]
+      }
+    ]
+  }
+}
