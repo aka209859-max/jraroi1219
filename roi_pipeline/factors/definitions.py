@@ -52,19 +52,19 @@ FACTOR_DEFINITIONS: List[FactorDefinition] = [
         n_bins=20,
     ),
     FactorDefinition(
-        id=2, name="総合指数", table="jrd_kyi", column="sogo_index",
+        id=2, name="総合指数", table="jrd_kyi", column="sogo_shisu",
         factor_type=FactorType.NUMERIC, segment_type=SegmentType.GLOBAL,
         category="能力系", description="総合指数（JRDB）",
         n_bins=20,
     ),
     FactorDefinition(
-        id=3, name="上がり指数", table="jrd_kyi", column="joh_index",
+        id=3, name="上がり指数", table="jrd_kyi", column="agari_shisu",
         factor_type=FactorType.NUMERIC, segment_type=SegmentType.GLOBAL,
         category="能力系", description="上がり3Fの能力指数",
         n_bins=20,
     ),
     FactorDefinition(
-        id=4, name="ペース指数", table="jrd_kyi", column="pace_index",
+        id=4, name="ペース指数", table="jrd_kyi", column="pace_shisu",
         factor_type=FactorType.NUMERIC, segment_type=SegmentType.GLOBAL,
         category="能力系", description="ペース対応能力指数",
         n_bins=20,
@@ -72,17 +72,19 @@ FACTOR_DEFINITIONS: List[FactorDefinition] = [
 
     # ---- 適性系 ----
     FactorDefinition(
-        id=5, name="距離適性", table="jrd_kyi", column="kyori_tekisei",
+        id=5, name="距離適性", table="jrd_kyi", column="kyori_tekisei_code",
         factor_type=FactorType.CATEGORY, segment_type=SegmentType.GLOBAL,
         category="適性系", description="距離適性評価",
     ),
     FactorDefinition(
         id=6, name="コース適性", table="jrd_kyi", column="course_tekisei",
+        # DB実名: tekisei_code_shiba → SQLでAS course_tekiseiとして取得
         factor_type=FactorType.CATEGORY, segment_type=SegmentType.GLOBAL,
         category="適性系", description="コース適性評価",
     ),
     FactorDefinition(
         id=7, name="馬場適性", table="jrd_kyi", column="baba_tekisei",
+        # DB実名: tekisei_code_omo → SQLでAS baba_tekiseiとして取得
         factor_type=FactorType.CATEGORY, segment_type=SegmentType.GLOBAL,
         category="適性系", description="馬場適性評価",
     ),
@@ -96,24 +98,25 @@ FACTOR_DEFINITIONS: List[FactorDefinition] = [
 
     # ---- 状態系 ----
     FactorDefinition(
-        id=9, name="変わり身", table="jrd_kyi", column="kawarimi",
+        id=9, name="変わり身", table="jrd_kyi", column="chokyo_yajirushi_code",
         factor_type=FactorType.CATEGORY, segment_type=SegmentType.GLOBAL,
-        category="状態系", description="前走からの変わり身評価",
+        category="状態系", description="調教矢印コード（前走からの変わり身評価）",
     ),
     FactorDefinition(
-        id=10, name="成長曲線", table="jrd_kyi", column="seichoku",
+        id=10, name="走法", table="jrd_kyi", column="soho",
         factor_type=FactorType.CATEGORY, segment_type=SegmentType.GLOBAL,
-        category="状態系", description="成長曲線の段階評価",
+        category="状態系", description="走法コード",
     ),
     FactorDefinition(
-        id=11, name="調教評価", table="jrd_kyi", column="chokyo_hyoka",
+        id=11, name="調教評価", table="jrd_cyb", column="chokyo_hyoka",
         factor_type=FactorType.CATEGORY, segment_type=SegmentType.GLOBAL,
-        category="状態系", description="調教評価コード",
+        category="状態系", description="調教評価コード（jrd_cyb）",
     ),
     FactorDefinition(
-        id=12, name="調教評価ランク", table="jrd_cyb", column="chokyo_hyoka_rank",
-        factor_type=FactorType.CATEGORY, segment_type=SegmentType.GLOBAL,
-        category="状態系", description="調教分析によるランク評価",
+        id=12, name="仕上げ指数", table="jrd_cyb", column="chokyo_hyoka",
+        factor_type=FactorType.NUMERIC, segment_type=SegmentType.GLOBAL,
+        category="状態系", description="調教評価を数値として分析（jrd_cybのchokyo_hyoka）",
+        n_bins=10,
     ),
 
     # ---- 環境系 ----
@@ -133,32 +136,32 @@ FACTOR_DEFINITIONS: List[FactorDefinition] = [
         category="環境系", description="ブリンカー使用区分",
     ),
     FactorDefinition(
-        id=16, name="負担重量種別", table="jrd_bac", column="race_weight_type",
+        id=16, name="負担重量種別", table="jrd_bac", column="juryo_shubetsu_code",
         factor_type=FactorType.CATEGORY, segment_type=SegmentType.GLOBAL,
         category="環境系", description="負担重量の種別コード",
     ),
 
     # ---- 関係者系 ----
     FactorDefinition(
-        id=17, name="騎手指数", table="jrd_kyi", column="jockey_index",
+        id=17, name="騎手指数", table="jrd_kyi", column="kishu_shisu",
         factor_type=FactorType.NUMERIC, segment_type=SegmentType.GLOBAL,
         category="関係者系", description="騎手の能力指数",
         n_bins=20,
     ),
     FactorDefinition(
-        id=18, name="調教師指数", table="jrd_kyi", column="trainer_index",
+        id=18, name="調教師指数", table="jrd_kyi", column="chokyo_shisu",
         factor_type=FactorType.NUMERIC, segment_type=SegmentType.GLOBAL,
         category="関係者系", description="調教師の能力指数",
         n_bins=20,
     ),
     FactorDefinition(
-        id=19, name="LS指数", table="jrd_joa", column="ls_index",
+        id=19, name="LS指数", table="jrd_joa", column="ls_shisu",
         factor_type=FactorType.NUMERIC, segment_type=SegmentType.GLOBAL,
         category="関係者系", description="騎手・厩舎連携指数",
         n_bins=20,
     ),
     FactorDefinition(
-        id=20, name="厩舎指数", table="jrd_kyi", column="stable_index",
+        id=20, name="厩舎指数", table="jrd_kyi", column="kyusha_shisu",
         factor_type=FactorType.NUMERIC, segment_type=SegmentType.GLOBAL,
         category="関係者系", description="厩舎の能力指数",
         n_bins=20,
