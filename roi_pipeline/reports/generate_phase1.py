@@ -149,6 +149,8 @@ def generate_factor_report(
     lines.append("## ビン別（カテゴリ別）補正回収率")
     lines.append("")
 
+    edge_bins: List[str] = []
+
     try:
         binned_series, bin_col_name = apply_binning(df, factor)
         df_with_bins = df.copy()
@@ -166,8 +168,6 @@ def generate_factor_report(
             # 階層ベイズ推定を適用
             lines.append("| ビン/カテゴリ | N | 的中率(%) | 補正回収率(%) | ベイズ推定後(%) | 95%CI下限 | 95%CI上限 | 得点 | エッジ |")
             lines.append("|-------------|---|---------|------------|--------------|---------|---------|------|--------|")
-
-            edge_bins: List[str] = []
 
             for _, row in bin_results.iterrows():
                 bayes = hierarchical_bayes_estimate(
@@ -197,7 +197,6 @@ def generate_factor_report(
     except Exception as e:
         lines.append(f"ビン分割エラー: {e}")
         lines.append("")
-        edge_bins = []
 
     # ====== 3. Walk-Forward検証結果 ======
     lines.append("## Walk-Forward検証結果")
@@ -340,12 +339,58 @@ def main() -> None:
     df = add_race_year(df)
     print(f"  前処理完了: {len(df):,} rows, {len(df.columns)} columns")
 
+    # 2.5. データ診断（オッズ値の妥当性チェック）
+    print()
+    print("[2.5] データ診断...")
+    if "tansho_odds" in df.columns:
+        odds_series = df["tansho_odds"].dropna()
+        print(f"  tansho_odds: count={len(odds_series):,}, "
+              f"min={odds_series.min():.1f}, max={odds_series.max():.1f}, "
+              f"mean={odds_series.mean():.1f}, median={odds_series.median():.1f}")
+        print(f"  tansho_odds サンプル (先頭10件): {odds_series.head(10).tolist()}")
+
+        # JRA-VANのオッズが10倍単位（例: 30 = 3.0倍）で格納されているか自動検出
+        # 実オッズが1.0〜999.9の範囲に収まるはず。中央値が10以上なら10倍単位の可能性大
+        if odds_series.median() >= 10.0:
+            print(f"  ⚠️  tansho_odds中央値={odds_series.median():.1f} → "
+                  f"10倍単位格納を検出。実オッズ = tansho_odds / 10 に変換します。")
+            df["tansho_odds"] = df["tansho_odds"] / 10.0
+            odds_series = df["tansho_odds"].dropna()
+            print(f"  変換後: min={odds_series.min():.1f}, max={odds_series.max():.1f}, "
+                  f"mean={odds_series.mean():.1f}, median={odds_series.median():.1f}")
+        else:
+            print(f"  ✅ tansho_odds は実オッズ値として妥当です。")
+
+    if "fukusho_odds" in df.columns:
+        fuku_series = df["fukusho_odds"].dropna()
+        if len(fuku_series) > 0:
+            print(f"  fukusho_odds: count={len(fuku_series):,}, "
+                  f"min={fuku_series.min():.1f}, max={fuku_series.max():.1f}, "
+                  f"mean={fuku_series.mean():.1f}, median={fuku_series.median():.1f}")
+            if fuku_series.median() >= 10.0:
+                print(f"  ⚠️  fukusho_odds中央値={fuku_series.median():.1f} → "
+                      f"10倍単位格納を検出。実オッズ = fukusho_odds / 10 に変換します。")
+                df["fukusho_odds"] = df["fukusho_odds"] / 10.0
+
+    if "kakutei_chakujun" in df.columns:
+        hit_count = df["is_hit"].sum()
+        print(f"  is_hit (1着): {hit_count:,} / {len(df):,} "
+              f"({hit_count/len(df)*100:.2f}%)")
+    print()
+
     # 3. グローバル補正回収率を算出
     print("[3/4] グローバル補正回収率を算出中...")
     global_result = calc_corrected_return_rate(df)
     global_rate = global_result["corrected_return_rate"]
     print(f"  グローバル補正回収率: {global_rate:.2f}%")
     print(f"  グローバルスコア: {global_result['score']:.2f}")
+
+    # 妥当性チェック
+    if global_rate > 200.0 or global_rate < 10.0:
+        print(f"  ⚠️  WARNING: グローバル回収率 {global_rate:.2f}% は異常値です。")
+        print(f"       想定範囲: 60〜120%。オッズ値のフォーマットを確認してください。")
+        print(f"       tansho_oddsが払戻金額（100円あたり）で格納されている場合、")
+        print(f"       実オッズ = tansho_odds / 100 への変換が必要です。")
     print()
 
     # 4. 各ファクターのレポート生成
