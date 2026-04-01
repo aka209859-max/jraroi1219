@@ -79,12 +79,52 @@ def main():
               f"kai={row[2]!r}, nichime={row[3]!r}, "
               f"race={row[4]!r}, uma={row[5]!r}")
 
-    # 8. cyb + se のJOIN診断（全期間）
+    # 8. 新JOINキー: YY年一致 + kaisai_kai + kaisai_nichime（race_shikonen非依存）
+    print("\n[8] === 新JOINキーテスト (race_shikonen = YY+回+日目 確定済み) ===")
+    print("    JOIN方式: keibajo + YY年一致 + CAST(kaisai_kai) + CAST(nichime) + CAST(race) + CAST(uma)")
+
+    # kyi
+    cur.execute(
+        "SELECT COUNT(*) FROM jvd_se AS se "
+        "INNER JOIN jrd_kyi AS kyi "
+        "ON TRIM(se.keibajo_code) = TRIM(kyi.keibajo_code) "
+        "AND SUBSTRING(se.kaisai_nen, 3, 2) = SUBSTRING(kyi.race_shikonen, 1, 2) "
+        "AND CAST(NULLIF(TRIM(se.kaisai_kai), '') AS INTEGER) "
+        "  = CAST(NULLIF(TRIM(kyi.kaisai_kai), '') AS INTEGER) "
+        "AND CAST(NULLIF(TRIM(se.kaisai_nichime), '') AS INTEGER) "
+        "  = CAST(NULLIF(TRIM(kyi.kaisai_nichime), '') AS INTEGER) "
+        "AND CAST(NULLIF(TRIM(se.race_bango), '') AS INTEGER) "
+        "  = CAST(NULLIF(TRIM(kyi.race_bango), '') AS INTEGER) "
+        "AND CAST(NULLIF(TRIM(se.umaban), '') AS INTEGER) "
+        "  = CAST(NULLIF(TRIM(kyi.umaban), '') AS INTEGER)"
+    )
+    print(f"    kyi 新JOIN全期間: {cur.fetchone()[0]:,} マッチ")
+
+    # cyb (2024年1月)
     cur.execute(
         "SELECT COUNT(*) FROM jvd_se AS se "
         "INNER JOIN jrd_cyb AS cyb "
         "ON TRIM(se.keibajo_code) = TRIM(cyb.keibajo_code) "
-        "AND TRIM(SUBSTRING(se.kaisai_nen, 3, 2) || se.kaisai_tsukihi) = TRIM(cyb.race_shikonen) "
+        "AND SUBSTRING(se.kaisai_nen, 3, 2) = SUBSTRING(cyb.race_shikonen, 1, 2) "
+        "AND CAST(NULLIF(TRIM(se.kaisai_kai), '') AS INTEGER) "
+        "  = CAST(NULLIF(TRIM(cyb.kaisai_kai), '') AS INTEGER) "
+        "AND CAST(NULLIF(TRIM(se.kaisai_nichime), '') AS INTEGER) "
+        "  = CAST(NULLIF(TRIM(cyb.kaisai_nichime), '') AS INTEGER) "
+        "AND CAST(NULLIF(TRIM(se.race_bango), '') AS INTEGER) "
+        "  = CAST(NULLIF(TRIM(cyb.race_bango), '') AS INTEGER) "
+        "AND CAST(NULLIF(TRIM(se.umaban), '') AS INTEGER) "
+        "  = CAST(NULLIF(TRIM(cyb.umaban), '') AS INTEGER) "
+        "WHERE (se.kaisai_nen || se.kaisai_tsukihi) >= '20240101' "
+        "AND (se.kaisai_nen || se.kaisai_tsukihi) <= '20240131'"
+    )
+    print(f"    cyb 新JOIN 2024年1月: {cur.fetchone()[0]:,} マッチ")
+
+    # cyb (全期間)
+    cur.execute(
+        "SELECT COUNT(*) FROM jvd_se AS se "
+        "INNER JOIN jrd_cyb AS cyb "
+        "ON TRIM(se.keibajo_code) = TRIM(cyb.keibajo_code) "
+        "AND SUBSTRING(se.kaisai_nen, 3, 2) = SUBSTRING(cyb.race_shikonen, 1, 2) "
         "AND CAST(NULLIF(TRIM(se.kaisai_kai), '') AS INTEGER) "
         "  = CAST(NULLIF(TRIM(cyb.kaisai_kai), '') AS INTEGER) "
         "AND CAST(NULLIF(TRIM(se.kaisai_nichime), '') AS INTEGER) "
@@ -94,42 +134,55 @@ def main():
         "AND CAST(NULLIF(TRIM(se.umaban), '') AS INTEGER) "
         "  = CAST(NULLIF(TRIM(cyb.umaban), '') AS INTEGER)"
     )
-    print(f"\n[8] cyb CAST JOIN (全期間): {cur.fetchone()[0]:,} マッチ")
+    print(f"    cyb 新JOIN全期間: {cur.fetchone()[0]:,} マッチ")
 
-    # 9. shikonen形式の不一致チェック
-    # se側: '240101' vs cyb側のフォーマットが違う可能性を検査
+    # bac (レース単位 — umabanなし)
     cur.execute(
-        "SELECT TRIM(SUBSTRING(se.kaisai_nen, 3, 2) || se.kaisai_tsukihi) AS se_shikonen, "
-        "LENGTH(TRIM(SUBSTRING(se.kaisai_nen, 3, 2) || se.kaisai_tsukihi)) AS se_len "
-        "FROM jvd_se AS se "
+        "SELECT COUNT(*) FROM jvd_se AS se "
+        "INNER JOIN jrd_bac AS bac "
+        "ON TRIM(se.keibajo_code) = TRIM(bac.keibajo_code) "
+        "AND SUBSTRING(se.kaisai_nen, 3, 2) = SUBSTRING(bac.race_shikonen, 1, 2) "
+        "AND CAST(NULLIF(TRIM(se.kaisai_kai), '') AS INTEGER) "
+        "  = CAST(NULLIF(TRIM(bac.kaisai_kai), '') AS INTEGER) "
+        "AND CAST(NULLIF(TRIM(se.kaisai_nichime), '') AS INTEGER) "
+        "  = CAST(NULLIF(TRIM(bac.kaisai_nichime), '') AS INTEGER) "
+        "AND CAST(NULLIF(TRIM(se.race_bango), '') AS INTEGER) "
+        "  = CAST(NULLIF(TRIM(bac.race_bango), '') AS INTEGER) "
         "WHERE (se.kaisai_nen || se.kaisai_tsukihi) >= '20240101' "
-        "LIMIT 3"
+        "AND (se.kaisai_nen || se.kaisai_tsukihi) <= '20240131'"
     )
-    se_rows = cur.fetchall()
-    cur.execute(
-        "SELECT TRIM(race_shikonen) AS cyb_shikonen, "
-        "LENGTH(TRIM(race_shikonen)) AS cyb_len "
-        "FROM jrd_cyb "
-        "WHERE race_shikonen >= '240101' AND race_shikonen <= '240131' "
-        "LIMIT 3"
-    )
-    cyb_rows = cur.fetchall()
-    print(f"\n[9] shikonen フォーマット比較:")
-    print(f"    se  側: {se_rows}")
-    print(f"    cyb 側: {cyb_rows}")
+    print(f"    bac 新JOIN 2024年1月: {cur.fetchone()[0]:,} マッチ")
 
-    # もしcyb側が空ならrace_shikonen全体から先頭を表示
-    if not cyb_rows:
-        cur.execute(
-            "SELECT TRIM(race_shikonen), LENGTH(TRIM(race_shikonen)) "
-            "FROM jrd_cyb ORDER BY race_shikonen LIMIT 5"
-        )
-        print(f"    cyb 先頭5件: {cur.fetchall()}")
-        cur.execute(
-            "SELECT TRIM(race_shikonen), LENGTH(TRIM(race_shikonen)) "
-            "FROM jrd_cyb ORDER BY race_shikonen DESC LIMIT 5"
-        )
-        print(f"    cyb 末尾5件: {cur.fetchall()}")
+    # joa (全期間)
+    cur.execute(
+        "SELECT COUNT(*) FROM jvd_se AS se "
+        "INNER JOIN jrd_joa AS joa "
+        "ON TRIM(se.keibajo_code) = TRIM(joa.keibajo_code) "
+        "AND SUBSTRING(se.kaisai_nen, 3, 2) = SUBSTRING(joa.race_shikonen, 1, 2) "
+        "AND CAST(NULLIF(TRIM(se.kaisai_kai), '') AS INTEGER) "
+        "  = CAST(NULLIF(TRIM(joa.kaisai_kai), '') AS INTEGER) "
+        "AND CAST(NULLIF(TRIM(se.kaisai_nichime), '') AS INTEGER) "
+        "  = CAST(NULLIF(TRIM(joa.kaisai_nichime), '') AS INTEGER) "
+        "AND CAST(NULLIF(TRIM(se.race_bango), '') AS INTEGER) "
+        "  = CAST(NULLIF(TRIM(joa.race_bango), '') AS INTEGER) "
+        "AND CAST(NULLIF(TRIM(se.umaban), '') AS INTEGER) "
+        "  = CAST(NULLIF(TRIM(joa.umaban), '') AS INTEGER)"
+    )
+    print(f"    joa 新JOIN全期間: {cur.fetchone()[0]:,} マッチ")
+
+    print("\n    期待値: kyi ~491K, cyb ~491K, joa ~491K, bac ~280万(se行数xレース)")
+
+    # 9. race_shikonen フォーマット確認（参考）
+    print(f"\n[9] race_shikonen フォーマット確認 (YY+回+日目):")
+    cur.execute(
+        "SELECT race_shikonen, kaisai_kai, kaisai_nichime "
+        "FROM jrd_cyb LIMIT 5"
+    )
+    for r in cur.fetchall():
+        yy = r[0][:2] if r[0] else '?'
+        kai_from_shikonen = r[0][2:4] if r[0] and len(r[0]) >= 4 else '?'
+        nichime_from_shikonen = r[0][4:6] if r[0] and len(r[0]) >= 6 else '?'
+        print(f"    shikonen={r[0]!r} → YY={yy}, 回={kai_from_shikonen}, 日目={nichime_from_shikonen} | 実カラム kai={r[1]!r}, nichime={r[2]!r}")
 
     # =================================================================
     # 10. race_shikonen フォーマット詳細解析

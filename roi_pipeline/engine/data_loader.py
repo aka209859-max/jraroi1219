@@ -49,20 +49,38 @@ def load_base_race_data(
         結合済みDataFrame
 
     Note:
-        JRA-VANの日付: kaisai_nen='2024', kaisai_tsukihi='0307'
-        JRDBの日付: race_shikonen='240307'
-        結合キー: (SUBSTRING(se.kaisai_nen, 3, 2) || se.kaisai_tsukihi) = kyi.race_shikonen
+        ■ race_shikonenのフォーマット（2026-04-01確定）:
+          - JRA-VAN (jvd_se): kaisai_nen='2024', kaisai_tsukihi='0307' → YYMMDD
+          - JRDB (jrd_kyi等): race_shikonen='241104' → YY(2)+回(2)+日目(2)
+          - race_shikonenはYYMMDDではない！ YY+開催回+日目 の識別子。
+          - したがってrace_shikonenとYYMMDDを直接比較してはならない。
+
+        ■ JOINキー設計（race_shikonen非依存）:
+          1. keibajo_code: 場コード（TRIM比較）
+          2. 年: SUBSTRING(se.kaisai_nen, 3, 2) = SUBSTRING(jrdb.race_shikonen, 1, 2)
+          3. kaisai_kai: 開催回（CAST INTEGER — パディング差吸収）
+          4. kaisai_nichime: 日目（CAST INTEGER）
+          5. race_bango: レース番号（CAST INTEGER）
+          6. umaban: 馬番（CAST INTEGER, bac以外）
+
+        ■ パディング差異:
+          JRA-VAN: kaisai_kai='02'(2桁ゼロパディング), kaisai_nichime='05'(2桁)
+          JRDB:    kaisai_kai='2'(パディングなし1桁),   kaisai_nichime='5'(1桁)
+          → CAST(TRIM(...) AS INTEGER)で吸収
+
+        ■ bacテーブル注意:
+          bacはレース単位（馬番なし）のため、umaban条件を除外。
+          またbacのkaisai_nen/kaisai_tsukihiは固定長パースずれの可能性あり。
     """
     # -----------------------------------------------------------------------
-    # JOINキーのフォーマット差異対策:
-    #   JRA-VAN (jvd_se): kaisai_kai='11'(2桁ゼロパディング), kaisai_nichime='01'(2桁)
-    #   JRDB (jrd_kyi等): kaisai_kai='2'(パディングなし1桁), kaisai_nichime='5'(1桁)
+    # JOINキー設計（2026-04-01 根本修正）
     #
-    #   → CAST(TRIM(...) AS INTEGER) で数値比較することでパディング差異を吸収
-    #   → race_bangoとumabanもTRIM+INTEGER比較で安全に結合
+    # 旧: race_shikonen = YYMMDD として結合 → 0%マッチ（フォーマット不一致）
+    # 新: race_shikonenの先頭2桁(YY)で年を絞り、
+    #     kaisai_kai + kaisai_nichime + race_bango + umaban で結合
     #
-    # 注意: jrd_kyiが517行しかない場合、DB側のインポート不備。
-    #       コード側ではLEFT JOINで対応（結合できない行はNULL）。
+    # race_shikonen = YY(2) + 開催回(2) + 日目(2) であることが診断で確定。
+    # PC-KEIBAがJRDB固定長ファイルをパースした結果。
     # -----------------------------------------------------------------------
     query = """
     SELECT
@@ -97,9 +115,14 @@ def load_base_race_data(
         AND se.kaisai_kai = ra.kaisai_kai
         AND se.kaisai_nichime = ra.kaisai_nichime
         AND se.race_bango = ra.race_bango
+    -- =====================================================================
+    -- JRDB JOIN: race_shikonenの先頭2桁(YY)で年を絞り、
+    --   kaisai_kai + kaisai_nichime + race_bango + umaban で結合
+    -- race_shikonen = YY(2) + 開催回(2) + 日目(2) ≠ YYMMDD
+    -- =====================================================================
     LEFT JOIN jrd_kyi AS kyi
         ON TRIM(se.keibajo_code) = TRIM(kyi.keibajo_code)
-        AND TRIM(SUBSTRING(se.kaisai_nen, 3, 2) || se.kaisai_tsukihi) = TRIM(kyi.race_shikonen)
+        AND SUBSTRING(se.kaisai_nen, 3, 2) = SUBSTRING(kyi.race_shikonen, 1, 2)
         AND CAST(NULLIF(TRIM(se.kaisai_kai), '') AS INTEGER)
             = CAST(NULLIF(TRIM(kyi.kaisai_kai), '') AS INTEGER)
         AND CAST(NULLIF(TRIM(se.kaisai_nichime), '') AS INTEGER)
@@ -110,7 +133,7 @@ def load_base_race_data(
             = CAST(NULLIF(TRIM(kyi.umaban), '') AS INTEGER)
     LEFT JOIN jrd_cyb AS cyb
         ON TRIM(se.keibajo_code) = TRIM(cyb.keibajo_code)
-        AND TRIM(SUBSTRING(se.kaisai_nen, 3, 2) || se.kaisai_tsukihi) = TRIM(cyb.race_shikonen)
+        AND SUBSTRING(se.kaisai_nen, 3, 2) = SUBSTRING(cyb.race_shikonen, 1, 2)
         AND CAST(NULLIF(TRIM(se.kaisai_kai), '') AS INTEGER)
             = CAST(NULLIF(TRIM(cyb.kaisai_kai), '') AS INTEGER)
         AND CAST(NULLIF(TRIM(se.kaisai_nichime), '') AS INTEGER)
@@ -121,7 +144,7 @@ def load_base_race_data(
             = CAST(NULLIF(TRIM(cyb.umaban), '') AS INTEGER)
     LEFT JOIN jrd_joa AS joa
         ON TRIM(se.keibajo_code) = TRIM(joa.keibajo_code)
-        AND TRIM(SUBSTRING(se.kaisai_nen, 3, 2) || se.kaisai_tsukihi) = TRIM(joa.race_shikonen)
+        AND SUBSTRING(se.kaisai_nen, 3, 2) = SUBSTRING(joa.race_shikonen, 1, 2)
         AND CAST(NULLIF(TRIM(se.kaisai_kai), '') AS INTEGER)
             = CAST(NULLIF(TRIM(joa.kaisai_kai), '') AS INTEGER)
         AND CAST(NULLIF(TRIM(se.kaisai_nichime), '') AS INTEGER)
@@ -132,7 +155,7 @@ def load_base_race_data(
             = CAST(NULLIF(TRIM(joa.umaban), '') AS INTEGER)
     LEFT JOIN jrd_bac AS bac
         ON TRIM(se.keibajo_code) = TRIM(bac.keibajo_code)
-        AND TRIM(SUBSTRING(se.kaisai_nen, 3, 2) || se.kaisai_tsukihi) = TRIM(bac.race_shikonen)
+        AND SUBSTRING(se.kaisai_nen, 3, 2) = SUBSTRING(bac.race_shikonen, 1, 2)
         AND CAST(NULLIF(TRIM(se.kaisai_kai), '') AS INTEGER)
             = CAST(NULLIF(TRIM(bac.kaisai_kai), '') AS INTEGER)
         AND CAST(NULLIF(TRIM(se.kaisai_nichime), '') AS INTEGER)
@@ -260,14 +283,19 @@ def diagnose_join_keys(config: Optional[DBConfig] = None) -> str:
             except Exception as e:
                 lines.append(f"    {tbl}: エラー ({e})")
 
-        # --- CAST(INTEGER)付きJOINテスト（パディング差異吸収） ---
-        # kyi全体でテスト（517行しかないのでWHERE無し）
-        query_cast_test = """
+        # --- 新JOINキーテスト: YY年一致 + kaisai_kai + kaisai_nichime ---
+        # race_shikonen = YY(2)+回(2)+日目(2) なので、
+        # 先頭2桁のYYをse.kaisai_nen(3,2)と一致させ、残りはCAST(INTEGER)で結合
+        lines.append("")
+        lines.append("  --- 新JOINキーテスト (race_shikonen非依存) ---")
+
+        # kyi テスト
+        query_new_kyi = """
         SELECT COUNT(*) AS match_count
         FROM jvd_se AS se
         INNER JOIN jrd_kyi AS kyi
             ON TRIM(se.keibajo_code) = TRIM(kyi.keibajo_code)
-            AND TRIM(SUBSTRING(se.kaisai_nen, 3, 2) || se.kaisai_tsukihi) = TRIM(kyi.race_shikonen)
+            AND SUBSTRING(se.kaisai_nen, 3, 2) = SUBSTRING(kyi.race_shikonen, 1, 2)
             AND CAST(NULLIF(TRIM(se.kaisai_kai), '') AS INTEGER)
                 = CAST(NULLIF(TRIM(kyi.kaisai_kai), '') AS INTEGER)
             AND CAST(NULLIF(TRIM(se.kaisai_nichime), '') AS INTEGER)
@@ -277,19 +305,17 @@ def diagnose_join_keys(config: Optional[DBConfig] = None) -> str:
             AND CAST(NULLIF(TRIM(se.umaban), '') AS INTEGER)
                 = CAST(NULLIF(TRIM(kyi.umaban), '') AS INTEGER)
         """
-        df_cast = pd.read_sql_query(query_cast_test, conn)
-        cast_count = int(df_cast["match_count"].iloc[0])
-        lines.append("")
-        lines.append(f"  --- CAST(INTEGER)付きJOINテスト (kyi全体, 517行) ---")
-        lines.append(f"    CAST付きマッチ数: {cast_count:,}")
+        df_new_kyi = pd.read_sql_query(query_new_kyi, conn)
+        kyi_new = int(df_new_kyi["match_count"].iloc[0])
+        lines.append(f"    kyi 新JOIN全期間マッチ: {kyi_new:,}")
 
-        # cyb/joa でも同様のテスト（491,741行あるので2024年1月に限定）
-        query_cyb_test = """
+        # cyb テスト（2024年1月）
+        query_new_cyb = """
         SELECT COUNT(*) AS match_count
         FROM jvd_se AS se
         INNER JOIN jrd_cyb AS cyb
             ON TRIM(se.keibajo_code) = TRIM(cyb.keibajo_code)
-            AND TRIM(SUBSTRING(se.kaisai_nen, 3, 2) || se.kaisai_tsukihi) = TRIM(cyb.race_shikonen)
+            AND SUBSTRING(se.kaisai_nen, 3, 2) = SUBSTRING(cyb.race_shikonen, 1, 2)
             AND CAST(NULLIF(TRIM(se.kaisai_kai), '') AS INTEGER)
                 = CAST(NULLIF(TRIM(cyb.kaisai_kai), '') AS INTEGER)
             AND CAST(NULLIF(TRIM(se.kaisai_nichime), '') AS INTEGER)
@@ -301,16 +327,37 @@ def diagnose_join_keys(config: Optional[DBConfig] = None) -> str:
         WHERE (se.kaisai_nen || se.kaisai_tsukihi) >= '20240101'
             AND (se.kaisai_nen || se.kaisai_tsukihi) <= '20240131'
         """
-        df_cyb_test = pd.read_sql_query(query_cyb_test, conn)
-        cyb_cast = int(df_cyb_test["match_count"].iloc[0])
-        lines.append(f"    cyb CAST付きマッチ数 (2024年1月): {cyb_cast:,}")
+        df_new_cyb = pd.read_sql_query(query_new_cyb, conn)
+        cyb_new = int(df_new_cyb["match_count"].iloc[0])
+        lines.append(f"    cyb 新JOIN 2024年1月マッチ: {cyb_new:,}")
 
-        query_bac_test = """
+        # cyb テスト（全期間）
+        query_new_cyb_all = """
+        SELECT COUNT(*) AS match_count
+        FROM jvd_se AS se
+        INNER JOIN jrd_cyb AS cyb
+            ON TRIM(se.keibajo_code) = TRIM(cyb.keibajo_code)
+            AND SUBSTRING(se.kaisai_nen, 3, 2) = SUBSTRING(cyb.race_shikonen, 1, 2)
+            AND CAST(NULLIF(TRIM(se.kaisai_kai), '') AS INTEGER)
+                = CAST(NULLIF(TRIM(cyb.kaisai_kai), '') AS INTEGER)
+            AND CAST(NULLIF(TRIM(se.kaisai_nichime), '') AS INTEGER)
+                = CAST(NULLIF(TRIM(cyb.kaisai_nichime), '') AS INTEGER)
+            AND CAST(NULLIF(TRIM(se.race_bango), '') AS INTEGER)
+                = CAST(NULLIF(TRIM(cyb.race_bango), '') AS INTEGER)
+            AND CAST(NULLIF(TRIM(se.umaban), '') AS INTEGER)
+                = CAST(NULLIF(TRIM(cyb.umaban), '') AS INTEGER)
+        """
+        df_new_cyb_all = pd.read_sql_query(query_new_cyb_all, conn)
+        cyb_new_all = int(df_new_cyb_all["match_count"].iloc[0])
+        lines.append(f"    cyb 新JOIN全期間マッチ: {cyb_new_all:,}")
+
+        # bac テスト（レース単位 — umabanなし）
+        query_new_bac = """
         SELECT COUNT(*) AS match_count
         FROM jvd_se AS se
         INNER JOIN jrd_bac AS bac
             ON TRIM(se.keibajo_code) = TRIM(bac.keibajo_code)
-            AND TRIM(SUBSTRING(se.kaisai_nen, 3, 2) || se.kaisai_tsukihi) = TRIM(bac.race_shikonen)
+            AND SUBSTRING(se.kaisai_nen, 3, 2) = SUBSTRING(bac.race_shikonen, 1, 2)
             AND CAST(NULLIF(TRIM(se.kaisai_kai), '') AS INTEGER)
                 = CAST(NULLIF(TRIM(bac.kaisai_kai), '') AS INTEGER)
             AND CAST(NULLIF(TRIM(se.kaisai_nichime), '') AS INTEGER)
@@ -320,30 +367,16 @@ def diagnose_join_keys(config: Optional[DBConfig] = None) -> str:
         WHERE (se.kaisai_nen || se.kaisai_tsukihi) >= '20240101'
             AND (se.kaisai_nen || se.kaisai_tsukihi) <= '20240131'
         """
-        df_bac_test = pd.read_sql_query(query_bac_test, conn)
-        bac_cast = int(df_bac_test["match_count"].iloc[0])
-        lines.append(f"    bac CAST付きマッチ数 (2024年1月): {bac_cast:,}")
+        df_new_bac = pd.read_sql_query(query_new_bac, conn)
+        bac_new = int(df_new_bac["match_count"].iloc[0])
+        lines.append(f"    bac 新JOIN 2024年1月マッチ: {bac_new:,}")
 
-        # 旧TRIM文字列比較テスト（比較用に残す）
-        query_trim_test = """
-        SELECT COUNT(*) AS match_count
-        FROM jvd_se AS se
-        INNER JOIN jrd_kyi AS kyi
-            ON TRIM(se.keibajo_code) = TRIM(kyi.keibajo_code)
-            AND TRIM(SUBSTRING(se.kaisai_nen, 3, 2) || se.kaisai_tsukihi) = TRIM(kyi.race_shikonen)
-            AND TRIM(se.kaisai_kai) = TRIM(kyi.kaisai_kai)
-            AND TRIM(se.kaisai_nichime) = TRIM(kyi.kaisai_nichime)
-            AND TRIM(se.race_bango) = TRIM(kyi.race_bango)
-            AND TRIM(se.umaban) = TRIM(kyi.umaban)
-        """
-        df_trim = pd.read_sql_query(query_trim_test, conn)
-        trim_count = int(df_trim["match_count"].iloc[0])
+        # 期待値の表示
         lines.append("")
-        lines.append(f"  --- 比較: 旧TRIM文字列JOINテスト (kyi全体) ---")
-        lines.append(f"    TRIM文字列マッチ数: {trim_count:,}")
-        lines.append(f"    CAST(INTEGER)マッチ数: {cast_count:,}")
-        if cast_count > trim_count:
-            lines.append(f"    → CAST(INTEGER)で {cast_count - trim_count:,} 行追加マッチ！パディング差異が原因。")
+        lines.append("  --- 期待値 ---")
+        lines.append("    kyi: 491,176行 → 全マッチなら ~491,176")
+        lines.append("    cyb: 491,741行 → 全マッチなら ~491,741")
+        lines.append("    bac: 35,229行 → レース数 x 出走数 なら ~280万の一部")
 
     except Exception as e:
         lines.append(f"  診断エラー: {e}")
