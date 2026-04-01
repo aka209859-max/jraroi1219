@@ -53,6 +53,17 @@ def load_base_race_data(
         JRDBの日付: race_shikonen='240307'
         結合キー: (SUBSTRING(se.kaisai_nen, 3, 2) || se.kaisai_tsukihi) = kyi.race_shikonen
     """
+    # -----------------------------------------------------------------------
+    # JOINキーのフォーマット差異対策:
+    #   JRA-VAN (jvd_se): kaisai_kai='11'(2桁ゼロパディング), kaisai_nichime='01'(2桁)
+    #   JRDB (jrd_kyi等): kaisai_kai='2'(パディングなし1桁), kaisai_nichime='5'(1桁)
+    #
+    #   → CAST(TRIM(...) AS INTEGER) で数値比較することでパディング差異を吸収
+    #   → race_bangoとumabanもTRIM+INTEGER比較で安全に結合
+    #
+    # 注意: jrd_kyiが517行しかない場合、DB側のインポート不備。
+    #       コード側ではLEFT JOINで対応（結合できない行はNULL）。
+    # -----------------------------------------------------------------------
     query = """
     SELECT
         se.*,
@@ -87,32 +98,47 @@ def load_base_race_data(
         AND se.kaisai_nichime = ra.kaisai_nichime
         AND se.race_bango = ra.race_bango
     LEFT JOIN jrd_kyi AS kyi
-        ON se.keibajo_code = kyi.keibajo_code
-        AND (SUBSTRING(se.kaisai_nen, 3, 2) || se.kaisai_tsukihi) = kyi.race_shikonen
-        AND COALESCE(se.kaisai_kai, '00') = kyi.kaisai_kai
-        AND COALESCE(se.kaisai_nichime, '00') = kyi.kaisai_nichime
-        AND se.race_bango = kyi.race_bango
-        AND se.umaban = kyi.umaban
+        ON TRIM(se.keibajo_code) = TRIM(kyi.keibajo_code)
+        AND TRIM(SUBSTRING(se.kaisai_nen, 3, 2) || se.kaisai_tsukihi) = TRIM(kyi.race_shikonen)
+        AND CAST(NULLIF(TRIM(se.kaisai_kai), '') AS INTEGER)
+            = CAST(NULLIF(TRIM(kyi.kaisai_kai), '') AS INTEGER)
+        AND CAST(NULLIF(TRIM(se.kaisai_nichime), '') AS INTEGER)
+            = CAST(NULLIF(TRIM(kyi.kaisai_nichime), '') AS INTEGER)
+        AND CAST(NULLIF(TRIM(se.race_bango), '') AS INTEGER)
+            = CAST(NULLIF(TRIM(kyi.race_bango), '') AS INTEGER)
+        AND CAST(NULLIF(TRIM(se.umaban), '') AS INTEGER)
+            = CAST(NULLIF(TRIM(kyi.umaban), '') AS INTEGER)
     LEFT JOIN jrd_cyb AS cyb
-        ON se.keibajo_code = cyb.keibajo_code
-        AND (SUBSTRING(se.kaisai_nen, 3, 2) || se.kaisai_tsukihi) = cyb.race_shikonen
-        AND COALESCE(se.kaisai_kai, '00') = cyb.kaisai_kai
-        AND COALESCE(se.kaisai_nichime, '00') = cyb.kaisai_nichime
-        AND se.race_bango = cyb.race_bango
-        AND se.umaban = cyb.umaban
+        ON TRIM(se.keibajo_code) = TRIM(cyb.keibajo_code)
+        AND TRIM(SUBSTRING(se.kaisai_nen, 3, 2) || se.kaisai_tsukihi) = TRIM(cyb.race_shikonen)
+        AND CAST(NULLIF(TRIM(se.kaisai_kai), '') AS INTEGER)
+            = CAST(NULLIF(TRIM(cyb.kaisai_kai), '') AS INTEGER)
+        AND CAST(NULLIF(TRIM(se.kaisai_nichime), '') AS INTEGER)
+            = CAST(NULLIF(TRIM(cyb.kaisai_nichime), '') AS INTEGER)
+        AND CAST(NULLIF(TRIM(se.race_bango), '') AS INTEGER)
+            = CAST(NULLIF(TRIM(cyb.race_bango), '') AS INTEGER)
+        AND CAST(NULLIF(TRIM(se.umaban), '') AS INTEGER)
+            = CAST(NULLIF(TRIM(cyb.umaban), '') AS INTEGER)
     LEFT JOIN jrd_joa AS joa
-        ON se.keibajo_code = joa.keibajo_code
-        AND (SUBSTRING(se.kaisai_nen, 3, 2) || se.kaisai_tsukihi) = joa.race_shikonen
-        AND COALESCE(se.kaisai_kai, '00') = joa.kaisai_kai
-        AND COALESCE(se.kaisai_nichime, '00') = joa.kaisai_nichime
-        AND se.race_bango = joa.race_bango
-        AND se.umaban = joa.umaban
+        ON TRIM(se.keibajo_code) = TRIM(joa.keibajo_code)
+        AND TRIM(SUBSTRING(se.kaisai_nen, 3, 2) || se.kaisai_tsukihi) = TRIM(joa.race_shikonen)
+        AND CAST(NULLIF(TRIM(se.kaisai_kai), '') AS INTEGER)
+            = CAST(NULLIF(TRIM(joa.kaisai_kai), '') AS INTEGER)
+        AND CAST(NULLIF(TRIM(se.kaisai_nichime), '') AS INTEGER)
+            = CAST(NULLIF(TRIM(joa.kaisai_nichime), '') AS INTEGER)
+        AND CAST(NULLIF(TRIM(se.race_bango), '') AS INTEGER)
+            = CAST(NULLIF(TRIM(joa.race_bango), '') AS INTEGER)
+        AND CAST(NULLIF(TRIM(se.umaban), '') AS INTEGER)
+            = CAST(NULLIF(TRIM(joa.umaban), '') AS INTEGER)
     LEFT JOIN jrd_bac AS bac
-        ON se.keibajo_code = bac.keibajo_code
-        AND (SUBSTRING(se.kaisai_nen, 3, 2) || se.kaisai_tsukihi) = bac.race_shikonen
-        AND COALESCE(se.kaisai_kai, '00') = bac.kaisai_kai
-        AND COALESCE(se.kaisai_nichime, '00') = bac.kaisai_nichime
-        AND se.race_bango = bac.race_bango
+        ON TRIM(se.keibajo_code) = TRIM(bac.keibajo_code)
+        AND TRIM(SUBSTRING(se.kaisai_nen, 3, 2) || se.kaisai_tsukihi) = TRIM(bac.race_shikonen)
+        AND CAST(NULLIF(TRIM(se.kaisai_kai), '') AS INTEGER)
+            = CAST(NULLIF(TRIM(bac.kaisai_kai), '') AS INTEGER)
+        AND CAST(NULLIF(TRIM(se.kaisai_nichime), '') AS INTEGER)
+            = CAST(NULLIF(TRIM(bac.kaisai_nichime), '') AS INTEGER)
+        AND CAST(NULLIF(TRIM(se.race_bango), '') AS INTEGER)
+            = CAST(NULLIF(TRIM(bac.race_bango), '') AS INTEGER)
     WHERE
         (se.kaisai_nen || se.kaisai_tsukihi) >= %(date_from)s
         AND (se.kaisai_nen || se.kaisai_tsukihi) <= %(date_to)s
@@ -219,7 +245,86 @@ def diagnose_join_keys(config: Optional[DBConfig] = None) -> str:
                 f"uma={row['umaban']!r}(len={row['len_umaban']})"
             )
 
-        # TRIM付きJOINテスト
+        # --- JRDBテーブルの日付範囲 ---
+        lines.append("")
+        lines.append("  --- JRDBテーブル日付範囲 ---")
+        for tbl in ["jrd_kyi", "jrd_cyb", "jrd_joa", "jrd_bac"]:
+            try:
+                df_range = pd.read_sql_query(
+                    f"SELECT MIN(race_shikonen) AS min_date, MAX(race_shikonen) AS max_date FROM {tbl}",
+                    conn,
+                )
+                lines.append(
+                    f"    {tbl}: {df_range['min_date'].iloc[0]} 〜 {df_range['max_date'].iloc[0]}"
+                )
+            except Exception as e:
+                lines.append(f"    {tbl}: エラー ({e})")
+
+        # --- CAST(INTEGER)付きJOINテスト（パディング差異吸収） ---
+        # kyi全体でテスト（517行しかないのでWHERE無し）
+        query_cast_test = """
+        SELECT COUNT(*) AS match_count
+        FROM jvd_se AS se
+        INNER JOIN jrd_kyi AS kyi
+            ON TRIM(se.keibajo_code) = TRIM(kyi.keibajo_code)
+            AND TRIM(SUBSTRING(se.kaisai_nen, 3, 2) || se.kaisai_tsukihi) = TRIM(kyi.race_shikonen)
+            AND CAST(NULLIF(TRIM(se.kaisai_kai), '') AS INTEGER)
+                = CAST(NULLIF(TRIM(kyi.kaisai_kai), '') AS INTEGER)
+            AND CAST(NULLIF(TRIM(se.kaisai_nichime), '') AS INTEGER)
+                = CAST(NULLIF(TRIM(kyi.kaisai_nichime), '') AS INTEGER)
+            AND CAST(NULLIF(TRIM(se.race_bango), '') AS INTEGER)
+                = CAST(NULLIF(TRIM(kyi.race_bango), '') AS INTEGER)
+            AND CAST(NULLIF(TRIM(se.umaban), '') AS INTEGER)
+                = CAST(NULLIF(TRIM(kyi.umaban), '') AS INTEGER)
+        """
+        df_cast = pd.read_sql_query(query_cast_test, conn)
+        cast_count = int(df_cast["match_count"].iloc[0])
+        lines.append("")
+        lines.append(f"  --- CAST(INTEGER)付きJOINテスト (kyi全体, 517行) ---")
+        lines.append(f"    CAST付きマッチ数: {cast_count:,}")
+
+        # cyb/joa でも同様のテスト（491,741行あるので2024年1月に限定）
+        query_cyb_test = """
+        SELECT COUNT(*) AS match_count
+        FROM jvd_se AS se
+        INNER JOIN jrd_cyb AS cyb
+            ON TRIM(se.keibajo_code) = TRIM(cyb.keibajo_code)
+            AND TRIM(SUBSTRING(se.kaisai_nen, 3, 2) || se.kaisai_tsukihi) = TRIM(cyb.race_shikonen)
+            AND CAST(NULLIF(TRIM(se.kaisai_kai), '') AS INTEGER)
+                = CAST(NULLIF(TRIM(cyb.kaisai_kai), '') AS INTEGER)
+            AND CAST(NULLIF(TRIM(se.kaisai_nichime), '') AS INTEGER)
+                = CAST(NULLIF(TRIM(cyb.kaisai_nichime), '') AS INTEGER)
+            AND CAST(NULLIF(TRIM(se.race_bango), '') AS INTEGER)
+                = CAST(NULLIF(TRIM(cyb.race_bango), '') AS INTEGER)
+            AND CAST(NULLIF(TRIM(se.umaban), '') AS INTEGER)
+                = CAST(NULLIF(TRIM(cyb.umaban), '') AS INTEGER)
+        WHERE (se.kaisai_nen || se.kaisai_tsukihi) >= '20240101'
+            AND (se.kaisai_nen || se.kaisai_tsukihi) <= '20240131'
+        """
+        df_cyb_test = pd.read_sql_query(query_cyb_test, conn)
+        cyb_cast = int(df_cyb_test["match_count"].iloc[0])
+        lines.append(f"    cyb CAST付きマッチ数 (2024年1月): {cyb_cast:,}")
+
+        query_bac_test = """
+        SELECT COUNT(*) AS match_count
+        FROM jvd_se AS se
+        INNER JOIN jrd_bac AS bac
+            ON TRIM(se.keibajo_code) = TRIM(bac.keibajo_code)
+            AND TRIM(SUBSTRING(se.kaisai_nen, 3, 2) || se.kaisai_tsukihi) = TRIM(bac.race_shikonen)
+            AND CAST(NULLIF(TRIM(se.kaisai_kai), '') AS INTEGER)
+                = CAST(NULLIF(TRIM(bac.kaisai_kai), '') AS INTEGER)
+            AND CAST(NULLIF(TRIM(se.kaisai_nichime), '') AS INTEGER)
+                = CAST(NULLIF(TRIM(bac.kaisai_nichime), '') AS INTEGER)
+            AND CAST(NULLIF(TRIM(se.race_bango), '') AS INTEGER)
+                = CAST(NULLIF(TRIM(bac.race_bango), '') AS INTEGER)
+        WHERE (se.kaisai_nen || se.kaisai_tsukihi) >= '20240101'
+            AND (se.kaisai_nen || se.kaisai_tsukihi) <= '20240131'
+        """
+        df_bac_test = pd.read_sql_query(query_bac_test, conn)
+        bac_cast = int(df_bac_test["match_count"].iloc[0])
+        lines.append(f"    bac CAST付きマッチ数 (2024年1月): {bac_cast:,}")
+
+        # 旧TRIM文字列比較テスト（比較用に残す）
         query_trim_test = """
         SELECT COUNT(*) AS match_count
         FROM jvd_se AS se
@@ -230,52 +335,15 @@ def diagnose_join_keys(config: Optional[DBConfig] = None) -> str:
             AND TRIM(se.kaisai_nichime) = TRIM(kyi.kaisai_nichime)
             AND TRIM(se.race_bango) = TRIM(kyi.race_bango)
             AND TRIM(se.umaban) = TRIM(kyi.umaban)
-        WHERE (se.kaisai_nen || se.kaisai_tsukihi) >= '20240101'
-            AND (se.kaisai_nen || se.kaisai_tsukihi) <= '20240131'
         """
         df_trim = pd.read_sql_query(query_trim_test, conn)
         trim_count = int(df_trim["match_count"].iloc[0])
         lines.append("")
-        lines.append(f"  --- TRIM付きJOINテスト (2024年1月) ---")
-        lines.append(f"    TRIM付きマッチ数: {trim_count:,}")
-
-        if trim_count == 0:
-            # 段階的テスト: keibajo_code + race_shikonen だけでどうなるか
-            query_partial = """
-            SELECT COUNT(*) AS match_count
-            FROM jvd_se AS se
-            INNER JOIN jrd_kyi AS kyi
-                ON TRIM(se.keibajo_code) = TRIM(kyi.keibajo_code)
-                AND TRIM(SUBSTRING(se.kaisai_nen, 3, 2) || se.kaisai_tsukihi) = TRIM(kyi.race_shikonen)
-            WHERE (se.kaisai_nen || se.kaisai_tsukihi) >= '20240101'
-                AND (se.kaisai_nen || se.kaisai_tsukihi) <= '20240131'
-            """
-            df_partial = pd.read_sql_query(query_partial, conn)
-            partial_count = int(df_partial["match_count"].iloc[0])
-            lines.append(f"    keibajo+shikonen のみ: {partial_count:,}")
-
-            # kaisai_kai比較テスト
-            query_kai = """
-            SELECT DISTINCT
-                TRIM(se.kaisai_kai) AS se_kai,
-                LENGTH(TRIM(se.kaisai_kai)) AS se_kai_len
-            FROM jvd_se AS se
-            WHERE (se.kaisai_nen || se.kaisai_tsukihi) >= '20240101'
-                AND (se.kaisai_nen || se.kaisai_tsukihi) <= '20240131'
-            LIMIT 10
-            """
-            query_kyi_kai = """
-            SELECT DISTINCT
-                TRIM(kyi.kaisai_kai) AS kyi_kai,
-                LENGTH(TRIM(kyi.kaisai_kai)) AS kyi_kai_len
-            FROM jrd_kyi AS kyi
-            WHERE kyi.race_shikonen >= '240101' AND kyi.race_shikonen <= '240131'
-            LIMIT 10
-            """
-            df_se_kai = pd.read_sql_query(query_kai, conn)
-            df_kyi_kai = pd.read_sql_query(query_kyi_kai, conn)
-            lines.append(f"    se.kaisai_kai ユニーク値: {df_se_kai['se_kai'].tolist()}")
-            lines.append(f"    kyi.kaisai_kai ユニーク値: {df_kyi_kai['kyi_kai'].tolist()}")
+        lines.append(f"  --- 比較: 旧TRIM文字列JOINテスト (kyi全体) ---")
+        lines.append(f"    TRIM文字列マッチ数: {trim_count:,}")
+        lines.append(f"    CAST(INTEGER)マッチ数: {cast_count:,}")
+        if cast_count > trim_count:
+            lines.append(f"    → CAST(INTEGER)で {cast_count - trim_count:,} 行追加マッチ！パディング差異が原因。")
 
     except Exception as e:
         lines.append(f"  診断エラー: {e}")
