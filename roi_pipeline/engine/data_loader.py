@@ -128,6 +128,163 @@ def load_base_race_data(
     return df
 
 
+def diagnose_join_keys(config: Optional[DBConfig] = None) -> str:
+    """
+    JRA-VAN (jvd_se) と JRDB (jrd_kyi) のJOINキーフォーマットを診断する。
+
+    Returns:
+        診断結果の文字列レポート
+    """
+    query = """
+    SELECT
+        '=== jvd_se (JRA-VAN) サンプル ===' AS section,
+        se.keibajo_code,
+        se.kaisai_nen,
+        se.kaisai_tsukihi,
+        se.kaisai_kai,
+        se.kaisai_nichime,
+        se.race_bango,
+        se.umaban,
+        LENGTH(se.keibajo_code) AS len_keibajo,
+        LENGTH(se.kaisai_kai) AS len_kai,
+        LENGTH(se.kaisai_nichime) AS len_nichime,
+        LENGTH(se.race_bango) AS len_race,
+        LENGTH(se.umaban) AS len_umaban,
+        (SUBSTRING(se.kaisai_nen, 3, 2) || se.kaisai_tsukihi) AS computed_shikonen
+    FROM jvd_se AS se
+    WHERE (se.kaisai_nen || se.kaisai_tsukihi) >= '20240101'
+    LIMIT 5
+    """
+    query_kyi = """
+    SELECT
+        '=== jrd_kyi (JRDB) サンプル ===' AS section,
+        kyi.keibajo_code,
+        kyi.race_shikonen,
+        kyi.kaisai_kai,
+        kyi.kaisai_nichime,
+        kyi.race_bango,
+        kyi.umaban,
+        LENGTH(kyi.keibajo_code) AS len_keibajo,
+        LENGTH(kyi.kaisai_kai) AS len_kai,
+        LENGTH(kyi.kaisai_nichime) AS len_nichime,
+        LENGTH(kyi.race_bango) AS len_race,
+        LENGTH(kyi.umaban) AS len_umaban
+    FROM jrd_kyi AS kyi
+    LIMIT 5
+    """
+    query_count = """
+    SELECT
+        (SELECT COUNT(*) FROM jvd_se) AS se_count,
+        (SELECT COUNT(*) FROM jrd_kyi) AS kyi_count,
+        (SELECT COUNT(*) FROM jrd_cyb) AS cyb_count,
+        (SELECT COUNT(*) FROM jrd_joa) AS joa_count,
+        (SELECT COUNT(*) FROM jrd_bac) AS bac_count
+    """
+
+    conn = get_connection(config)
+    lines = []
+    try:
+        # テーブル行数
+        df_count = pd.read_sql_query(query_count, conn)
+        lines.append("  --- テーブル行数 ---")
+        for col in df_count.columns:
+            lines.append(f"    {col}: {int(df_count[col].iloc[0]):,}")
+
+        # JRA-VAN サンプル
+        df_se = pd.read_sql_query(query, conn)
+        lines.append("")
+        lines.append("  --- jvd_se JOINキーサンプル ---")
+        for _, row in df_se.iterrows():
+            lines.append(
+                f"    keibajo={row['keibajo_code']!r}(len={row['len_keibajo']}), "
+                f"nen={row['kaisai_nen']!r}, tsukihi={row['kaisai_tsukihi']!r}, "
+                f"kai={row['kaisai_kai']!r}(len={row['len_kai']}), "
+                f"nichime={row['kaisai_nichime']!r}(len={row['len_nichime']}), "
+                f"race={row['race_bango']!r}(len={row['len_race']}), "
+                f"uma={row['umaban']!r}(len={row['len_umaban']}), "
+                f"computed_shikonen={row['computed_shikonen']!r}"
+            )
+
+        # JRDB サンプル
+        df_kyi = pd.read_sql_query(query_kyi, conn)
+        lines.append("")
+        lines.append("  --- jrd_kyi JOINキーサンプル ---")
+        for _, row in df_kyi.iterrows():
+            lines.append(
+                f"    keibajo={row['keibajo_code']!r}(len={row['len_keibajo']}), "
+                f"shikonen={row['race_shikonen']!r}, "
+                f"kai={row['kaisai_kai']!r}(len={row['len_kai']}), "
+                f"nichime={row['kaisai_nichime']!r}(len={row['len_nichime']}), "
+                f"race={row['race_bango']!r}(len={row['len_race']}), "
+                f"uma={row['umaban']!r}(len={row['len_umaban']})"
+            )
+
+        # TRIM付きJOINテスト
+        query_trim_test = """
+        SELECT COUNT(*) AS match_count
+        FROM jvd_se AS se
+        INNER JOIN jrd_kyi AS kyi
+            ON TRIM(se.keibajo_code) = TRIM(kyi.keibajo_code)
+            AND TRIM(SUBSTRING(se.kaisai_nen, 3, 2) || se.kaisai_tsukihi) = TRIM(kyi.race_shikonen)
+            AND TRIM(se.kaisai_kai) = TRIM(kyi.kaisai_kai)
+            AND TRIM(se.kaisai_nichime) = TRIM(kyi.kaisai_nichime)
+            AND TRIM(se.race_bango) = TRIM(kyi.race_bango)
+            AND TRIM(se.umaban) = TRIM(kyi.umaban)
+        WHERE (se.kaisai_nen || se.kaisai_tsukihi) >= '20240101'
+            AND (se.kaisai_nen || se.kaisai_tsukihi) <= '20240131'
+        """
+        df_trim = pd.read_sql_query(query_trim_test, conn)
+        trim_count = int(df_trim["match_count"].iloc[0])
+        lines.append("")
+        lines.append(f"  --- TRIM付きJOINテスト (2024年1月) ---")
+        lines.append(f"    TRIM付きマッチ数: {trim_count:,}")
+
+        if trim_count == 0:
+            # 段階的テスト: keibajo_code + race_shikonen だけでどうなるか
+            query_partial = """
+            SELECT COUNT(*) AS match_count
+            FROM jvd_se AS se
+            INNER JOIN jrd_kyi AS kyi
+                ON TRIM(se.keibajo_code) = TRIM(kyi.keibajo_code)
+                AND TRIM(SUBSTRING(se.kaisai_nen, 3, 2) || se.kaisai_tsukihi) = TRIM(kyi.race_shikonen)
+            WHERE (se.kaisai_nen || se.kaisai_tsukihi) >= '20240101'
+                AND (se.kaisai_nen || se.kaisai_tsukihi) <= '20240131'
+            """
+            df_partial = pd.read_sql_query(query_partial, conn)
+            partial_count = int(df_partial["match_count"].iloc[0])
+            lines.append(f"    keibajo+shikonen のみ: {partial_count:,}")
+
+            # kaisai_kai比較テスト
+            query_kai = """
+            SELECT DISTINCT
+                TRIM(se.kaisai_kai) AS se_kai,
+                LENGTH(TRIM(se.kaisai_kai)) AS se_kai_len
+            FROM jvd_se AS se
+            WHERE (se.kaisai_nen || se.kaisai_tsukihi) >= '20240101'
+                AND (se.kaisai_nen || se.kaisai_tsukihi) <= '20240131'
+            LIMIT 10
+            """
+            query_kyi_kai = """
+            SELECT DISTINCT
+                TRIM(kyi.kaisai_kai) AS kyi_kai,
+                LENGTH(TRIM(kyi.kaisai_kai)) AS kyi_kai_len
+            FROM jrd_kyi AS kyi
+            WHERE kyi.race_shikonen >= '240101' AND kyi.race_shikonen <= '240131'
+            LIMIT 10
+            """
+            df_se_kai = pd.read_sql_query(query_kai, conn)
+            df_kyi_kai = pd.read_sql_query(query_kyi_kai, conn)
+            lines.append(f"    se.kaisai_kai ユニーク値: {df_se_kai['se_kai'].tolist()}")
+            lines.append(f"    kyi.kaisai_kai ユニーク値: {df_kyi_kai['kyi_kai'].tolist()}")
+
+    except Exception as e:
+        lines.append(f"  診断エラー: {e}")
+    finally:
+        conn.close()
+
+    return "\n".join(lines)
+
+
 def convert_numeric_columns(df: pd.DataFrame) -> pd.DataFrame:
     """
     文字列型カラムのうち数値系を安全に変換する。

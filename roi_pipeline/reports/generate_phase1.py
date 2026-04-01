@@ -23,7 +23,7 @@ import numpy as np
 
 from roi_pipeline.config.odds_correction import get_odds_correction
 from roi_pipeline.config.year_weights import get_year_weight
-from roi_pipeline.engine.data_loader import load_base_race_data, convert_numeric_columns
+from roi_pipeline.engine.data_loader import load_base_race_data, convert_numeric_columns, diagnose_join_keys
 from roi_pipeline.engine.corrected_return import (
     calc_corrected_return_rate,
     calc_return_rate_by_bins,
@@ -414,6 +414,16 @@ def main() -> None:
         if col in df.columns:
             bac_joined = max(bac_joined, df[col].notna().sum())
     print(f"    jrd_bac 結合率: {bac_joined:,} / {len(df):,} ({bac_joined/len(df)*100:.1f}%)")
+
+    # JOIN結合率が0%の場合、JOINキー診断を実行
+    if kyi_joined == 0:
+        print()
+        print("  ⚠️  JRDB全テーブルJOIN結合率0% → JOINキー診断を実行...")
+        try:
+            diag_result = diagnose_join_keys()
+            print(diag_result)
+        except Exception as e:
+            print(f"    診断エラー: {e}")
     print()
 
     # --- C. オッズ診断 ---
