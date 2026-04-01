@@ -332,50 +332,147 @@ def main() -> None:
         print("  PostgreSQL (127.0.0.1:5432, database: pckeiba) への接続を確認してください。")
         sys.exit(1)
 
-    # 2. 数値変換 + 的中フラグ + 年度
+    # 2. 数値変換 + 的中フラグ + 年度 + レースID
     print("[2/4] データ前処理中...")
     df = convert_numeric_columns(df)
     df = add_hit_flag(df)
     df = add_race_year(df)
+
+    # race_id生成（keibajo_code + race_date + race_bango でユニークレースを特定）
+    if "race_id" not in df.columns:
+        id_cols = ["keibajo_code", "race_date", "race_bango"]
+        if all(c in df.columns for c in id_cols):
+            df["race_id"] = (
+                df["keibajo_code"].astype(str).str.strip()
+                + "_" + df["race_date"].astype(str).str.strip()
+                + "_" + df["race_bango"].astype(str).str.strip()
+            )
+            print(f"  race_id 生成完了: {df['race_id'].nunique():,} ユニークレース")
+
     print(f"  前処理完了: {len(df):,} rows, {len(df.columns)} columns")
 
-    # 2.5. データ診断（オッズ値の妥当性チェック）
+    # 2.5. データ診断（包括的チェック）
     print()
     print("[2.5] データ診断...")
+    print()
+
+    # --- A. 全カラム一覧とNULL率 ---
+    print("  --- A. カラム別NULL率（JRDB系ファクター） ---")
+    jrdb_factor_cols = [
+        "idm", "sogo_shisu", "agari_shisu", "pace_shisu",
+        "kyori_tekisei_code", "course_tekisei", "baba_tekisei",
+        "chokyo_yajirushi_code", "soho",
+        "kishu_shisu", "chokyo_shisu", "kyusha_shisu",
+        "chokyo_hyoka", "ls_shisu", "juryo_shubetsu_code",
+        "babajotai_code_shiba", "babajotai_code_dirt",
+    ]
+    jra_factor_cols = [
+        "umaban", "barei", "blinker_shiyo_kubun",
+        "tansho_odds", "fukusho_odds", "kakutei_chakujun",
+    ]
+
+    for col in jrdb_factor_cols + jra_factor_cols:
+        if col in df.columns:
+            valid = df[col].notna().sum()
+            # 文字列カラムの場合、空文字もチェック
+            if df[col].dtype == object:
+                non_empty = (df[col].notna() & (df[col].str.strip() != "")).sum()
+                print(f"    {col:30s}: {valid:>8,} notna / {non_empty:>8,} 非空文字 / {len(df):,}")
+            else:
+                print(f"    {col:30s}: {valid:>8,} notna / {len(df):,} ({valid/len(df)*100:.1f}%)")
+        else:
+            print(f"    {col:30s}: *** カラム不在 ***")
+    print()
+
+    # --- B. JOIN品質チェック ---
+    print("  --- B. JOIN品質（JRDBテーブル結合率） ---")
+    # jrd_kyiからのカラムが1つでもnon-nullなら結合成功
+    kyi_cols = ["idm", "sogo_shisu", "agari_shisu", "pace_shisu", "kishu_shisu"]
+    kyi_joined = 0
+    for col in kyi_cols:
+        if col in df.columns:
+            kyi_joined = max(kyi_joined, df[col].notna().sum())
+    print(f"    jrd_kyi 結合率: {kyi_joined:,} / {len(df):,} ({kyi_joined/len(df)*100:.1f}%)")
+
+    cyb_cols = ["chokyo_hyoka"]
+    cyb_joined = 0
+    for col in cyb_cols:
+        if col in df.columns:
+            cyb_joined = max(cyb_joined, df[col].notna().sum())
+    print(f"    jrd_cyb 結合率: {cyb_joined:,} / {len(df):,} ({cyb_joined/len(df)*100:.1f}%)")
+
+    joa_cols = ["ls_shisu"]
+    joa_joined = 0
+    for col in joa_cols:
+        if col in df.columns:
+            joa_joined = max(joa_joined, df[col].notna().sum())
+    print(f"    jrd_joa 結合率: {joa_joined:,} / {len(df):,} ({joa_joined/len(df)*100:.1f}%)")
+
+    bac_cols = ["juryo_shubetsu_code"]
+    bac_joined = 0
+    for col in bac_cols:
+        if col in df.columns:
+            bac_joined = max(bac_joined, df[col].notna().sum())
+    print(f"    jrd_bac 結合率: {bac_joined:,} / {len(df):,} ({bac_joined/len(df)*100:.1f}%)")
+    print()
+
+    # --- C. オッズ診断 ---
+    print("  --- C. オッズ値の妥当性 ---")
     if "tansho_odds" in df.columns:
         odds_series = df["tansho_odds"].dropna()
-        print(f"  tansho_odds: count={len(odds_series):,}, "
+        print(f"    tansho_odds: count={len(odds_series):,}, "
               f"min={odds_series.min():.1f}, max={odds_series.max():.1f}, "
               f"mean={odds_series.mean():.1f}, median={odds_series.median():.1f}")
-        print(f"  tansho_odds サンプル (先頭10件): {odds_series.head(10).tolist()}")
+        print(f"    tansho_odds サンプル (先頭10件): {odds_series.head(10).tolist()}")
 
-        # JRA-VANのオッズが10倍単位（例: 30 = 3.0倍）で格納されているか自動検出
-        # 実オッズが1.0〜999.9の範囲に収まるはず。中央値が10以上なら10倍単位の可能性大
-        if odds_series.median() >= 10.0:
-            print(f"  ⚠️  tansho_odds中央値={odds_series.median():.1f} → "
-                  f"10倍単位格納を検出。実オッズ = tansho_odds / 10 に変換します。")
+        # JRA-VANオッズフォーマット自動検出と変換
+        median_val = odds_series.median()
+        if median_val >= 100.0:
+            # 100倍単位（払戻金額/100円）: 300 = 3.0倍
+            print(f"    ⚠️  中央値={median_val:.1f} → 100倍単位（払戻金額形式）を検出。"
+                  f" 実オッズ = tansho_odds / 100 に変換。")
+            df["tansho_odds"] = df["tansho_odds"] / 100.0
+        elif median_val >= 10.0:
+            # 10倍単位: 30 = 3.0倍
+            print(f"    ⚠️  中央値={median_val:.1f} → 10倍単位格納を検出。"
+                  f" 実オッズ = tansho_odds / 10 に変換。")
             df["tansho_odds"] = df["tansho_odds"] / 10.0
-            odds_series = df["tansho_odds"].dropna()
-            print(f"  変換後: min={odds_series.min():.1f}, max={odds_series.max():.1f}, "
-                  f"mean={odds_series.mean():.1f}, median={odds_series.median():.1f}")
         else:
-            print(f"  ✅ tansho_odds は実オッズ値として妥当です。")
+            print(f"    ✅ tansho_odds は実オッズ値として妥当。")
+
+        odds_after = df["tansho_odds"].dropna()
+        print(f"    変換後: min={odds_after.min():.2f}, max={odds_after.max():.1f}, "
+              f"mean={odds_after.mean():.2f}, median={odds_after.median():.2f}")
 
     if "fukusho_odds" in df.columns:
         fuku_series = df["fukusho_odds"].dropna()
         if len(fuku_series) > 0:
-            print(f"  fukusho_odds: count={len(fuku_series):,}, "
+            print(f"    fukusho_odds: count={len(fuku_series):,}, "
                   f"min={fuku_series.min():.1f}, max={fuku_series.max():.1f}, "
                   f"mean={fuku_series.mean():.1f}, median={fuku_series.median():.1f}")
-            if fuku_series.median() >= 10.0:
-                print(f"  ⚠️  fukusho_odds中央値={fuku_series.median():.1f} → "
-                      f"10倍単位格納を検出。実オッズ = fukusho_odds / 10 に変換します。")
+            fuku_median = fuku_series.median()
+            if fuku_median >= 100.0:
+                print(f"    ⚠️  fukusho_odds中央値={fuku_median:.1f} → "
+                      f"100倍単位格納を検出。実オッズ = fukusho_odds / 100 に変換。")
+                df["fukusho_odds"] = df["fukusho_odds"] / 100.0
+            elif fuku_median >= 10.0:
+                print(f"    ⚠️  fukusho_odds中央値={fuku_median:.1f} → "
+                      f"10倍単位格納を検出。実オッズ = fukusho_odds / 10 に変換。")
                 df["fukusho_odds"] = df["fukusho_odds"] / 10.0
+    print()
 
+    # --- D. 的中フラグ診断 ---
+    print("  --- D. 的中フラグ ---")
     if "kakutei_chakujun" in df.columns:
-        hit_count = df["is_hit"].sum()
-        print(f"  is_hit (1着): {hit_count:,} / {len(df):,} "
+        hit_count = int(df["is_hit"].sum())
+        print(f"    is_hit (1着): {hit_count:,} / {len(df):,} "
               f"({hit_count/len(df)*100:.2f}%)")
+        # 的中率が5-10%前後でないと異常
+        hit_pct = hit_count / len(df) * 100
+        if hit_pct < 3.0 or hit_pct > 15.0:
+            print(f"    ⚠️  的中率 {hit_pct:.2f}% は異常値（想定: 5〜10%）")
+        else:
+            print(f"    ✅ 的中率は妥当。")
     print()
 
     # 3. グローバル補正回収率を算出
