@@ -131,6 +131,75 @@ def main():
         )
         print(f"    cyb 末尾5件: {cur.fetchall()}")
 
+    # =================================================================
+    # 10. race_shikonen フォーマット詳細解析
+    # =================================================================
+    print("\n[10] race_shikonen フォーマット詳細解析:")
+
+    # cyb の race_shikonen ユニーク値をソートして分布を見る
+    cur.execute(
+        "SELECT DISTINCT race_shikonen FROM jrd_cyb ORDER BY race_shikonen LIMIT 20"
+    )
+    print(f"    cyb ユニーク値(先頭20): {[r[0] for r in cur.fetchall()]}")
+
+    cur.execute(
+        "SELECT DISTINCT race_shikonen FROM jrd_cyb ORDER BY race_shikonen DESC LIMIT 20"
+    )
+    print(f"    cyb ユニーク値(末尾20): {[r[0] for r in cur.fetchall()]}")
+
+    # '24' で始まるユニーク値
+    cur.execute(
+        "SELECT DISTINCT race_shikonen FROM jrd_cyb "
+        "WHERE race_shikonen LIKE '24%' ORDER BY race_shikonen LIMIT 30"
+    )
+    vals_24 = [r[0] for r in cur.fetchall()]
+    print(f"    cyb '24xxxx' ユニーク値(先頭30): {vals_24}")
+
+    # JRDBの全カラム名を確認 — race_shikonen以外に日付キーがあるか
+    cur.execute(
+        "SELECT column_name FROM information_schema.columns "
+        "WHERE table_name = 'jrd_cyb' ORDER BY ordinal_position"
+    )
+    cyb_cols = [r[0] for r in cur.fetchall()]
+    print(f"\n[11] jrd_cyb 全カラム名: {cyb_cols}")
+
+    cur.execute(
+        "SELECT column_name FROM information_schema.columns "
+        "WHERE table_name = 'jrd_kyi' ORDER BY ordinal_position"
+    )
+    kyi_cols = [r[0] for r in cur.fetchall()]
+    print(f"\n[12] jrd_kyi 全カラム名: {kyi_cols}")
+
+    # cyb の先頭レコード全カラム（生データ確認）
+    cur.execute("SELECT * FROM jrd_cyb LIMIT 1")
+    colnames = [desc[0] for desc in cur.description]
+    row = cur.fetchone()
+    print(f"\n[13] jrd_cyb 先頭レコード（全カラム）:")
+    for c, v in zip(colnames, row):
+        print(f"    {c} = {v!r}")
+
+    # JRA-VAN se の 2024/3/14 データ（kyiの260314と照合）
+    cur.execute(
+        "SELECT keibajo_code, kaisai_nen, kaisai_tsukihi, kaisai_kai, "
+        "kaisai_nichime, race_bango, umaban, "
+        "SUBSTRING(kaisai_nen, 3, 2) || kaisai_tsukihi AS computed_shikonen "
+        "FROM jvd_se "
+        "WHERE kaisai_nen = '2026' AND kaisai_tsukihi = '0314' "
+        "LIMIT 5"
+    )
+    se_0314 = cur.fetchall()
+    print(f"\n[14] se 2026/03/14 データ: {se_0314}")
+
+    # JRDB bac のサンプル（レース単位テーブル）
+    cur.execute(
+        "SELECT * FROM jrd_bac LIMIT 1"
+    )
+    bac_colnames = [desc[0] for desc in cur.description]
+    bac_row = cur.fetchone()
+    print(f"\n[15] jrd_bac 先頭レコード（全カラム）:")
+    for c, v in zip(bac_colnames, bac_row):
+        print(f"    {c} = {v!r}")
+
     print("\n" + "=" * 60)
     print("診断完了")
     print("=" * 60)
