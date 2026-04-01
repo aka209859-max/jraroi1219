@@ -2,8 +2,14 @@
 DB診断スクリプト — PowerShellから安全に実行可能
 
 使用方法:
-    py -3.12 roi_pipeline/tools/diagnose_db.py
+    py -3.12 -m roi_pipeline.tools.diagnose_db
 """
+import sys
+import os
+
+# モジュールパスを自動解決（直接実行時も対応）
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "..")))
+
 from roi_pipeline.config.db import get_connection
 
 
