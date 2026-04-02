@@ -218,3 +218,43 @@ Claude Codeは各セッション開始時に以下を確認すること：
 以下が全てパスしない限りコミットしないこと：
 - pytest 全テストパス
 - ターゲットリーク検出テストのパス（後述）
+
+---
+
+## セッションログ
+
+### [2026-04-03] Phase 1 レポート生成完了セッション
+
+#### 【実行した作業】
+1. STEP 3 (v2 JOIN検証) 再確認 → 全4テーブル 99.94-99.98% 達成確認
+2. STEP 4 (Phase 1レポート生成) 初回実行 → `v2 ERROR: dict is not a sequence` で v1フォールバック発生を検出
+3. `data_loader_v2.py` の `pd.read_sql_query` params辞書渡しバグ修正（f-string直接埋込に変更）
+4. STEP 4 再実行 → v2成功するも全20ファクター「エッジなし」（補正回収率7-8%に収束）
+5. `diagnose_odds.py` 作成・実行 → オッズ変換バグ特定：JRA-VANは10倍単位格納（median=249.50）だが `/100` 変換が適用されていた
+6. `generate_phase1.py` のオッズ変換ロジック修正：`/100` → `/10` に変更
+7. STEP 4 最終実行 → **13/20ファクターでエッジ検出、60エッジビン、グローバル回収率79.92%**
+
+#### 【変更したファイル】
+- `roi_pipeline/engine/data_loader_v2.py` — `%(name)s` パラメータバインド廃止、f-string直接埋込に変更（`load_base_race_data_v2` + `diagnose_v2_join` 両方）
+- `roi_pipeline/reports/generate_phase1.py` — tansho_oddsオッズ変換ロジック全面修正：中央値判定式 `>=100→/100, >=10→/10` を `>=10→常に/10` に変更（JRA-VANは常に10倍単位）
+- `roi_pipeline/tools/diagnose_odds.py` — 新規作成。v2データのオッズ値診断・変換シミュレーション・bet/payout詳細出力
+
+#### 【テスト結果】
+- roi_pipeline/tests/: **51 passed** (全テストパス)
+
+#### 【未解決の問題】
+- `fukusho_odds` カラムが v2 SELECT に未含有（v2クエリの `se.*` にfukusho_oddsが存在しない可能性 or JRA-VANテーブル構造上の問題）
+- pandas UserWarning（psycopg2直接接続への非推奨警告）— 機能影響なし、SQLAlchemy移行は優先度低
+- 218件のオッズ=0レコード（出走取消等）の扱い — bet_amount=NaN化で自動除外されるが明示的フィルタ追加が望ましい
+
+#### 【次のセッションでやるべきこと】
+1. 生成された20個のPhase 1レポートの詳細分析（特にTOP5エッジファクター: 厩舎指数11, 調教師指数10, IDM5, 上がり指数5, ペース指数5）
+2. CEO PCからPhase 1レポート全文をGitHubにコミット＆プッシュ
+3. Phase 2設計: 階層ベイズ補正 + LightGBM得点化 + Walk-Forward検証基盤の実装計画策定
+4. エッジファクターの組み合わせ効果検証（交互作用分析）
+5. 馬番エッジ(8ビン)の内訳精査 — 内枠/外枠バイアスが距離・コース条件と交絡していないか確認
+
+#### 【GitHubコミット】
+- `2d062c4` fix: v2 data_loader 'dict is not a sequence' エラー修正
+- `4e1c7f6` feat: diagnose_odds.py - オッズ値診断スクリプト
+- `626ae9a` fix: tansho_odds変換 /100→/10 に修正（致命的バグ）
