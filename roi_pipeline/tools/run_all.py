@@ -12,17 +12,22 @@ CEOのPC上で実行する統合スクリプト。
 
 使用方法:
     cd E:\\jraroi1219
-    py -3.12 roi_pipeline/tools/run_all.py E:\\JRDB
+    py -3.12 roi_pipeline/tools/run_all.py
 
     # ステップを指定して実行する場合
-    py -3.12 roi_pipeline/tools/run_all.py E:\\JRDB --step 2  # インポートのみ
-    py -3.12 roi_pipeline/tools/run_all.py --step 3           # JOIN検証のみ
-    py -3.12 roi_pipeline/tools/run_all.py --step 4           # Phase1のみ
+    py -3.12 roi_pipeline/tools/run_all.py --step 0  # 事前チェックのみ
+    py -3.12 roi_pipeline/tools/run_all.py --step 2  # インポートのみ
+    py -3.12 roi_pipeline/tools/run_all.py --step 3  # JOIN検証のみ
+    py -3.12 roi_pipeline/tools/run_all.py --step 4  # Phase1のみ
 """
 import argparse
+import os
 import sys
 import time
 from pathlib import Path
+
+# デフォルトJRDBディレクトリ（CEOのPC上のパス）
+DEFAULT_JRDB_DIR = r"E:\jraroi1219\data\jrdb\raw"
 
 
 def step0_check():
@@ -123,26 +128,23 @@ def step4_phase1():
 def main():
     parser = argparse.ArgumentParser(description="JRDB修正パイプライン全自動実行")
     parser.add_argument("jrdb_dir", nargs="?", default=None,
-                        help="JRDBファイルのディレクトリ (例: E:\\JRDB)")
+                        help=f"JRDBファイルのディレクトリ (デフォルト: {DEFAULT_JRDB_DIR})")
     parser.add_argument("--step", type=int, choices=[0, 1, 2, 3, 4],
                         help="特定のステップのみ実行")
     
     args = parser.parse_args()
+    
+    # JRDBディレクトリの解決（指定なければデフォルト使用）
+    jrdb_dir = args.jrdb_dir or DEFAULT_JRDB_DIR
     
     # ステップ指定実行
     if args.step is not None:
         if args.step == 0:
             step0_check()
         elif args.step == 1:
-            if not args.jrdb_dir:
-                print("ERROR: STEP 1 にはJRDBディレクトリの指定が必要です")
-                sys.exit(1)
-            step1_scan(args.jrdb_dir)
+            step1_scan(jrdb_dir)
         elif args.step == 2:
-            if not args.jrdb_dir:
-                print("ERROR: STEP 2 にはJRDBディレクトリの指定が必要です")
-                sys.exit(1)
-            step2_import(args.jrdb_dir)
+            step2_import(jrdb_dir)
         elif args.step == 3:
             step3_verify()
         elif args.step == 4:
@@ -152,6 +154,7 @@ def main():
     # 全ステップ実行
     print("=" * 60)
     print("  JRDB修正パイプライン 全自動実行")
+    print(f"  JRDBデータ: {jrdb_dir}")
     print("=" * 60)
     
     total_t0 = time.time()
@@ -162,15 +165,10 @@ def main():
         sys.exit(1)
     
     # STEP 1
-    if args.jrdb_dir:
-        step1_scan(args.jrdb_dir)
-    else:
-        print("\n  STEP 1 スキップ: JRDBディレクトリが指定されていません")
-        print("  (STEP 2-4もスキップされます)")
-        sys.exit(0)
+    step1_scan(jrdb_dir)
     
     # STEP 2
-    step2_import(args.jrdb_dir)
+    step2_import(jrdb_dir)
     
     # STEP 3
     step3_verify()

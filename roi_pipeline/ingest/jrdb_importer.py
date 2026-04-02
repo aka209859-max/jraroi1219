@@ -224,6 +224,11 @@ def upsert_records(
 def scan_jrdb_files(root_dir: str) -> Dict[str, List[Path]]:
     """
     ディレクトリ内のJRDBファイルを検索する。
+    
+    以下の構造に対応:
+      1. root_dir/KYI160105.txt         （ルート直下にtxtがある場合）
+      2. root_dir/KYI/KYI160105.txt     （タイプ名サブフォルダ）
+      3. root_dir/data/jrdb/raw/KYI/... （深い階層）
     """
     targets = ["KYI", "CYB", "BAC", "JOA"]
     extensions = [".txt"]
@@ -235,25 +240,33 @@ def scan_jrdb_files(root_dir: str) -> Dict[str, List[Path]]:
         print(f"ERROR: ディレクトリが存在しません: {root_dir}")
         return found
     
-    # ルート直下 + 1階層のサブディレクトリを検索
-    search_dirs = [root]
+    # 戦略1: タイプ名のサブフォルダを直接探す（最速）
+    for target in targets:
+        # root/KYI/ , root/data/jrdb/raw/KYI/ 等を再帰的に探す
+        for subdir in root.rglob(target):
+            if not subdir.is_dir():
+                continue
+            try:
+                for f in subdir.iterdir():
+                    if f.is_file():
+                        name_upper = f.name.upper()
+                        if name_upper.startswith(target) and name_upper.endswith(".TXT"):
+                            found[target].append(f)
+            except PermissionError:
+                continue
+    
+    # 戦略2: ルート直下のファイルも検索（フラット配置対応）
     try:
-        search_dirs.extend([d for d in root.iterdir() if d.is_dir()])
+        for f in root.iterdir():
+            if not f.is_file():
+                continue
+            name_upper = f.name.upper()
+            for target in targets:
+                if name_upper.startswith(target) and name_upper.endswith(".TXT"):
+                    if f not in found[target]:  # 重複回避
+                        found[target].append(f)
     except PermissionError:
         pass
-    
-    for search_dir in search_dirs:
-        try:
-            for f in search_dir.iterdir():
-                if not f.is_file():
-                    continue
-                name_upper = f.name.upper()
-                for target in targets:
-                    for ext in extensions:
-                        if name_upper.startswith(target) and name_upper.endswith(ext.upper()):
-                            found[target].append(f)
-        except PermissionError:
-            continue
     
     return found
 
