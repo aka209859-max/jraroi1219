@@ -145,8 +145,8 @@ def load_base_race_data_v2(
     LEFT JOIN jrd_bac_fixed AS bac
         ON ({JVAN_TO_JRDB_RACE_KEY8}) = bac.jrdb_race_key8
     WHERE
-        (se.kaisai_nen || se.kaisai_tsukihi) >= %(date_from)s
-        AND (se.kaisai_nen || se.kaisai_tsukihi) <= %(date_to)s
+        (se.kaisai_nen || se.kaisai_tsukihi) >= '{date_from}'
+        AND (se.kaisai_nen || se.kaisai_tsukihi) <= '{date_to}'
         AND TRIM(se.keibajo_code) IN {JRA_KEIBAJO_CODES}
     ORDER BY race_date, se.keibajo_code, se.race_bango, se.umaban
     """
@@ -161,10 +161,7 @@ def load_base_race_data_v2(
                 "  py -3.12 -m roi_pipeline.ingest.jrdb_importer --import <JRDB_DIR>"
             )
         
-        df = pd.read_sql_query(
-            query, conn,
-            params={"date_from": date_from, "date_to": date_to},
-        )
+        df = pd.read_sql_query(query, conn)
     finally:
         conn.close()
 
@@ -215,16 +212,13 @@ def diagnose_v2_join(
                 LEFT JOIN {table} t
                     ON ({JVAN_TO_JRDB_RACE_KEY8}) = t.jrdb_race_key8
                     {uma_join}
-                WHERE (se.kaisai_nen || se.kaisai_tsukihi) >= %(date_from)s
-                    AND (se.kaisai_nen || se.kaisai_tsukihi) <= %(date_to)s
+                WHERE (se.kaisai_nen || se.kaisai_tsukihi) >= '{date_from}'
+                    AND (se.kaisai_nen || se.kaisai_tsukihi) <= '{date_to}'
                     AND TRIM(se.keibajo_code) IN {JRA_KEIBAJO_CODES}
             """
             
             try:
-                df = pd.read_sql_query(
-                    query, conn,
-                    params={"date_from": date_from, "date_to": date_to},
-                )
+                df = pd.read_sql_query(query, conn)
                 total = int(df["total"].iloc[0])
                 matched = int(df["matched"].iloc[0])
                 pct = float(df["pct"].iloc[0])
