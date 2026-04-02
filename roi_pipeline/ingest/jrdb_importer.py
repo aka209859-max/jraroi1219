@@ -142,7 +142,7 @@ def create_table(conn, table_name: str, columns: List[str], pk_fields: List[str]
     
     create_sql = f"""
     CREATE TABLE {table_name} (
-{chr(10).join(col_defs)}{pk_clause}
+{(','+chr(10)).join(col_defs)}{pk_clause}
     )
     """
     
