@@ -452,20 +452,24 @@ def main() -> None:
               f"mean={odds_series.mean():.1f}, median={odds_series.median():.1f}")
         print(f"    tansho_odds サンプル (先頭10件): {odds_series.head(10).tolist()}")
 
-        # JRA-VANオッズフォーマット自動検出と変換
+        # JRA-VANオッズフォーマット変換
+        # JRA-VAN (jvd_se) の tansho_odds は常に10倍単位格納
+        # 例: 249 = 24.9倍, 42 = 4.2倍, 4215 = 421.5倍
+        # diagnose_odds.py で検証済み:
+        #   /10変換 → 回収率79.74%（市場理論値≒78-80%に一致）
+        #   /100変換 → 回収率7.89%（的中率≒回収率 = オッズ未反映）
         median_val = odds_series.median()
-        if median_val >= 100.0:
-            # 100倍単位（払戻金額/100円）: 300 = 3.0倍
-            print(f"    ⚠️  中央値={median_val:.1f} → 100倍単位（払戻金額形式）を検出。"
-                  f" 実オッズ = tansho_odds / 100 に変換。")
-            df["tansho_odds"] = df["tansho_odds"] / 100.0
-        elif median_val >= 10.0:
-            # 10倍単位: 30 = 3.0倍
-            print(f"    ⚠️  中央値={median_val:.1f} → 10倍単位格納を検出。"
-                  f" 実オッズ = tansho_odds / 10 に変換。")
+        if median_val >= 10.0:
+            print(f"    JRA-VAN 10倍単位格納 (median={median_val:.1f})")
+            print(f"    → 実オッズ = tansho_odds / 10 に変換。")
             df["tansho_odds"] = df["tansho_odds"] / 10.0
         else:
-            print(f"    ✅ tansho_odds は実オッズ値として妥当。")
+            print(f"    ✅ tansho_odds は実オッズ値 (median={median_val:.1f})")
+        
+        # 変換後の妥当性検証
+        converted_median = df["tansho_odds"].dropna().median()
+        if converted_median < 1.0 or converted_median > 100.0:
+            print(f"    ⚠️  WARNING: 変換後median={converted_median:.2f} - 想定範囲外（1.0-100.0）")
 
         odds_after = df["tansho_odds"].dropna()
         print(f"    変換後: min={odds_after.min():.2f}, max={odds_after.max():.1f}, "
@@ -478,14 +482,12 @@ def main() -> None:
                   f"min={fuku_series.min():.1f}, max={fuku_series.max():.1f}, "
                   f"mean={fuku_series.mean():.1f}, median={fuku_series.median():.1f}")
             fuku_median = fuku_series.median()
-            if fuku_median >= 100.0:
-                print(f"    ⚠️  fukusho_odds中央値={fuku_median:.1f} → "
-                      f"100倍単位格納を検出。実オッズ = fukusho_odds / 100 に変換。")
-                df["fukusho_odds"] = df["fukusho_odds"] / 100.0
-            elif fuku_median >= 10.0:
-                print(f"    ⚠️  fukusho_odds中央値={fuku_median:.1f} → "
-                      f"10倍単位格納を検出。実オッズ = fukusho_odds / 10 に変換。")
+            if fuku_median >= 10.0:
+                print(f"    fukusho_odds: JRA-VAN 10倍単位格納 (median={fuku_median:.1f})")
+                print(f"    → 実オッズ = fukusho_odds / 10 に変換。")
                 df["fukusho_odds"] = df["fukusho_odds"] / 10.0
+            else:
+                print(f"    ✅ fukusho_odds は実オッズ値 (median={fuku_median:.1f})")
     print()
 
     # --- D. 的中フラグ診断 ---
@@ -509,12 +511,12 @@ def main() -> None:
     print(f"  グローバル補正回収率: {global_rate:.2f}%")
     print(f"  グローバルスコア: {global_result['score']:.2f}")
 
-    # 妥当性チェック
-    if global_rate > 200.0 or global_rate < 10.0:
+    # 妥当性チェック（JRA単勝の市場全体回収率は理論上 ~78-80%）
+    if global_rate > 120.0 or global_rate < 60.0:
         print(f"  ⚠️  WARNING: グローバル回収率 {global_rate:.2f}% は異常値です。")
-        print(f"       想定範囲: 60〜120%。オッズ値のフォーマットを確認してください。")
-        print(f"       tansho_oddsが払戻金額（100円あたり）で格納されている場合、")
-        print(f"       実オッズ = tansho_odds / 100 への変換が必要です。")
+        print(f"       想定範囲: 60〜120%（JRA市場理論値≒78-80%）")
+        print(f"       オッズ値のフォーマットを確認してください。")
+        print(f"       JRA-VAN tansho_odds は10倍単位格納（/10で実オッズ）。")
     print()
 
     # 4. 各ファクターのレポート生成
