@@ -26,6 +26,11 @@ import sys
 import time
 from pathlib import Path
 
+# プロジェクトルートをsys.pathに追加（直接実行対応）
+_PROJECT_ROOT = str(Path(__file__).resolve().parent.parent.parent)
+if _PROJECT_ROOT not in sys.path:
+    sys.path.insert(0, _PROJECT_ROOT)
+
 # デフォルトJRDBディレクトリ（CEOのPC上のパス）
 DEFAULT_JRDB_DIR = r"E:\jraroi1219\data\jrdb\raw"
 
