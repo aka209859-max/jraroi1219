@@ -20,6 +20,12 @@ from roi_pipeline.engine.data_loader import safe_to_numeric, convert_numeric_col
 
 
 # =============================================================================
+# JRA場コード（01-10）フィルタ
+# jvd_seにはNAR（地方競馬）データが混在しているが、JRDBはJRAのみ
+# =============================================================================
+JRA_KEIBAJO_CODES = "('01','02','03','04','05','06','07','08','09','10')"
+
+# =============================================================================
 # JRA-VAN → JRDB 8byte レースキー合成SQL式
 # =============================================================================
 JVAN_TO_JRDB_RACE_KEY8 = """
@@ -141,6 +147,7 @@ def load_base_race_data_v2(
     WHERE
         (se.kaisai_nen || se.kaisai_tsukihi) >= %(date_from)s
         AND (se.kaisai_nen || se.kaisai_tsukihi) <= %(date_to)s
+        AND TRIM(se.keibajo_code) IN {JRA_KEIBAJO_CODES}
     ORDER BY race_date, se.keibajo_code, se.race_bango, se.umaban
     """
 
@@ -210,6 +217,7 @@ def diagnose_v2_join(
                     {uma_join}
                 WHERE (se.kaisai_nen || se.kaisai_tsukihi) >= %(date_from)s
                     AND (se.kaisai_nen || se.kaisai_tsukihi) <= %(date_to)s
+                    AND TRIM(se.keibajo_code) IN {JRA_KEIBAJO_CODES}
             """
             
             try:
