@@ -1,0 +1,189 @@
+"""
+全自動実行スクリプト: JRDB修正パイプライン
+
+CEOのPC上で実行する統合スクリプト。
+以下を順番に実行する:
+
+  STEP 0: 事前チェック（DB接続、依存パッケージ）
+  STEP 1: Eドライブのスキャン（JRDBファイル検索）
+  STEP 2: JRDBファイルのパース＆インポート（jrd_*_fixed テーブル作成）
+  STEP 3: JOIN検証（v2 JOINのマッチ率確認）
+  STEP 4: Phase 1レポート再生成（v2データ使用）
+
+使用方法:
+    cd E:\\jraroi1219
+    py -3.12 roi_pipeline/tools/run_all.py E:\\JRDB
+
+    # ステップを指定して実行する場合
+    py -3.12 roi_pipeline/tools/run_all.py E:\\JRDB --step 2  # インポートのみ
+    py -3.12 roi_pipeline/tools/run_all.py --step 3           # JOIN検証のみ
+    py -3.12 roi_pipeline/tools/run_all.py --step 4           # Phase1のみ
+"""
+import argparse
+import sys
+import time
+from pathlib import Path
+
+
+def step0_check():
+    """STEP 0: 事前チェック"""
+    print("\n" + "=" * 60)
+    print("  STEP 0: 事前チェック")
+    print("=" * 60)
+    
+    # Python version
+    print(f"  Python: {sys.version}")
+    
+    # 依存パッケージ
+    missing = []
+    for pkg in ["psycopg2", "pandas", "numpy"]:
+        try:
+            __import__(pkg)
+            print(f"  ✅ {pkg}")
+        except ImportError:
+            print(f"  ❌ {pkg} がインストールされていません")
+            missing.append(pkg)
+    
+    if missing:
+        print(f"\n  pip install {' '.join(missing)}")
+        return False
+    
+    # DB接続
+    try:
+        import psycopg2
+        conn = psycopg2.connect(
+            host="127.0.0.1", port=5432,
+            database="pckeiba", user="postgres", password="postgres123",
+        )
+        with conn.cursor() as cur:
+            cur.execute("SELECT COUNT(*) FROM jvd_se")
+            count = cur.fetchone()[0]
+            print(f"  ✅ DB接続OK (jvd_se: {count:,} rows)")
+        conn.close()
+    except Exception as e:
+        print(f"  ❌ DB接続エラー: {e}")
+        return False
+    
+    return True
+
+
+def step1_scan(jrdb_dir: str):
+    """STEP 1: ファイルスキャン"""
+    print("\n" + "=" * 60)
+    print(f"  STEP 1: ファイルスキャン ({jrdb_dir})")
+    print("=" * 60)
+    
+    from roi_pipeline.ingest.jrdb_importer import run_scan
+    run_scan(jrdb_dir)
+
+
+def step2_import(jrdb_dir: str):
+    """STEP 2: パース＆インポート"""
+    print("\n" + "=" * 60)
+    print(f"  STEP 2: パース＆インポート ({jrdb_dir})")
+    print("=" * 60)
+    
+    from roi_pipeline.ingest.jrdb_importer import run_import
+    
+    t0 = time.time()
+    run_import(jrdb_dir)
+    elapsed = time.time() - t0
+    
+    print(f"\n  STEP 2 完了: {elapsed:.1f}秒")
+
+
+def step3_verify():
+    """STEP 3: JOIN検証"""
+    print("\n" + "=" * 60)
+    print("  STEP 3: v2 JOIN検証")
+    print("=" * 60)
+    
+    from roi_pipeline.engine.data_loader_v2 import diagnose_v2_join
+    
+    # 全期間テスト
+    result = diagnose_v2_join(date_from="20161101", date_to="20251231")
+    print(result)
+    
+    # 2024年テスト
+    print()
+    result_2024 = diagnose_v2_join(date_from="20240101", date_to="20241231")
+    print(result_2024)
+
+
+def step4_phase1():
+    """STEP 4: Phase 1 再生成"""
+    print("\n" + "=" * 60)
+    print("  STEP 4: Phase 1 レポート再生成")
+    print("=" * 60)
+    
+    from roi_pipeline.reports.generate_phase1 import main as gen_main
+    gen_main()
+
+
+def main():
+    parser = argparse.ArgumentParser(description="JRDB修正パイプライン全自動実行")
+    parser.add_argument("jrdb_dir", nargs="?", default=None,
+                        help="JRDBファイルのディレクトリ (例: E:\\JRDB)")
+    parser.add_argument("--step", type=int, choices=[0, 1, 2, 3, 4],
+                        help="特定のステップのみ実行")
+    
+    args = parser.parse_args()
+    
+    # ステップ指定実行
+    if args.step is not None:
+        if args.step == 0:
+            step0_check()
+        elif args.step == 1:
+            if not args.jrdb_dir:
+                print("ERROR: STEP 1 にはJRDBディレクトリの指定が必要です")
+                sys.exit(1)
+            step1_scan(args.jrdb_dir)
+        elif args.step == 2:
+            if not args.jrdb_dir:
+                print("ERROR: STEP 2 にはJRDBディレクトリの指定が必要です")
+                sys.exit(1)
+            step2_import(args.jrdb_dir)
+        elif args.step == 3:
+            step3_verify()
+        elif args.step == 4:
+            step4_phase1()
+        return
+    
+    # 全ステップ実行
+    print("=" * 60)
+    print("  JRDB修正パイプライン 全自動実行")
+    print("=" * 60)
+    
+    total_t0 = time.time()
+    
+    # STEP 0
+    if not step0_check():
+        print("\n事前チェックに失敗しました。")
+        sys.exit(1)
+    
+    # STEP 1
+    if args.jrdb_dir:
+        step1_scan(args.jrdb_dir)
+    else:
+        print("\n  STEP 1 スキップ: JRDBディレクトリが指定されていません")
+        print("  (STEP 2-4もスキップされます)")
+        sys.exit(0)
+    
+    # STEP 2
+    step2_import(args.jrdb_dir)
+    
+    # STEP 3
+    step3_verify()
+    
+    # STEP 4
+    step4_phase1()
+    
+    total_elapsed = time.time() - total_t0
+    print()
+    print("=" * 60)
+    print(f"  全ステップ完了: {total_elapsed:.1f}秒")
+    print("=" * 60)
+
+
+if __name__ == "__main__":
+    main()

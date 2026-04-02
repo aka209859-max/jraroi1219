@@ -24,6 +24,7 @@ import numpy as np
 from roi_pipeline.config.odds_correction import get_odds_correction
 from roi_pipeline.config.year_weights import get_year_weight
 from roi_pipeline.engine.data_loader import load_base_race_data, convert_numeric_columns, diagnose_join_keys
+from roi_pipeline.engine.data_loader_v2 import load_base_race_data_v2, diagnose_v2_join
 from roi_pipeline.engine.corrected_return import (
     calc_corrected_return_rate,
     calc_return_rate_by_bins,
@@ -322,15 +323,31 @@ def main() -> None:
     print("=" * 60)
     print()
 
-    # 1. データ取得
+    # 1. データ取得（v2優先、フォールバックでv1）
     print("[1/4] PostgreSQLからベースデータを取得中...")
+    use_v2 = False
     try:
-        df = load_base_race_data(date_from="20161101", date_to="20251231")
-        print(f"  取得行数: {len(df):,}")
+        df = load_base_race_data_v2(date_from="20161101", date_to="20251231")
+        use_v2 = True
+        print(f"  ✅ v2 (jrd_*_fixed) テーブル使用: {len(df):,} 行")
+    except RuntimeError:
+        print("  jrd_*_fixed テーブルなし → v1（旧テーブル）にフォールバック")
+        try:
+            df = load_base_race_data(date_from="20161101", date_to="20251231")
+            print(f"  取得行数: {len(df):,}")
+        except Exception as e:
+            print(f"  ERROR: データ取得失敗 - {e}")
+            print("  PostgreSQL (127.0.0.1:5432, database: pckeiba) への接続を確認してください。")
+            sys.exit(1)
     except Exception as e:
-        print(f"  ERROR: データ取得失敗 - {e}")
-        print("  PostgreSQL (127.0.0.1:5432, database: pckeiba) への接続を確認してください。")
-        sys.exit(1)
+        print(f"  v2 ERROR: {e}")
+        print("  v1（旧テーブル）にフォールバック...")
+        try:
+            df = load_base_race_data(date_from="20161101", date_to="20251231")
+            print(f"  取得行数: {len(df):,}")
+        except Exception as e2:
+            print(f"  ERROR: データ取得失敗 - {e2}")
+            sys.exit(1)
 
     # 2. 数値変換 + 的中フラグ + 年度 + レースID
     print("[2/4] データ前処理中...")
