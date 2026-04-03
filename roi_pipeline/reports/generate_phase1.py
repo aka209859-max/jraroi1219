@@ -261,7 +261,30 @@ def generate_factor_report(
             df_wf[bin_col_wf] = binned_series_wf
 
             # エッジビンに該当する馬のマスク
-            edge_mask = df_wf[bin_col_wf].isin(edge_bins)
+            # ORDINAL/CATEGORY型ではビン値の型が異なる場合がある
+            # 例: edge_bins=["4.0"] だが実データは "4" or " 4"
+            # 両方をstr化してマッチさせる
+            bin_values_in_data = df_wf[bin_col_wf].dropna().unique()
+            edge_bins_set = set(edge_bins)
+
+            # まず直接マッチを試み、マッチしない場合はfloat変換で比較
+            direct_match = df_wf[bin_col_wf].isin(edge_bins_set)
+            if direct_match.sum() == 0 and len(bin_values_in_data) > 0:
+                # edge_binsをfloatに変換してからデータ側の値と比較
+                try:
+                    edge_floats = {float(eb) for eb in edge_bins}
+                    data_to_edge = {}
+                    for val in bin_values_in_data:
+                        try:
+                            if float(val) in edge_floats:
+                                data_to_edge[val] = True
+                        except (ValueError, TypeError):
+                            pass
+                    edge_mask = df_wf[bin_col_wf].isin(set(data_to_edge.keys()))
+                except (ValueError, TypeError):
+                    edge_mask = direct_match  # フォールバック
+            else:
+                edge_mask = direct_match
 
             wf_b_results = run_walk_forward(df, mask=edge_mask)
 
