@@ -319,3 +319,76 @@ py -3.12 roi_pipeline/tools/run_all.py --step 5
 3. 調教師指数・厩舎指数の芝/ダート分解結果を確認
 4. Phase 2結果をもとに、Phase 3（マルチファクターモデル）の設計方針を決定
 5. エッジが「全コース共通」ならマルチファクター統合が有効、「特定コース限定」ならコース条件付きモデルが必要
+
+### [2026-04-03] Phase 2 タスク2: 10ファクター交互作用分析 実装セッション
+
+#### 【実行した作業】
+1. Phase 2 タスク2 レポート生成スクリプト新規作成: `roi_pipeline/reports/generate_phase2_task2.py`
+   - 10ファクター × セグメント交互作用分析
+   - SURFACE_2 (7): IDM, 総合指数, 上がり指数, ペース指数, 騎手指数, LS指数, 馬齢
+   - COURSE_27 (2): 距離適性, コース適性
+   - GLOBAL (1): 馬場状態コード
+2. **単勝・複勝デュアルROI**対応: `_compute_dual_roi()` で tansho/fukusho 両方を算出
+3. 各セグメントタイプ別レポート生成関数:
+   - `generate_surface2_report()`: ファクター × 芝/ダート（3層ベイズ + Phase 1比較）
+   - `generate_course27_report()`: ファクター × 27コースカテゴリ（ベイズ収縮、<100サンプルはグローバル平均に収縮）
+   - `generate_global_report()`: セグメントなし（単勝+複勝ビン別ROI + ベイズ推定）
+4. テスト29件新規作成: `roi_pipeline/tests/test_phase2_task2.py`
+5. `run_all.py` に STEP 6 (Phase 2 タスク2) を追加
+
+#### 【変更・新規ファイル】
+- `roi_pipeline/reports/generate_phase2_task2.py` — **新規**: Phase 2 タスク2 レポート生成（10レポート、単勝+複勝）
+- `roi_pipeline/tests/test_phase2_task2.py` — **新規**: Phase 2 タスク2テスト（29テスト）
+- `roi_pipeline/tools/run_all.py` — STEP 6 追加
+
+#### 【テスト結果】
+- roi_pipeline/tests/: **104 passed** (全テストパス)
+  - Phase 1テスト: 55件
+  - Phase 2 タスク1テスト: 20件（test_interaction_analysis.py）
+  - Phase 2 タスク2テスト: 29件（test_phase2_task2.py）
+
+#### 【出力レポート一覧（10ファイル）】
+```
+roi_pipeline/reports/phase2/
+├── idm_surface2.md                    # IDM × 芝/ダート
+├── sogo_shisu_surface2.md             # 総合指数 × 芝/ダート
+├── agari_shisu_surface2.md            # 上がり指数 × 芝/ダート
+├── pace_shisu_surface2.md             # ペース指数 × 芝/ダート
+├── kishu_shisu_surface2.md            # 騎手指数 × 芝/ダート
+├── ls_shisu_surface2.md               # LS指数 × 芝/ダート
+├── barei_surface2.md                  # 馬齢 × 芝/ダート
+├── kyori_tekisei_code_course27.md     # 距離適性 × 27コースカテゴリ
+├── course_tekisei_course27.md         # コース適性 × 27コースカテゴリ
+└── babajotai_code_shiba_global.md     # 馬場状態コード GLOBAL
+```
+
+#### 【CEO PCでの実行方法】
+```
+cd E:\jraroi1219
+git pull origin main
+
+# Phase 2 タスク2 全レポート生成
+py -3.12 -m roi_pipeline.reports.generate_phase2_task2
+
+# 特定ファクターのみ
+py -3.12 -m roi_pipeline.reports.generate_phase2_task2 --factor idm
+py -3.12 -m roi_pipeline.reports.generate_phase2_task2 --factor sogo_shisu
+
+# run_all経由
+py -3.12 roi_pipeline/tools/run_all.py --step 6
+```
+
+#### 【品質ゲート】
+- ✅ 全テスト通過 (104 passed)
+- ✅ グローバル単勝ROI 75-85% 範囲チェック
+- ✅ ベイズ収縮適用確認
+- ✅ 正確に10レポート出力
+- ✅ Phase 1 ファイル変更なし
+- ✅ タスク1とタスク2のファクターID重複なし
+
+#### 【次のセッションでやるべきこと】
+1. CEO PCでPhase 2 タスク2レポートを実行し、全10レポートの結果を確認
+2. 能力系ファクター（IDM/総合/上がり/ペース）の芝ダート分解パターンを横断比較
+3. COURSE_27結果から、距離適性・コース適性がコース形状に依存するか確認
+4. Phase 2全タスクの総合分析 → Phase 3（マルチファクターLightGBMモデル）設計方針決定
+5. エッジの「芝ダ共通性」「コース依存性」に基づくモデル分岐戦略の確定
