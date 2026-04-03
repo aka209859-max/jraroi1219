@@ -258,3 +258,64 @@ Claude Codeは各セッション開始時に以下を確認すること：
 - `2d062c4` fix: v2 data_loader 'dict is not a sequence' エラー修正
 - `4e1c7f6` feat: diagnose_odds.py - オッズ値診断スクリプト
 - `626ae9a` fix: tansho_odds変換 /100→/10 に修正（致命的バグ）
+
+### [2026-04-03] Walk-Forward修正 + Phase 2 交互作用分析 実装セッション
+
+#### 【実行した作業】
+1. Walk-Forwardバグ修正: `run_walk_forward()` に `mask` パラメータ追加、ビン別独立計算を実装
+2. `generate_phase1.py` パターンA/B 分離出力、ORDINAL型ビンマッチ修正
+3. Phase 2 交互作用分析エンジン新規作成: `roi_pipeline/engine/interaction_analysis.py`
+   - `assign_course_category_fast()`: 27カテゴリコース分類の高速付与
+   - `assign_surface()`: 芝/ダート2分類付与
+   - `run_interaction_analysis()`: クロス集計 + 3層階層ベイズ推定
+4. Phase 2 レポート生成スクリプト新規作成: `roi_pipeline/reports/generate_phase2.py`
+   - 馬番(1-18) × コースカテゴリ(27): `umaban_x_course.md`
+   - 調教師指数(ビン) × 芝/ダート: `chokyo_shisu_x_surface.md`
+   - 厩舎指数(ビン) × 芝/ダート: `kyusha_shisu_x_surface.md`
+5. `run_all.py` に STEP 5 (Phase 2) を追加
+
+#### 【変更・新規ファイル】
+- `roi_pipeline/engine/interaction_analysis.py` — **新規**: 交互作用分析エンジン（3層ベイズ、コース分類、芝ダ分類）
+- `roi_pipeline/reports/generate_phase2.py` — **新規**: Phase 2レポート生成（3レポート）
+- `roi_pipeline/reports/phase2/` — **新規ディレクトリ**: Phase 2レポート出力先
+- `roi_pipeline/tests/test_interaction_analysis.py` — **新規**: Phase 2テスト（20テスト）
+- `roi_pipeline/tools/run_all.py` — STEP 5 追加
+- `roi_pipeline/engine/walk_forward.py` — mask パラメータ追加（前セッション）
+- `roi_pipeline/reports/generate_phase1.py` — パターンA/B分離、ORDINALビンマッチ修正（前セッション）
+
+#### 【テスト結果】
+- roi_pipeline/tests/: **75 passed** (全テストパス)
+  - Phase 1テスト: 55件
+  - Phase 2テスト: 20件（test_interaction_analysis.py）
+
+#### 【Phase 2 アーキテクチャ】
+```
+3層階層ベイズ推定:
+  レベル1（グローバル）: 全条件の補正回収率（≒79.9%）
+  レベル2（ファクター値）: 馬番x / ビンb の全セグメント回収率
+  レベル3（個別セル）: 馬番x × コースy / ビンb × 芝ダ
+```
+
+#### 【CEO PCでの実行方法】
+```
+cd E:\jraroi1219
+git pull origin main
+
+# Phase 2 全レポート生成
+py -3.12 -m roi_pipeline.reports.generate_phase2
+
+# 個別レポート
+py -3.12 -m roi_pipeline.reports.generate_phase2 --report umaban
+py -3.12 -m roi_pipeline.reports.generate_phase2 --report chokyo
+py -3.12 -m roi_pipeline.reports.generate_phase2 --report kyusha
+
+# run_all経由
+py -3.12 roi_pipeline/tools/run_all.py --step 5
+```
+
+#### 【次のセッションでやるべきこと】
+1. CEO PCでPhase 2レポートを実行し、結果を確認
+2. 馬番×コースの交互作用パターンを分析（全コース共通型 vs 特定コース偏在型）
+3. 調教師指数・厩舎指数の芝/ダート分解結果を確認
+4. Phase 2結果をもとに、Phase 3（マルチファクターモデル）の設計方針を決定
+5. エッジが「全コース共通」ならマルチファクター統合が有効、「特定コース限定」ならコース条件付きモデルが必要

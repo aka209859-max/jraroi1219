@@ -9,6 +9,7 @@ CEOのPC上で実行する統合スクリプト。
   STEP 2: JRDBファイルのパース＆インポート（jrd_*_fixed テーブル作成）
   STEP 3: JOIN検証（v2 JOINのマッチ率確認）
   STEP 4: Phase 1レポート再生成（v2データ使用）
+  STEP 5: Phase 2 交互作用分析レポート生成
 
 使用方法:
     cd E:\\jraroi1219
@@ -19,6 +20,7 @@ CEOのPC上で実行する統合スクリプト。
     py -3.12 roi_pipeline/tools/run_all.py --step 2  # インポートのみ
     py -3.12 roi_pipeline/tools/run_all.py --step 3  # JOIN検証のみ
     py -3.12 roi_pipeline/tools/run_all.py --step 4  # Phase1のみ
+    py -3.12 roi_pipeline/tools/run_all.py --step 5  # Phase2のみ
 """
 import argparse
 import os
@@ -130,11 +132,21 @@ def step4_phase1():
     gen_main()
 
 
+def step5_phase2():
+    """STEP 5: Phase 2 交互作用分析レポート生成"""
+    print("\n" + "=" * 60)
+    print("  STEP 5: Phase 2 交互作用分析レポート生成")
+    print("=" * 60)
+    
+    from roi_pipeline.reports.generate_phase2 import main as gen_phase2
+    gen_phase2()
+
+
 def main():
     parser = argparse.ArgumentParser(description="JRDB修正パイプライン全自動実行")
     parser.add_argument("jrdb_dir", nargs="?", default=None,
                         help=f"JRDBファイルのディレクトリ (デフォルト: {DEFAULT_JRDB_DIR})")
-    parser.add_argument("--step", type=int, choices=[0, 1, 2, 3, 4],
+    parser.add_argument("--step", type=int, choices=[0, 1, 2, 3, 4, 5],
                         help="特定のステップのみ実行")
     
     args = parser.parse_args()
@@ -154,6 +166,8 @@ def main():
             step3_verify()
         elif args.step == 4:
             step4_phase1()
+        elif args.step == 5:
+            step5_phase2()
         return
     
     # 全ステップ実行
@@ -180,6 +194,9 @@ def main():
     
     # STEP 4
     step4_phase1()
+    
+    # STEP 5
+    step5_phase2()
     
     total_elapsed = time.time() - total_t0
     print()
