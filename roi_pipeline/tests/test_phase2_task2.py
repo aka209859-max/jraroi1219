@@ -99,7 +99,7 @@ class TestDualRoiComputation:
             "tansho_odds": np.random.uniform(2.0, 20.0, size=n).round(1),
             "fukusho_odds": np.random.uniform(1.2, 8.0, size=n).round(1),
             "is_hit": np.random.choice([0, 1], size=n, p=[0.92, 0.08]),
-            "kakutei_jyuni": np.random.choice(
+            "kakutei_chakujun": np.random.choice(
                 ["1", "2", "3", "4", "5", "6", "7", "8"],
                 size=n, p=[0.08, 0.08, 0.08, 0.10, 0.10, 0.15, 0.20, 0.21],
             ),

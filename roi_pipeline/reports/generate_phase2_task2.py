@@ -157,10 +157,10 @@ def _compute_dual_roi(
                 )
             else:
                 # fukusho_is_hitがない場合は3着以内で判定
-                if "kakutei_jyuni" in fukusho_df.columns:
+                if "kakutei_chakujun" in fukusho_df.columns:
                     fukusho_df = fukusho_df.copy()
                     fukusho_df["fukusho_is_hit"] = (
-                        pd.to_numeric(fukusho_df["kakutei_jyuni"], errors="coerce") <= 3
+                        pd.to_numeric(fukusho_df["kakutei_chakujun"], errors="coerce") <= 3
                     ).astype(int)
                     fukusho_result = calc_corrected_return_rate(
                         fukusho_df, odds_col="fukusho_odds",
@@ -334,12 +334,12 @@ def generate_surface2_report(
         # 複勝用のis_hitカラム準備
         df_fukusho = df_work.copy()
         if "fukusho_is_hit" not in df_fukusho.columns:
-            if "kakutei_jyuni" in df_fukusho.columns:
+            if "kakutei_chakujun" in df_fukusho.columns:
                 df_fukusho["fukusho_is_hit"] = (
-                    pd.to_numeric(df_fukusho["kakutei_jyuni"], errors="coerce") <= 3
+                    pd.to_numeric(df_fukusho["kakutei_chakujun"], errors="coerce") <= 3
                 ).astype(int)
             else:
-                lines.append("複勝判定カラム（kakutei_jyuni）なし。スキップ。")
+                lines.append("複勝判定カラム（kakutei_chakujun）なし。スキップ。")
                 lines.append("")
                 df_fukusho = None
         if df_fukusho is not None:
@@ -796,9 +796,9 @@ def generate_global_report(
     if "fukusho_odds" in df_work.columns and df_work["fukusho_odds"].notna().sum() > 0:
         df_fukusho = df_work.copy()
         if "fukusho_is_hit" not in df_fukusho.columns:
-            if "kakutei_jyuni" in df_fukusho.columns:
+            if "kakutei_chakujun" in df_fukusho.columns:
                 df_fukusho["fukusho_is_hit"] = (
-                    pd.to_numeric(df_fukusho["kakutei_jyuni"], errors="coerce") <= 3
+                    pd.to_numeric(df_fukusho["kakutei_chakujun"], errors="coerce") <= 3
                 ).astype(int)
 
         if "fukusho_is_hit" in df_fukusho.columns:
