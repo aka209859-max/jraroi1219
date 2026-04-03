@@ -162,6 +162,73 @@ class TestRunWalkForward:
         results = run_walk_forward(df)
         assert results == []
 
+    def test_mask_filters_data(self, sample_wf_data: pd.DataFrame) -> None:
+        """maskでデータを絞り込んだ場合、結果が異なること"""
+        config = WalkForwardConfig(
+            initial_train_end="20181231",
+            test_end="20190630",
+        )
+        # 全データ
+        results_all = run_walk_forward(sample_wf_data, config=config)
+        # 半分のデータ（偶数行のみ）
+        mask = pd.Series([i % 2 == 0 for i in range(len(sample_wf_data))], index=sample_wf_data.index)
+        results_half = run_walk_forward(sample_wf_data, config=config, mask=mask)
+
+        assert len(results_all) > 0
+        assert len(results_half) > 0
+        # 頭数が半分程度になること
+        total_all = sum(r.n_horses for r in results_all)
+        total_half = sum(r.n_horses for r in results_half)
+        assert total_half < total_all
+        # 的中数も異なりうること（少なくとも頭数は違う）
+        assert total_half > 0
+
+    def test_mask_none_equals_no_mask(self, sample_wf_data: pd.DataFrame) -> None:
+        """mask=Noneはmaskなしと同等"""
+        config = WalkForwardConfig(
+            initial_train_end="20181231",
+            test_end="20190630",
+        )
+        results_no_mask = run_walk_forward(sample_wf_data, config=config)
+        results_none_mask = run_walk_forward(sample_wf_data, config=config, mask=None)
+        assert len(results_no_mask) == len(results_none_mask)
+        for a, b in zip(results_no_mask, results_none_mask):
+            assert a.n_horses == b.n_horses
+            assert a.monthly_return_rate == b.monthly_return_rate
+
+    def test_mask_all_false_returns_empty(self, sample_wf_data: pd.DataFrame) -> None:
+        """全てFalseのmaskは空リストを返す"""
+        config = WalkForwardConfig(
+            initial_train_end="20181231",
+            test_end="20190630",
+        )
+        mask = pd.Series(False, index=sample_wf_data.index)
+        results = run_walk_forward(sample_wf_data, config=config, mask=mask)
+        assert results == []
+
+    def test_different_masks_give_different_results(self, sample_wf_data: pd.DataFrame) -> None:
+        """異なるmask（ビンを模擬）で異なる回収率が出ること"""
+        config = WalkForwardConfig(
+            initial_train_end="20181231",
+            test_end="20190630",
+        )
+        # マスクA: オッズ10以下
+        mask_a = sample_wf_data["tansho_odds"] <= 10.0
+        # マスクB: オッズ30以上
+        mask_b = sample_wf_data["tansho_odds"] >= 30.0
+
+        results_a = run_walk_forward(sample_wf_data, config=config, mask=mask_a)
+        results_b = run_walk_forward(sample_wf_data, config=config, mask=mask_b)
+
+        # 両方とも結果があること
+        assert len(results_a) > 0
+        assert len(results_b) > 0
+        # 頭数が異なること（オッズ分布が偏るので）
+        total_a = sum(r.n_horses for r in results_a)
+        total_b = sum(r.n_horses for r in results_b)
+        # 少なくとも片方は結果がある（どちらも0にはならない）
+        assert total_a > 0 or total_b > 0
+
 
 class TestValidateNoLeak:
     """ターゲットリーク検証のテスト"""

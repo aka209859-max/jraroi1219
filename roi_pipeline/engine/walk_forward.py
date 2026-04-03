@@ -108,6 +108,7 @@ def run_walk_forward(
     race_id_col: str = "race_id",
     is_fukusho: bool = False,
     config: Optional[WalkForwardConfig] = None,
+    mask: Optional[pd.Series] = None,
 ) -> List[MonthlyResult]:
     """
     Walk-Forward検証を実行する。
@@ -121,12 +122,21 @@ def run_walk_forward(
         race_id_col: レースID（ユニークレース特定用）
         is_fukusho: True=複勝, False=単勝
         config: Walk-Forward設定
+        mask: 対象行のbooleanマスク。Noneなら全行を使用。
+              ビン別Walk-Forwardで「特定ビンに該当する馬だけ」を指定する。
 
     Returns:
         List[MonthlyResult]: 月次検証結果のリスト
     """
     if config is None:
         config = WalkForwardConfig()
+
+    # マスクが指定された場合、対象行を絞り込む
+    if mask is not None:
+        df = df[mask].copy()
+
+    if len(df) == 0:
+        return []
 
     periods = generate_monthly_periods(config)
     results: List[MonthlyResult] = []

@@ -203,13 +203,27 @@ def generate_factor_report(
     lines.append("## Walk-Forward検証結果")
     lines.append("")
 
-    try:
-        wf_results = run_walk_forward(df)
+    # ------ パターンA: ファクター全有効データのWalk-Forward ------
+    lines.append("### パターンA: ファクター全有効データ")
+    lines.append("")
+    lines.append(f"ファクター `{factor.column}` が有効（非NULL）な馬のみを対象としたWalk-Forward。")
+    lines.append("")
 
-        if wf_results:
+    try:
+        # ファクターカラムが有効な行のマスク
+        factor_valid_mask = df[factor.column].notna()
+        if factor.factor_type == FactorType.CATEGORY or factor.factor_type == FactorType.ORDINAL:
+            # 文字列型の場合、空白のみもNULL扱い
+            factor_valid_mask = factor_valid_mask & (df[factor.column].astype(str).str.strip() != "")
+
+        wf_a_results = run_walk_forward(df, mask=factor_valid_mask)
+
+        if wf_a_results:
+            lines.append(f"対象馬数: {factor_valid_mask.sum():,}")
+            lines.append("")
             lines.append("| 年月 | レース数 | 頭数 | 的中数 | 月次回収率(%) | 累積回収率(%) | 得点 |")
             lines.append("|------|---------|------|--------|-------------|-------------|------|")
-            for r in wf_results:
+            for r in wf_a_results:
                 lines.append(
                     f"| {r.year_month} "
                     f"| {r.n_races} "
@@ -221,13 +235,101 @@ def generate_factor_report(
                 )
 
             lines.append("")
-            final = wf_results[-1]
-            lines.append(f"**最終累積補正回収率**: {final.cumulative_return_rate:.2f}%")
-            lines.append(f"**最終得点**: {final.score:.2f}")
+            final_a = wf_a_results[-1]
+            lines.append(f"**パターンA 最終累積補正回収率**: {final_a.cumulative_return_rate:.2f}%")
+            lines.append(f"**パターンA 最終得点**: {final_a.score:.2f}")
         else:
             lines.append("Walk-Forward期間にデータが存在しません。")
     except Exception as e:
-        lines.append(f"Walk-Forward検証エラー: {e}")
+        lines.append(f"パターンA Walk-Forward検証エラー: {e}")
+
+    lines.append("")
+
+    # ------ パターンB: エッジビンのみのWalk-Forward ------
+    lines.append("### パターンB: エッジビンのみ")
+    lines.append("")
+
+    if edge_bins:
+        lines.append(f"エッジ判定=YESの{len(edge_bins)}ビンに該当する馬のみを対象としたWalk-Forward。")
+        lines.append(f"エッジビン: {', '.join(edge_bins)}")
+        lines.append("")
+
+        try:
+            # ビン分割を再適用（セクション2で計算済みだが、df_with_binsのスコープ外なので再計算）
+            binned_series_wf, bin_col_wf = apply_binning(df, factor)
+            df_wf = df.copy()
+            df_wf[bin_col_wf] = binned_series_wf
+
+            # エッジビンに該当する馬のマスク
+            edge_mask = df_wf[bin_col_wf].isin(edge_bins)
+
+            wf_b_results = run_walk_forward(df, mask=edge_mask)
+
+            if wf_b_results:
+                lines.append(f"対象馬数: {edge_mask.sum():,}")
+                lines.append("")
+                lines.append("| 年月 | レース数 | 頭数 | 的中数 | 月次回収率(%) | 累積回収率(%) | 得点 |")
+                lines.append("|------|---------|------|--------|-------------|-------------|------|")
+                for r in wf_b_results:
+                    lines.append(
+                        f"| {r.year_month} "
+                        f"| {r.n_races} "
+                        f"| {r.n_horses} "
+                        f"| {r.n_hits} "
+                        f"| {r.monthly_return_rate:.2f} "
+                        f"| {r.cumulative_return_rate:.2f} "
+                        f"| {r.score:.2f} |"
+                    )
+
+                lines.append("")
+                final_b = wf_b_results[-1]
+                lines.append(f"**パターンB 最終累積補正回収率**: {final_b.cumulative_return_rate:.2f}%")
+                lines.append(f"**パターンB 最終得点**: {final_b.score:.2f}")
+
+                # エッジの時系列安定性判定
+                lines.append("")
+                lines.append("#### エッジ時系列安定性")
+                lines.append("")
+                # 年別の回収率を集計
+                yearly_rates = {}
+                for r in wf_b_results:
+                    year = r.year_month[:4]
+                    if year not in yearly_rates:
+                        yearly_rates[year] = {"bets": 0.0, "payouts": 0.0}
+                    # 月次データから年別を近似（月次回収率×頭数で加重）
+                    yearly_rates[year]["bets"] += r.n_horses
+                    yearly_rates[year]["payouts"] += r.n_horses * r.monthly_return_rate / 100.0
+
+                lines.append("| 年 | 年間回収率(%) | 判定 |")
+                lines.append("|-----|------------|------|")
+                stable_years = 0
+                total_years = 0
+                for year in sorted(yearly_rates.keys()):
+                    yr = yearly_rates[year]
+                    if yr["bets"] > 0:
+                        yearly_rate = (yr["payouts"] / yr["bets"]) * 100.0
+                        total_years += 1
+                        stability = "✅ エッジ持続" if yearly_rate > 80.0 else "⚠️ エッジ消失"
+                        if yearly_rate > 80.0:
+                            stable_years += 1
+                        lines.append(f"| {year} | {yearly_rate:.2f} | {stability} |")
+
+                if total_years > 0:
+                    lines.append("")
+                    stability_rate = stable_years / total_years * 100.0
+                    lines.append(f"**エッジ持続率**: {stable_years}/{total_years}年 ({stability_rate:.0f}%)")
+                    if stability_rate >= 70.0:
+                        lines.append("**判定: エッジは時系列的に安定** ✅")
+                    elif stability_rate >= 50.0:
+                        lines.append("**判定: エッジはやや不安定** ⚠️")
+                    else:
+                        lines.append("**判定: エッジは時系列的に不安定（過去限定の可能性）** ❌")
+            else:
+                lines.append("エッジビン対象のWalk-Forward期間にデータが存在しません。")
+        except Exception as e:
+            lines.append(f"パターンB Walk-Forward検証エラー: {e}")
+    else:
+        lines.append("エッジ判定=YESのビンが存在しないため、パターンBは出力しません。")
 
     lines.append("")
 
@@ -309,18 +411,36 @@ def generate_summary_report(
     return "\n".join(lines)
 
 
-def main() -> None:
+def main(target_factor_ids: Optional[List[int]] = None) -> None:
     """
     メイン実行関数。
 
     PostgreSQLから全期間データを取得し、
-    20ファクターそれぞれの検証レポートを生成する。
+    指定されたファクター（デフォルト: 全20個）の検証レポートを生成する。
+
+    Args:
+        target_factor_ids: 生成対象のファクターIDリスト。Noneなら全20個。
+                           例: [13, 18, 20] → 馬番, 調教師指数, 厩舎指数のみ
     """
     ensure_report_dir()
 
-    print("=" * 60)
-    print("Phase 1: 代表ファクター20個の検証レポート生成")
-    print("=" * 60)
+    # コマンドライン引数の処理
+    if target_factor_ids is None and "--factors" in sys.argv:
+        idx = sys.argv.index("--factors")
+        if idx + 1 < len(sys.argv):
+            target_factor_ids = [int(x) for x in sys.argv[idx + 1].split(",")]
+
+    if target_factor_ids:
+        target_factors = [f for f in FACTOR_DEFINITIONS if f.id in target_factor_ids]
+        print("=" * 60)
+        print(f"Phase 1: 指定ファクター {len(target_factors)}個の検証レポート再生成")
+        print(f"対象: {', '.join(f'{f.name}(#{f.id})' for f in target_factors)}")
+        print("=" * 60)
+    else:
+        target_factors = list(FACTOR_DEFINITIONS)
+        print("=" * 60)
+        print("Phase 1: 代表ファクター20個の検証レポート生成")
+        print("=" * 60)
     print()
 
     # 1. データ取得（v2優先、フォールバックでv1）
@@ -520,11 +640,12 @@ def main() -> None:
     print()
 
     # 4. 各ファクターのレポート生成
-    print("[4/4] ファクター別レポートを生成中...")
+    n_targets = len(target_factors)
+    print(f"[4/4] ファクター別レポートを生成中... ({n_targets}個)")
     factor_results: List[dict] = []
 
-    for factor in FACTOR_DEFINITIONS:
-        print(f"  [{factor.id:02d}/20] {factor.name} ({factor.column})...", end=" ")
+    for i, factor in enumerate(target_factors, 1):
+        print(f"  [{i}/{n_targets}] {factor.name} (#{factor.id}, {factor.column})...", end=" ")
 
         report_text = generate_factor_report(df, factor, global_rate)
 
@@ -548,13 +669,17 @@ def main() -> None:
 
     # 5. サマリーレポート生成
     print()
-    print("サマリーレポートを生成中...")
-    summary = generate_summary_report(factor_results)
-    summary_path = os.path.join(REPORT_DIR, "summary.md")
-    with open(summary_path, "w", encoding="utf-8") as f:
-        f.write(summary)
+    if target_factor_ids is None:
+        # 全ファクター生成時のみサマリーを更新
+        print("サマリーレポートを生成中...")
+        summary = generate_summary_report(factor_results)
+        summary_path = os.path.join(REPORT_DIR, "summary.md")
+        with open(summary_path, "w", encoding="utf-8") as f:
+            f.write(summary)
+        print(f"  保存先: {summary_path}")
+    else:
+        print("（指定ファクターのみ再生成のため、サマリーは更新しません）")
 
-    print(f"  保存先: {summary_path}")
     print()
     print("=" * 60)
     print("完了!")
@@ -563,7 +688,7 @@ def main() -> None:
 
     total_edges = sum(fr["edge_count"] for fr in factor_results)
     edge_factors = sum(1 for fr in factor_results if fr["edge_count"] > 0)
-    print(f"  エッジ検出ファクター: {edge_factors}/20")
+    print(f"  エッジ検出ファクター: {edge_factors}/{len(factor_results)}")
     print(f"  総エッジビン数: {total_edges}")
     print("=" * 60)
 
