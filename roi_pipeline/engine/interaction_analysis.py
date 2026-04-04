@@ -211,6 +211,9 @@ def run_interaction_analysis(
     segment_name: str = "",
     min_samples: int = 30,
     C: int = 50,
+    odds_col: str = "tansho_odds",
+    hit_flag_col: str = "is_hit",
+    is_fukusho: bool = False,
 ) -> InteractionResult:
     """
     交互作用分析を実行する。
@@ -219,7 +222,7 @@ def run_interaction_analysis(
     各セルの補正回収率を3層階層ベイズで推定する。
 
     Args:
-        df: 分析対象データ（factor_col, segment_col, tansho_odds, is_hit, race_year 必須）
+        df: 分析対象データ（factor_col, segment_col, odds_col, hit_flag_col, race_year 必須）
         factor_col: ファクターカラム名
         segment_col: セグメントカラム名
         global_rate: グローバル補正回収率
@@ -227,6 +230,9 @@ def run_interaction_analysis(
         segment_name: レポート用セグメント名
         min_samples: 最小サンプル数（これ未満のセルはスキップ）
         C: 信頼性重みの定数
+        odds_col: オッズカラム名（デフォルト: tansho_odds）
+        hit_flag_col: 的中フラグカラム名（デフォルト: is_hit）
+        is_fukusho: 複勝モードフラグ（デフォルト: False）
 
     Returns:
         InteractionResult: 交互作用分析結果
@@ -239,7 +245,10 @@ def run_interaction_analysis(
     factor_n: Dict[str, int] = {}
     for fval, grp in valid_df.groupby(factor_col, sort=True):
         fval_str = str(fval)
-        result = calc_corrected_return_rate(grp)
+        result = calc_corrected_return_rate(
+            grp, odds_col=odds_col, hit_flag_col=hit_flag_col,
+            is_fukusho=is_fukusho,
+        )
         factor_rates[fval_str] = result["corrected_return_rate"]
         factor_n[fval_str] = result["n_samples"]
 
@@ -248,7 +257,10 @@ def run_interaction_analysis(
     segment_n: Dict[str, int] = {}
     for sval, grp in valid_df.groupby(segment_col, sort=True):
         sval_str = str(sval)
-        result = calc_corrected_return_rate(grp)
+        result = calc_corrected_return_rate(
+            grp, odds_col=odds_col, hit_flag_col=hit_flag_col,
+            is_fukusho=is_fukusho,
+        )
         segment_rates[sval_str] = result["corrected_return_rate"]
         segment_n[sval_str] = result["n_samples"]
 
@@ -264,7 +276,10 @@ def run_interaction_analysis(
             continue
 
         # 個別セルの補正回収率
-        cell_result = calc_corrected_return_rate(grp)
+        cell_result = calc_corrected_return_rate(
+            grp, odds_col=odds_col, hit_flag_col=hit_flag_col,
+            is_fukusho=is_fukusho,
+        )
 
         # 3層階層ベイズ推定
         # レベル1: グローバル回収率

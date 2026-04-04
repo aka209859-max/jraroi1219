@@ -375,6 +375,9 @@ def generate_surface2_report(
             factor_name=factor.name,
             segment_name="芝/ダート（複勝）",
             min_samples=30,
+            odds_col="fukusho_odds",
+            hit_flag_col="fukusho_is_hit",
+            is_fukusho=True,
         )
         lines.append(f"- グローバル複勝回収率: {fukusho_global['corrected_return_rate']:.2f}%")
         lines.append(f"- 複勝データソース: jvd_hr（払戻テーブル）からUNPIVOT")
