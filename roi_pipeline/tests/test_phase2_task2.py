@@ -245,7 +245,7 @@ class TestPhase1EdgeExtraction:
 ---
 """
         report_file = os.path.join(str(tmp_path), "test_report.md")
-        with open(report_file, "w") as f:
+        with open(report_file, "w", encoding="utf-8") as f:
             f.write(report_content)
 
         result = _extract_phase1_edge_bins(report_file)
