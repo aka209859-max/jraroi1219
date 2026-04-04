@@ -120,6 +120,57 @@ def _extract_phase1_edge_bins(report_path: str) -> Set[str]:
     return edge_bins
 
 
+def _prepare_fukusho_df(df: pd.DataFrame) -> Optional[pd.DataFrame]:
+    """
+    複勝ROI計算用のDataFrameを準備する。
+
+    jvd_hr（払戻テーブル）からの複勝オッズは的中馬（3着以内）のみ
+    non-NULLで、非的中馬はNULLになる。
+
+    計算方式:
+        - fukusho_odds が non-NULL → fukusho_is_hit = 1
+        - fukusho_odds が NULL → fukusho_is_hit = 0
+        - 非的中馬のオッズは tansho_odds ベースで推定
+          （均等払戻方式の分母計算に必要）
+        - 推定式: fukusho_odds_est ≈ tansho_odds * 0.35
+          （JRA複勝オッズは単勝の約30-40%が経験則）
+
+    Args:
+        df: fukusho_odds カラムを含むDataFrame
+
+    Returns:
+        fukusho_is_hit, fukusho_odds_filled が準備されたDataFrame
+        データ不足の場合は None
+    """
+    if "fukusho_odds" not in df.columns:
+        return None
+
+    has_fukusho = df["fukusho_odds"].notna().sum()
+    if has_fukusho == 0:
+        return None
+
+    fdf = df.copy()
+
+    # 的中フラグ: fukusho_odds が non-NULL = 的中
+    fdf["fukusho_is_hit"] = fdf["fukusho_odds"].notna().astype(int)
+
+    # 非的中馬のオッズ推定（分母の bet_amount 計算に必要）
+    # 方式: tansho_odds * 0.35 を代入（JRA経験則）
+    # tansho_odds も無い場合はグローバル中央値を使用
+    if "tansho_odds" in fdf.columns:
+        tansho = pd.to_numeric(fdf["tansho_odds"], errors="coerce")
+        estimated_fukusho = tansho * 0.35
+        # 最低オッズ 1.0 を保証
+        estimated_fukusho = estimated_fukusho.clip(lower=1.0)
+    else:
+        estimated_fukusho = pd.Series(3.0, index=fdf.index)
+
+    # 的中馬は実オッズ、非的中馬は推定オッズ
+    fdf["fukusho_odds"] = fdf["fukusho_odds"].fillna(estimated_fukusho)
+
+    return fdf
+
+
 def _compute_dual_roi(
     df: pd.DataFrame,
     odds_col: str = "tansho_odds",
@@ -143,34 +194,14 @@ def _compute_dual_roi(
         year_col=year_col, is_fukusho=False,
     )
 
-    # 複勝: fukusho_oddsが存在する場合のみ
-    fukusho_result: dict
-    if "fukusho_odds" in df.columns:
-        fukusho_df = df.dropna(subset=["fukusho_odds"]).copy()
-        if len(fukusho_df) > 0:
-            # 複勝の的中判定: 3着以内
-            if "fukusho_is_hit" in fukusho_df.columns:
-                fukusho_result = calc_corrected_return_rate(
-                    fukusho_df, odds_col="fukusho_odds",
-                    hit_flag_col="fukusho_is_hit",
-                    year_col=year_col, is_fukusho=True,
-                )
-            else:
-                # fukusho_is_hitがない場合は3着以内で判定
-                if "kakutei_chakujun" in fukusho_df.columns:
-                    fukusho_df = fukusho_df.copy()
-                    fukusho_df["fukusho_is_hit"] = (
-                        pd.to_numeric(fukusho_df["kakutei_chakujun"], errors="coerce") <= 3
-                    ).astype(int)
-                    fukusho_result = calc_corrected_return_rate(
-                        fukusho_df, odds_col="fukusho_odds",
-                        hit_flag_col="fukusho_is_hit",
-                        year_col=year_col, is_fukusho=True,
-                    )
-                else:
-                    fukusho_result = _empty_roi_result()
-        else:
-            fukusho_result = _empty_roi_result()
+    # 複勝: fukusho_odds カラムが存在し、non-NULLデータがある場合のみ
+    fukusho_df = _prepare_fukusho_df(df)
+    if fukusho_df is not None and len(fukusho_df) > 0:
+        fukusho_result = calc_corrected_return_rate(
+            fukusho_df, odds_col="fukusho_odds",
+            hit_flag_col="fukusho_is_hit",
+            year_col=year_col, is_fukusho=True,
+        )
     else:
         fukusho_result = _empty_roi_result()
 
@@ -330,55 +361,45 @@ def generate_surface2_report(
     # ---- 6. 複勝 交互作用テーブル ----
     lines.append("## 4. セグメント×ビン テーブル（複勝）")
     lines.append("")
-    if "fukusho_odds" in df_work.columns and df_work["fukusho_odds"].notna().sum() > 0:
-        # 複勝用のis_hitカラム準備
-        df_fukusho = df_work.copy()
-        if "fukusho_is_hit" not in df_fukusho.columns:
-            if "kakutei_chakujun" in df_fukusho.columns:
-                df_fukusho["fukusho_is_hit"] = (
-                    pd.to_numeric(df_fukusho["kakutei_chakujun"], errors="coerce") <= 3
-                ).astype(int)
-            else:
-                lines.append("複勝判定カラム（kakutei_chakujun）なし。スキップ。")
-                lines.append("")
-                df_fukusho = None
-        if df_fukusho is not None:
-            fukusho_global = calc_corrected_return_rate(
-                df_fukusho, odds_col="fukusho_odds",
-                hit_flag_col="fukusho_is_hit", is_fukusho=True,
+    df_fukusho = _prepare_fukusho_df(df_work)
+    if df_fukusho is not None:
+        fukusho_global = calc_corrected_return_rate(
+            df_fukusho, odds_col="fukusho_odds",
+            hit_flag_col="fukusho_is_hit", is_fukusho=True,
+        )
+        fukusho_result = run_interaction_analysis(
+            df=df_fukusho,
+            factor_col=bin_col,
+            segment_col="surface_type",
+            global_rate=fukusho_global["corrected_return_rate"],
+            factor_name=factor.name,
+            segment_name="芝/ダート（複勝）",
+            min_samples=30,
+        )
+        lines.append(f"- グローバル複勝回収率: {fukusho_global['corrected_return_rate']:.2f}%")
+        lines.append(f"- 複勝データソース: jvd_hr（払戻テーブル）からUNPIVOT")
+        lines.append(f"- エッジセル数（複勝）: {fukusho_result.n_edge_cells}")
+        lines.append("")
+        lines.append("| ビン | 芝/ダ | N | 複勝的中率(%) | 複勝補正回収率(%) | ベイズ推定(%) | 95%CI下限 | 95%CI上限 | 得点 | エッジ |")
+        lines.append("|------|------|---|------------|----------------|------------|---------|---------|------|--------|")
+        sorted_fk = sorted(fukusho_result.cells,
+                           key=lambda c: c.bayes_estimate.score, reverse=True)
+        for cell in sorted_fk:
+            b = cell.bayes_estimate
+            edge_flag = "**YES**" if cell.is_edge else "No"
+            lines.append(
+                f"| {cell.factor_value} "
+                f"| {cell.segment_value} "
+                f"| {cell.n_samples:,} "
+                f"| {cell.hit_rate:.2f} "
+                f"| {cell.observed_rate:.2f} "
+                f"| {b.estimated_rate:.2f} "
+                f"| {b.ci_lower:.2f} "
+                f"| {b.ci_upper:.2f} "
+                f"| {b.score:.2f} "
+                f"| {edge_flag} |"
             )
-            fukusho_result = run_interaction_analysis(
-                df=df_fukusho,
-                factor_col=bin_col,
-                segment_col="surface_type",
-                global_rate=fukusho_global["corrected_return_rate"],
-                factor_name=factor.name,
-                segment_name="芝/ダート（複勝）",
-                min_samples=30,
-            )
-            lines.append(f"- グローバル複勝回収率: {fukusho_global['corrected_return_rate']:.2f}%")
-            lines.append(f"- エッジセル数（複勝）: {fukusho_result.n_edge_cells}")
-            lines.append("")
-            lines.append("| ビン | 芝/ダ | N | 複勝的中率(%) | 複勝補正回収率(%) | ベイズ推定(%) | 95%CI下限 | 95%CI上限 | 得点 | エッジ |")
-            lines.append("|------|------|---|------------|----------------|------------|---------|---------|------|--------|")
-            sorted_fk = sorted(fukusho_result.cells,
-                               key=lambda c: c.bayes_estimate.score, reverse=True)
-            for cell in sorted_fk:
-                b = cell.bayes_estimate
-                edge_flag = "**YES**" if cell.is_edge else "No"
-                lines.append(
-                    f"| {cell.factor_value} "
-                    f"| {cell.segment_value} "
-                    f"| {cell.n_samples:,} "
-                    f"| {cell.hit_rate:.2f} "
-                    f"| {cell.observed_rate:.2f} "
-                    f"| {b.estimated_rate:.2f} "
-                    f"| {b.ci_lower:.2f} "
-                    f"| {b.ci_upper:.2f} "
-                    f"| {b.score:.2f} "
-                    f"| {edge_flag} |"
-                )
-            lines.append("")
+        lines.append("")
     else:
         lines.append("複勝オッズデータなし。単勝のみで分析。")
         lines.append("")
@@ -793,57 +814,48 @@ def generate_global_report(
     # ---- 4. 複勝ビン別ROI ----
     lines.append("## 4. ビン別ROI（複勝）")
     lines.append("")
-    if "fukusho_odds" in df_work.columns and df_work["fukusho_odds"].notna().sum() > 0:
-        df_fukusho = df_work.copy()
-        if "fukusho_is_hit" not in df_fukusho.columns:
-            if "kakutei_chakujun" in df_fukusho.columns:
-                df_fukusho["fukusho_is_hit"] = (
-                    pd.to_numeric(df_fukusho["kakutei_chakujun"], errors="coerce") <= 3
-                ).astype(int)
+    df_fukusho = _prepare_fukusho_df(df_work)
+    if df_fukusho is not None:
+        fukusho_global = calc_corrected_return_rate(
+            df_fukusho, odds_col="fukusho_odds",
+            hit_flag_col="fukusho_is_hit", is_fukusho=True,
+        )
+        fukusho_by_bin = calc_return_rate_by_bins(
+            df_fukusho, bin_col=bin_col,
+            odds_col="fukusho_odds",
+            hit_flag_col="fukusho_is_hit",
+            is_fukusho=True,
+        )
+        lines.append(f"- グローバル複勝回収率: {fukusho_global['corrected_return_rate']:.2f}%")
+        lines.append(f"- 複勝データソース: jvd_hr（払戻テーブル）からUNPIVOT")
+        lines.append("")
 
-        if "fukusho_is_hit" in df_fukusho.columns:
-            fukusho_global = calc_corrected_return_rate(
-                df_fukusho, odds_col="fukusho_odds",
-                hit_flag_col="fukusho_is_hit", is_fukusho=True,
-            )
-            fukusho_by_bin = calc_return_rate_by_bins(
-                df_fukusho, bin_col=bin_col,
-                odds_col="fukusho_odds",
-                hit_flag_col="fukusho_is_hit",
-                is_fukusho=True,
-            )
-            lines.append(f"- グローバル複勝回収率: {fukusho_global['corrected_return_rate']:.2f}%")
-            lines.append("")
+        if not fukusho_by_bin.empty:
+            lines.append("| ビン/カテゴリ | N | 複勝的中率(%) | 複勝補正回収率(%) | ベイズ推定(%) | 95%CI下限 | 95%CI上限 | 得点 | エッジ |")
+            lines.append("|-------------|---|------------|----------------|------------|---------|---------|------|--------|")
 
-            if not fukusho_by_bin.empty:
-                lines.append("| ビン/カテゴリ | N | 複勝的中率(%) | 複勝補正回収率(%) | ベイズ推定(%) | 95%CI下限 | 95%CI上限 | 得点 | エッジ |")
-                lines.append("|-------------|---|------------|----------------|------------|---------|---------|------|--------|")
+            for _, row in fukusho_by_bin.iterrows():
+                bin_val = str(row["bin_value"])
+                bayes = hierarchical_bayes_estimate(
+                    observed_rate=row["corrected_return_rate"],
+                    n_samples=row["n_samples"],
+                    prior_rate=fukusho_global["corrected_return_rate"],
+                )
+                is_edge = bayes.ci_lower > BASELINE_RATE
+                edge_flag = "**YES**" if is_edge else "No"
 
-                for _, row in fukusho_by_bin.iterrows():
-                    bin_val = str(row["bin_value"])
-                    bayes = hierarchical_bayes_estimate(
-                        observed_rate=row["corrected_return_rate"],
-                        n_samples=row["n_samples"],
-                        prior_rate=fukusho_global["corrected_return_rate"],
-                    )
-                    is_edge = bayes.ci_lower > BASELINE_RATE
-                    edge_flag = "**YES**" if is_edge else "No"
-
-                    lines.append(
-                        f"| {bin_val} "
-                        f"| {int(row['n_samples']):,} "
-                        f"| {row['hit_rate']:.2f} "
-                        f"| {row['corrected_return_rate']:.2f} "
-                        f"| {bayes.estimated_rate:.2f} "
-                        f"| {bayes.ci_lower:.2f} "
-                        f"| {bayes.ci_upper:.2f} "
-                        f"| {bayes.score:.2f} "
-                        f"| {edge_flag} |"
-                    )
-            lines.append("")
-        else:
-            lines.append("複勝判定カラムなし。スキップ。")
-            lines.append("")
+                lines.append(
+                    f"| {bin_val} "
+                    f"| {int(row['n_samples']):,} "
+                    f"| {row['hit_rate']:.2f} "
+                    f"| {row['corrected_return_rate']:.2f} "
+                    f"| {bayes.estimated_rate:.2f} "
+                    f"| {bayes.ci_lower:.2f} "
+                    f"| {bayes.ci_upper:.2f} "
+                    f"| {bayes.score:.2f} "
+                    f"| {edge_flag} |"
+                )
+        lines.append("")
     else:
         lines.append("複勝オッズデータなし。単勝のみで分析。")
         lines.append("")

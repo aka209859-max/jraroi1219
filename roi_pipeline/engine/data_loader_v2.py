@@ -5,6 +5,11 @@ PC-KEIBAのパースずれ問題を回避した jrd_kyi_fixed / jrd_cyb_fixed /
 jrd_bac_fixed / jrd_joa_fixed テーブルを使い、8byte JRDBレースキー
 ベースの確定的JOINを実行する。
 
+複勝オッズ: jvd_hr（払戻テーブル）から馬番ベースで逆算取得。
+  jvd_se には fukusho_odds カラムが存在しないため、
+  jvd_hr.haraimodoshi_fukusho_{1-5}{a,b} を UNPIVOT して
+  馬番マッチングで結合する。
+
 期待マッチ率: 95-100%（旧方式の42%から劇的改善）
 
 使い分け:
@@ -24,6 +29,40 @@ from roi_pipeline.engine.data_loader import safe_to_numeric, convert_numeric_col
 # jvd_seにはNAR（地方競馬）データが混在しているが、JRDBはJRAのみ
 # =============================================================================
 JRA_KEIBAJO_CODES = "('01','02','03','04','05','06','07','08','09','10')"
+
+# =============================================================================
+# jvd_hr（払戻テーブル）から複勝オッズをUNPIVOTするSQL
+# haraimodoshi_fukusho_Xa = 馬番, _Xb = 払戻金額(100円あたり), _Xc = 人気
+# 例: 馬番 '14', 金額 '000000230' → オッズ 2.3 (= 230 / 100)
+# 最大5着分 (X=1..5) を UNION ALL で1テーブルに展開
+# =============================================================================
+_FUKUSHO_UNPIVOT_TEMPLATE = """
+    SELECT
+        hr.keibajo_code,
+        hr.kaisai_nen,
+        hr.kaisai_tsukihi,
+        hr.kaisai_kai,
+        hr.kaisai_nichime,
+        hr.race_bango,
+        TRIM(hr.haraimodoshi_fukusho_{n}a) AS umaban,
+        CAST(
+            NULLIF(TRIM(hr.haraimodoshi_fukusho_{n}b), '') AS NUMERIC
+        ) / 100.0 AS fukusho_odds
+    FROM jvd_hr AS hr
+    WHERE TRIM(hr.haraimodoshi_fukusho_{n}a) != ''
+      AND TRIM(hr.haraimodoshi_fukusho_{n}a) != '00'
+      AND TRIM(hr.haraimodoshi_fukusho_{n}b) != ''
+      AND TRIM(hr.haraimodoshi_fukusho_{n}b) != '000000000'
+"""
+
+
+def _build_fukusho_unpivot_cte() -> str:
+    """jvd_hr から複勝オッズを UNPIVOT する CTE SQL を生成する。"""
+    unions = []
+    for i in range(1, 6):  # 1着〜5着分
+        unions.append(_FUKUSHO_UNPIVOT_TEMPLATE.format(n=i))
+    return "    UNION ALL\n".join(unions)
+
 
 # =============================================================================
 # JRA-VAN → JRDB 8byte レースキー合成SQL式
@@ -69,6 +108,11 @@ def load_base_race_data_v2(
     JOINキー: JRA-VAN側から8byte JRDBレースキーを合成し、
     jrd_*_fixed.jrdb_race_key8 と直接マッチング。
     
+    複勝オッズ: jvd_hr（払戻テーブル）から UNPIVOT して取得。
+    jvd_se には fukusho_odds カラムが存在しないため、
+    jvd_hr.haraimodoshi_fukusho_{1-5}b / 100.0 でオッズに変換し、
+    馬番ベースで結合する。
+    
     ■ JOIN方式（v2 — 8byte race_key ベース）:
       JRA-VAN: keibajo_code(2) + year_last2(2) + kai(1) + hex(nichime)(1) + race(2)
       JRDB:    jrdb_race_key8 カラム（パーサーが正確に生成）
@@ -85,9 +129,15 @@ def load_base_race_data_v2(
         config: DB接続設定
     
     Returns:
-        結合済みDataFrame
+        結合済みDataFrame（fukusho_odds カラム含む）
     """
+    # 複勝オッズ UNPIVOT CTE
+    fukusho_cte = _build_fukusho_unpivot_cte()
+
     query = f"""
+    WITH fukusho_pay AS (
+        {fukusho_cte}
+    )
     SELECT
         se.*,
         ra.babajotai_code_shiba,
@@ -115,6 +165,12 @@ def load_base_race_data_v2(
         -- BAC (正しくパースされたデータ)
         bac.juryo_shubetsu_code,
         bac.kyori AS bac_kyori,
+        -- =================================================================
+        -- 複勝オッズ: jvd_hr（払戻テーブル）からUNPIVOT結合
+        -- haraimodoshi_fukusho_Xb / 100.0 でオッズ値に変換
+        -- 複勝的中馬（3着以内）のみ値あり、それ以外はNULL
+        -- =================================================================
+        fp.fukusho_odds,
         -- 日付
         (se.kaisai_nen || se.kaisai_tsukihi) AS race_date,
         -- 合成レースキー（デバッグ用）
@@ -128,6 +184,18 @@ def load_base_race_data_v2(
         AND se.kaisai_kai = ra.kaisai_kai
         AND se.kaisai_nichime = ra.kaisai_nichime
         AND se.race_bango = ra.race_bango
+    -- =================================================================
+    -- 複勝オッズJOIN: jvd_hr UNPIVOT → レース×馬番で結合
+    -- 複勝的中馬のみ行が存在する → LEFT JOINで非的中馬はNULL
+    -- =================================================================
+    LEFT JOIN fukusho_pay AS fp
+        ON se.keibajo_code = fp.keibajo_code
+        AND se.kaisai_nen = fp.kaisai_nen
+        AND se.kaisai_tsukihi = fp.kaisai_tsukihi
+        AND se.kaisai_kai = fp.kaisai_kai
+        AND se.kaisai_nichime = fp.kaisai_nichime
+        AND se.race_bango = fp.race_bango
+        AND TRIM(se.umaban) = fp.umaban
     -- =====================================================================
     -- JRDB JOIN v2: 8byte race_key ベース（PC-KEIBAバイパス）
     -- JRA-VAN側から合成した8byteキーと、パーサーが生成した正確なキーで結合
@@ -228,6 +296,42 @@ def diagnose_v2_join(
                 
             except Exception as e:
                 lines.append(f"  ❌ {table}: ERROR - {e}")
+
+        # --- 複勝オッズJOIN診断 ---
+        lines.append("")
+        lines.append("  --- 複勝オッズ (jvd_hr UNPIVOT) ---")
+        try:
+            fukusho_cte = _build_fukusho_unpivot_cte()
+            fq = f"""
+                WITH fukusho_pay AS (
+                    {fukusho_cte}
+                )
+                SELECT
+                    COUNT(*) AS total,
+                    COUNT(fp.fukusho_odds) AS matched,
+                    ROUND(COUNT(fp.fukusho_odds)::NUMERIC / NULLIF(COUNT(*), 0) * 100, 2) AS pct
+                FROM jvd_se se
+                LEFT JOIN fukusho_pay fp
+                    ON se.keibajo_code = fp.keibajo_code
+                    AND se.kaisai_nen = fp.kaisai_nen
+                    AND se.kaisai_tsukihi = fp.kaisai_tsukihi
+                    AND se.kaisai_kai = fp.kaisai_kai
+                    AND se.kaisai_nichime = fp.kaisai_nichime
+                    AND se.race_bango = fp.race_bango
+                    AND TRIM(se.umaban) = fp.umaban
+                WHERE (se.kaisai_nen || se.kaisai_tsukihi) >= '{date_from}'
+                    AND (se.kaisai_nen || se.kaisai_tsukihi) <= '{date_to}'
+                    AND TRIM(se.keibajo_code) IN {JRA_KEIBAJO_CODES}
+            """
+            df_f = pd.read_sql_query(fq, conn)
+            total = int(df_f["total"].iloc[0])
+            matched = int(df_f["matched"].iloc[0])
+            pct = float(df_f["pct"].iloc[0])
+            status = "✅" if pct >= 15 else "⚠️" if pct >= 5 else "❌"
+            lines.append(f"  {status} fukusho_odds (jvd_hr): {matched:,}/{total:,} ({pct}%)")
+            lines.append(f"      → 期待値: 約20-25% (3着以内の馬のみ値あり)")
+        except Exception as e:
+            lines.append(f"  ❌ fukusho_odds: ERROR - {e}")
         
         # fixedテーブル行数
         lines.append("")
@@ -239,6 +343,14 @@ def diagnose_v2_join(
                 lines.append(f"    {table}: {cnt:,}")
             except Exception as e:
                 lines.append(f"    {table}: ERROR - {e}")
+
+        # jvd_hr行数
+        try:
+            df = pd.read_sql_query("SELECT COUNT(*) AS cnt FROM jvd_hr", conn)
+            cnt = int(df["cnt"].iloc[0])
+            lines.append(f"    jvd_hr: {cnt:,}")
+        except Exception as e:
+            lines.append(f"    jvd_hr: ERROR - {e}")
         
     finally:
         conn.close()

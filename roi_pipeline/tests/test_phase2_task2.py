@@ -21,6 +21,7 @@ from roi_pipeline.reports.generate_phase2_task2 import (
     generate_course27_report,
     generate_global_report,
     _compute_dual_roi,
+    _prepare_fukusho_df,
     _extract_phase1_edge_bins,
     _get_factor_key,
     _get_segment_suffix,
@@ -92,17 +93,24 @@ class TestDualRoiComputation:
 
     @pytest.fixture
     def sample_data_with_fukusho(self) -> pd.DataFrame:
-        """単勝＋複勝テストデータ"""
+        """単勝＋複勝テストデータ（jvd_hrパターン: 的中馬のみオッズあり）"""
         np.random.seed(42)
         n = 1000
+        kakutei = np.random.choice(
+            ["1", "2", "3", "4", "5", "6", "7", "8"],
+            size=n, p=[0.08, 0.08, 0.08, 0.10, 0.10, 0.15, 0.20, 0.21],
+        )
+        # jvd_hrパターン: 3着以内の馬のみ fukusho_odds が non-NULL
+        fukusho_odds = np.where(
+            np.isin(kakutei, ["1", "2", "3"]),
+            np.random.uniform(1.2, 8.0, size=n).round(1),
+            np.nan,
+        )
         return pd.DataFrame({
             "tansho_odds": np.random.uniform(2.0, 20.0, size=n).round(1),
-            "fukusho_odds": np.random.uniform(1.2, 8.0, size=n).round(1),
-            "is_hit": np.random.choice([0, 1], size=n, p=[0.92, 0.08]),
-            "kakutei_chakujun": np.random.choice(
-                ["1", "2", "3", "4", "5", "6", "7", "8"],
-                size=n, p=[0.08, 0.08, 0.08, 0.10, 0.10, 0.15, 0.20, 0.21],
-            ),
+            "fukusho_odds": fukusho_odds,
+            "is_hit": (kakutei == "1").astype(int),
+            "kakutei_chakujun": kakutei,
             "race_year": np.random.choice(["2020", "2021", "2022"], size=n),
         })
 
@@ -128,6 +136,92 @@ class TestDualRoiComputation:
         rate = result["tansho"]["corrected_return_rate"]
         # ランダムデータだが0-200%の範囲内にはあるはず
         assert 0.0 <= rate <= 200.0
+
+
+class TestPrepareFukushoDf:
+    """_prepare_fukusho_df のテスト"""
+
+    def test_no_fukusho_column_returns_none(self) -> None:
+        """fukusho_oddsカラムがない場合はNoneを返す"""
+        df = pd.DataFrame({"tansho_odds": [5.0, 10.0]})
+        result = _prepare_fukusho_df(df)
+        assert result is None
+
+    def test_all_null_fukusho_returns_none(self) -> None:
+        """fukusho_oddsが全NULLの場合はNoneを返す"""
+        df = pd.DataFrame({
+            "tansho_odds": [5.0, 10.0, 15.0],
+            "fukusho_odds": [np.nan, np.nan, np.nan],
+        })
+        result = _prepare_fukusho_df(df)
+        assert result is None
+
+    def test_hit_flag_from_non_null_odds(self) -> None:
+        """non-NULL行にfukusho_is_hit=1、NULL行に0が設定されること"""
+        df = pd.DataFrame({
+            "tansho_odds": [5.0, 10.0, 15.0, 20.0],
+            "fukusho_odds": [2.3, np.nan, 1.5, np.nan],
+        })
+        result = _prepare_fukusho_df(df)
+        assert result is not None
+        assert list(result["fukusho_is_hit"]) == [1, 0, 1, 0]
+
+    def test_non_hit_odds_estimated_from_tansho(self) -> None:
+        """非的中馬のfukusho_oddsがtansho_odds*0.35で推定されること"""
+        df = pd.DataFrame({
+            "tansho_odds": [5.0, 10.0, 20.0],
+            "fukusho_odds": [1.5, np.nan, np.nan],  # 1行は的中(non-NULL)
+        })
+        result = _prepare_fukusho_df(df)
+        assert result is not None
+        # 非的中馬: 10.0 * 0.35 = 3.5, 20.0 * 0.35 = 7.0
+        assert abs(result["fukusho_odds"].iloc[1] - 3.5) < 0.01
+        assert abs(result["fukusho_odds"].iloc[2] - 7.0) < 0.01
+        # 的中馬: 元のオッズ保持
+        assert abs(result["fukusho_odds"].iloc[0] - 1.5) < 0.01
+
+    def test_hit_odds_preserved(self) -> None:
+        """的中馬のfukusho_oddsが元の値のまま保持されること"""
+        df = pd.DataFrame({
+            "tansho_odds": [10.0, 20.0],
+            "fukusho_odds": [2.3, np.nan],
+        })
+        result = _prepare_fukusho_df(df)
+        assert result is not None
+        assert abs(result["fukusho_odds"].iloc[0] - 2.3) < 0.01
+
+    def test_minimum_odds_clipped(self) -> None:
+        """推定オッズが最低1.0にクリップされること"""
+        df = pd.DataFrame({
+            "tansho_odds": [1.0, 5.0],  # 1.0 * 0.35 = 0.35 → clipped to 1.0
+            "fukusho_odds": [np.nan, 2.0],  # 1行は的中(non-NULL)が必要
+        })
+        result = _prepare_fukusho_df(df)
+        assert result is not None
+        assert result["fukusho_odds"].iloc[0] >= 1.0
+
+    def test_jvd_hr_pattern_full(self) -> None:
+        """jvd_hrパターン: 3着以内のみオッズありのデータが正しく処理されること"""
+        np.random.seed(42)
+        n = 200
+        kakutei = np.random.choice(range(1, 19), size=n)
+        fukusho_odds = np.where(
+            kakutei <= 3,
+            np.random.uniform(1.2, 8.0, size=n).round(1),
+            np.nan,
+        )
+        df = pd.DataFrame({
+            "tansho_odds": np.random.uniform(2.0, 30.0, size=n).round(1),
+            "fukusho_odds": fukusho_odds.astype(float),
+            "kakutei_chakujun": kakutei,
+        })
+        result = _prepare_fukusho_df(df)
+        assert result is not None
+        # 全行にfukusho_oddsが埋まっている
+        assert result["fukusho_odds"].notna().all()
+        # 的中率は約3/18 ≈ 16.7%付近
+        hit_rate = result["fukusho_is_hit"].mean()
+        assert 0.05 < hit_rate < 0.40  # 広めに許容
 
 
 class TestPhase1EdgeExtraction:
@@ -324,3 +418,30 @@ class TestQualityGate:
         task2_ids = {f[0] for f in TASK2_FACTORS}
         assert task1_ids.isdisjoint(task2_ids), \
             f"重複: {task1_ids & task2_ids}"
+
+
+class TestFukushoCteGeneration:
+    """data_loader_v2 の複勝CTE生成テスト"""
+
+    def test_cte_contains_5_unions(self) -> None:
+        """CTE SQLが5つのUNION ALLで構成されること"""
+        from roi_pipeline.engine.data_loader_v2 import _build_fukusho_unpivot_cte
+        cte = _build_fukusho_unpivot_cte()
+        # 5つのSELECT文がUNION ALLで結合
+        assert cte.count("UNION ALL") == 4  # 5 selects → 4 unions
+        for n in range(1, 6):
+            assert f"haraimodoshi_fukusho_{n}a" in cte
+            assert f"haraimodoshi_fukusho_{n}b" in cte
+
+    def test_cte_filters_empty_umaban(self) -> None:
+        """CTE SQLが空馬番と0払戻をフィルタしていること"""
+        from roi_pipeline.engine.data_loader_v2 import _build_fukusho_unpivot_cte
+        cte = _build_fukusho_unpivot_cte()
+        assert "'00'" in cte  # 馬番00除外
+        assert "'000000000'" in cte  # 0円払戻除外
+
+    def test_cte_calculates_odds_from_payout(self) -> None:
+        """CTE SQLが払戻金額 / 100.0 でオッズに変換していること"""
+        from roi_pipeline.engine.data_loader_v2 import _build_fukusho_unpivot_cte
+        cte = _build_fukusho_unpivot_cte()
+        assert "/ 100.0" in cte
