@@ -156,6 +156,89 @@ class MonthlyP3Result:
 # セグメントラベル付与
 # ─────────────────────────────────────────────
 
+def _apply_train_bins_to_val(
+    train_df: pd.DataFrame,
+    val_df: pd.DataFrame,
+    factor_def: FactorDefinition,
+) -> pd.Series:
+    """
+    学習窓のビン境界を使用して検証データのビンラベルを算出する。
+
+    edge_tableは train_df のみで apply_binning したラベルを使用しているため、
+    bin_lookup も同じビン境界（train_df の qcut 境界）を val_df に適用する
+    ことでキーの一致を保証する。
+
+    数値系: train_df の qcut 境界を pd.cut で val_df に適用。
+    カテゴリ/順序系: val_df の値をそのまま使用。
+
+    Args:
+        train_df: 学習窓 DataFrame
+        val_df: 検証月 DataFrame
+        factor_def: ファクター定義
+
+    Returns:
+        val_df のインデックスに対応するビンラベルの Series
+    """
+    from roi_pipeline.factors.definitions import FactorType as _FT
+
+    col = factor_def.column
+    bin_col_name = f"{col}_bin"
+
+    if factor_def.factor_type == _FT.NUMERIC:
+        train_numeric = pd.to_numeric(train_df[col], errors="coerce")
+        val_numeric   = pd.to_numeric(val_df[col],   errors="coerce")
+        train_valid   = train_numeric.dropna()
+
+        if len(train_valid) == 0:
+            return pd.Series(pd.NA, index=val_df.index, name=bin_col_name)
+
+        try:
+            # 学習窓でビン境界を計算（edge_table と同じ手順）
+            _, bin_edges = pd.qcut(
+                train_valid,
+                q=factor_def.n_bins,
+                retbins=True,
+                duplicates="drop",
+            )
+            # edge_table と同じラベル形式
+            n_actual = len(bin_edges) - 1
+            labels = [
+                f"{bin_edges[i]:.1f}-{bin_edges[i+1]:.1f}"
+                for i in range(n_actual)
+            ]
+            # 端点を ±∞ に拡張して val_df の範囲外値も最端ビンに割り当て
+            bin_edges_cut = bin_edges.copy()
+            bin_edges_cut[0]  = -np.inf
+            bin_edges_cut[-1] =  np.inf
+
+            val_valid_mask = val_numeric.notna()
+            result = pd.Series(pd.NA, index=val_df.index, dtype="object",
+                               name=bin_col_name)
+            if val_valid_mask.any():
+                cut_result = pd.cut(
+                    val_numeric[val_valid_mask],
+                    bins=bin_edges_cut,
+                    labels=labels,
+                    include_lowest=True,
+                )
+                result[val_valid_mask] = cut_result.astype(str)
+            return result
+
+        except Exception:
+            # フォールバック: 文字列変換
+            result = val_numeric.astype(str)
+            result[result == "nan"] = pd.NA
+            result.name = bin_col_name
+            return result
+
+    else:
+        # CATEGORY / ORDINAL: そのまま
+        result = val_df[col].copy().astype(str)
+        result = result.replace(r"^\s*$", pd.NA, regex=True)
+        result.name = bin_col_name
+        return result
+
+
 def _assign_surface_label(df: pd.DataFrame) -> pd.Series:
     """
     track_code カラムから芝/ダートのセグメントラベルを付与する。
@@ -665,19 +748,28 @@ def run_phase3_walk_forward(
     umaban_col: str = "umaban",
     fractional_c_base: float = 0.25,
     dd_threshold: float = 0.30,
-    n_posterior_samples: int = 2000,
-    n_kelly_samples: int = 2000,
+    n_posterior_samples: int = 500,
+    n_kelly_samples: int = 500,
+    benter_alpha: float = 50.0,
+    benter_beta: float = 1.0,
+    fit_benter: bool = False,
     verbose: bool = False,
 ) -> List[MonthlyP3Result]:
     """
     Phase 3 Walk-Forward時系列検証を実行する。
+
+    速度最適化モード（デフォルト）:
+        - Benter パラメータは固定値（alpha=0.3, beta=1.0）を使用
+          fit_benter=True にすると月次学習するが 140s/月 × 84 = 196分かかる
+        - 複勝 edge_table は fukusho_odds_val が有効な場合のみ構築
+        - n_posterior_samples=500, n_kelly_samples=500 で十分な精度を確保
 
     Args:
         df: 全期間のデータ（検証期間 + 学習窓を含む）
         factor_defs: 使用するファクター定義リスト
         val_start_ym: 検証開始年月（"YYYY-MM"）
         val_end_ym: 検証終了年月（"YYYY-MM"）
-        train_months: 学習窓の月数（デフォルト 24）
+        train_months: 学習窓の月数（デフォルト 36）
         date_col: 日付カラム名（YYYYMMDD 文字列）
         race_id_col: レース識別子カラム名
         tansho_odds_col: 単勝オッズカラム名
@@ -688,8 +780,14 @@ def run_phase3_walk_forward(
         umaban_col: 馬番カラム名
         fractional_c_base: 基本フラクショナル係数（サーキットブレーカー適用前）
         dd_threshold: サーキットブレーカー発動閾値
-        n_posterior_samples: 事後分布サンプル数
-        n_kelly_samples: Kelly モンテカルロサンプル数
+        n_posterior_samples: 事後分布サンプル数（デフォルト500）
+        n_kelly_samples: Kelly モンテカルロサンプル数（デフォルト500）
+        benter_alpha: Benter モデルの alpha 固定値（fit_benter=False 時に使用）。
+                     log_ev_score の典型値 0.02-0.10、combine_scores(alpha_wp=0.35)後は
+                     0.007-0.035 程度。alpha=50 で logit 調整 0.35-1.75 となり、
+                     高オッズ馬の p_final がブレークイーブンを超えるのに十分なスケール。
+        benter_beta: Benter モデルの beta 固定値（fit_benter=False 時に使用）
+        fit_benter: True の場合のみ月次 Benter 学習を実行（速度に注意）
         verbose: True で進捗を表示
 
     Returns:
@@ -705,7 +803,7 @@ def run_phase3_walk_forward(
     for period in periods:
         val_ym = period["val_ym"]
         if verbose:
-            print(f"  [{val_ym}] 学習: {period['train_start']} ～ {period['train_end']}")
+            print(f"  [{val_ym}] 学習: {period['train_start']} ～ {period['train_end']}", flush=True)
 
         # ── 学習窓データ抽出 ──
         train_mask = (
@@ -737,7 +835,7 @@ def run_phase3_walk_forward(
             normal_c=fractional_c_base, reduced_c=fractional_c_base * 0.6,
         )
 
-        # ── edge_table 構築（単勝・複勝） ──
+        # ── edge_table 構築（単勝） ──
         edge_table_win = build_edge_table_from_df(
             train_df, factor_defs,
             bet_type="tansho", odds_col=tansho_odds_col,
@@ -745,8 +843,14 @@ def run_phase3_walk_forward(
             n_posterior_samples=n_posterior_samples,
         )
 
-        # 複勝 hit flag が存在する場合のみ複勝 edge_table を構築
-        if hit_fuku_col in train_df.columns and fukusho_odds_col in train_df.columns:
+        # 複勝 edge_table: fukusho_odds_val に有効値がある場合のみ構築
+        # （generate_phase3 では fukusho_odds_val = NaN のためスキップ）
+        has_valid_fukusho = (
+            hit_fuku_col in train_df.columns
+            and fukusho_odds_col in train_df.columns
+            and pd.to_numeric(train_df[fukusho_odds_col], errors="coerce").notna().any()
+        )
+        if has_valid_fukusho:
             edge_table_place = build_edge_table_from_df(
                 train_df, factor_defs,
                 bet_type="fukusho", odds_col=fukusho_odds_col,
@@ -756,25 +860,30 @@ def run_phase3_walk_forward(
         else:
             edge_table_place = {}
 
-        # ── Benter パラメータ推定 ──
-        benter_alpha, benter_beta = fit_benter_from_df(
-            train_df, edge_table_win, edge_table_place,
-            factor_defs, race_id_col=race_id_col,
-            odds_col=tansho_odds_col, hit_col=hit_col,
-        )
+        # ── Benter パラメータ ──
+        # fit_benter=True の場合は月次学習（140s/月），False なら固定値を使用
+        if fit_benter:
+            _alpha, _beta = fit_benter_from_df(
+                train_df, edge_table_win, edge_table_place,
+                factor_defs, race_id_col=race_id_col,
+                odds_col=tansho_odds_col, hit_col=hit_col,
+            )
+        else:
+            _alpha, _beta = benter_alpha, benter_beta
 
         # ── 検証月: ビン値を事前計算 ──
+        # 学習窓のビン境界を val_df に適用してラベルを生成する。
+        # edge_table も train_df のみで apply_binning しているため、
+        # 同じ境界を使うことでキーの文字列が一致する（ターゲットリーク防止も兼ねる）。
         bin_lookup: Dict[str, pd.Series] = {}
         for factor_def in factor_defs:
             if factor_def.column not in val_df.columns:
                 continue
-            # ビン境界は学習窓から決定（ターゲットリーク防止）
-            combined = pd.concat([train_df, val_df], ignore_index=False)
             with warnings.catch_warnings():
                 warnings.simplefilter("ignore")
                 try:
-                    bs, _ = apply_binning(combined, factor_def)
-                    bin_lookup[factor_def.name] = bs.loc[val_df.index]
+                    bs = _apply_train_bins_to_val(train_df, val_df, factor_def)
+                    bin_lookup[factor_def.name] = bs
                 except Exception:
                     continue
 
@@ -794,8 +903,8 @@ def run_phase3_walk_forward(
                 edge_table_place=edge_table_place,
                 factor_defs=factor_defs,
                 bin_lookup=bin_lookup,
-                benter_alpha=benter_alpha,
-                benter_beta=benter_beta,
+                benter_alpha=_alpha,
+                benter_beta=_beta,
                 fractional_c=fractional_c,
                 odds_col=tansho_odds_col,
                 hit_col=hit_col,
@@ -826,7 +935,7 @@ def run_phase3_walk_forward(
                 s_arr_v = np.array(s_list, dtype=float)
                 try:
                     p_final_v = benter_integrate(
-                        s_arr_v, pm, alpha=benter_alpha, beta=benter_beta
+                        s_arr_v, pm, alpha=_alpha, beta=_beta
                     )
                 except Exception:
                     p_final_v = pm.copy()

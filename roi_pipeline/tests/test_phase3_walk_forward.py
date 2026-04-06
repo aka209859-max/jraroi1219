@@ -198,14 +198,14 @@ class TestCircuitBreaker:
 class TestGenerateRollingPeriods:
     """_generate_rolling_periods 関数のテスト"""
 
-    def test_48_periods(self):
-        """2021-01 ～ 2024-12 → 48か月"""
-        periods = _generate_rolling_periods("2021-01", "2024-12", train_months=24)
-        assert len(periods) == 48
+    def test_84_periods(self):
+        """2019-01 ～ 2025-12 → 84か月（7年）"""
+        periods = _generate_rolling_periods("2019-01", "2025-12", train_months=36)
+        assert len(periods) == 84
 
     def test_period_structure(self):
         """各期間が必要なキーを持つ"""
-        periods = _generate_rolling_periods("2021-01", "2021-03", train_months=24)
+        periods = _generate_rolling_periods("2019-01", "2019-03", train_months=36)
         for p in periods:
             assert "train_start" in p
             assert "train_end" in p
@@ -215,7 +215,7 @@ class TestGenerateRollingPeriods:
 
     def test_no_overlap(self):
         """学習窓終了日 < 検証窓開始日（リーク防止）"""
-        periods = _generate_rolling_periods("2021-01", "2022-12", train_months=24)
+        periods = _generate_rolling_periods("2019-01", "2020-12", train_months=36)
         for p in periods:
             assert p["train_end"] < p["val_start"]
 
