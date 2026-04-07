@@ -1,0 +1,2294 @@
+table_name,column_name,ordinal_position,data_type,character_maximum_length,is_nullable,column_comment
+jrd_bac,keibajo_code,1,character varying,2,NO,
+jrd_bac,race_shikonen,2,character varying,6,NO,
+jrd_bac,kaisai_kai,3,character varying,1,NO,
+jrd_bac,kaisai_nichime,4,character varying,1,NO,
+jrd_bac,race_bango,5,character varying,2,NO,
+jrd_bac,kaisai_nen,6,character varying,4,YES,
+jrd_bac,kaisai_tsukihi,7,character varying,4,YES,
+jrd_bac,hasso_jikoku,8,character varying,4,YES,
+jrd_bac,kyori,9,character varying,4,YES,
+jrd_bac,track_code,10,character varying,3,YES,
+jrd_bac,kyoso_shubetsu_code,11,character varying,2,YES,
+jrd_bac,kyoso_joken_code,12,character varying,2,YES,
+jrd_bac,kyoso_kigo_code,13,character varying,3,YES,
+jrd_bac,juryo_shubetsu_code,14,character varying,1,YES,
+jrd_bac,grade_code,15,character varying,1,YES,
+jrd_bac,kyosomei,16,character varying,50,YES,
+jrd_bac,jusho_kaiji,17,character varying,8,YES,
+jrd_bac,toroku_tosu,18,character varying,2,YES,
+jrd_bac,course_kubun,19,character varying,1,YES,
+jrd_bac,kaisai_kubun,20,character varying,1,YES,
+jrd_bac,kyosomei_ryakusho_4,21,character varying,8,YES,
+jrd_bac,kyosomei_ryakusho_9,22,character varying,18,YES,
+jrd_bac,data_kubun,23,character varying,1,YES,
+jrd_bac,honshokin,24,character varying,25,YES,
+jrd_bac,fukashokin,25,character varying,10,YES,
+jrd_bac,baken_hatsubai_flag,26,character varying,16,YES,
+jrd_bac,win5_flag,27,character varying,1,YES,
+jrd_bac,yobi_1,28,character varying,5,YES,
+jrd_bac_fixed,jrdb_race_key8,1,character varying,255,NO,
+jrd_bac_fixed,race_shikonen,2,character varying,255,YES,
+jrd_bac_fixed,keibajo_code,3,character varying,255,YES,
+jrd_bac_fixed,kaisai_kai,4,character varying,255,YES,
+jrd_bac_fixed,kaisai_nichime,5,character varying,255,YES,
+jrd_bac_fixed,kaisai_nen_2,6,character varying,255,YES,
+jrd_bac_fixed,race_bango,7,character varying,255,YES,
+jrd_bac_fixed,basho_code,8,character varying,255,YES,
+jrd_bac_fixed,year,9,character varying,255,YES,
+jrd_bac_fixed,kai,10,character varying,255,YES,
+jrd_bac_fixed,nichi,11,character varying,255,YES,
+jrd_bac_fixed,race_num,12,character varying,255,YES,
+jrd_bac_fixed,nengappi,13,character varying,255,YES,
+jrd_bac_fixed,kyori,14,character varying,255,YES,
+jrd_bac_fixed,shiba_da_shogai_code,15,character varying,255,YES,
+jrd_bac_fixed,migi_hidari,16,character varying,255,YES,
+jrd_bac_fixed,uchi_soto,17,character varying,255,YES,
+jrd_bac_fixed,shubetsu,18,character varying,255,YES,
+jrd_bac_fixed,jouken,19,character varying,255,YES,
+jrd_bac_fixed,juryo_shubetsu_code,20,character varying,255,YES,
+jrd_bac_fixed,grade,21,character varying,255,YES,
+jrd_bac_fixed,tosu,22,character varying,255,YES,
+jrd_bac_fixed,course,23,character varying,255,YES,
+jrd_bac_fixed,kaisai_kubun,24,character varying,255,YES,
+jrd_cha,keibajo_code,1,character varying,2,NO,���n��R�[�h
+jrd_cha,race_shikonen,2,character varying,6,NO,���[�X�{�s�N
+jrd_cha,kaisai_kai,3,character varying,1,NO,�J�É�[��N��]
+jrd_cha,kaisai_nichime,4,character varying,1,NO,�J�Ó���[N����]
+jrd_cha,race_bango,5,character varying,2,NO,���[�X�ԍ�
+jrd_cha,umaban,6,character varying,2,NO,�n��
+jrd_cha,yobi_1,7,character varying,2,YES,�j��
+jrd_cha,chokyo_nengappi,8,character varying,8,YES,�����N����
+jrd_cha,kaisu,9,character varying,1,YES,��
+jrd_cha,chokyo_corse_code,10,character varying,2,YES,�����R�[�X�R�[�h
+jrd_cha,oikiri_shurui,11,character varying,1,YES,�ǐ؎��
+jrd_cha,oi_jotai,12,character varying,2,YES,�ǂ����
+jrd_cha,noriyaku,13,character varying,1,YES,����
+jrd_cha,chokyo_f,14,character varying,1,YES,����F
+jrd_cha,ten_f,15,character varying,3,YES,�e��F
+jrd_cha,chukan_f,16,character varying,3,YES,����F
+jrd_cha,shimai_f,17,character varying,3,YES,�I��F
+jrd_cha,ten_f_shisu,18,character varying,3,YES,�e��F�w��
+jrd_cha,chukan_f_shisu,19,character varying,3,YES,����F�w��
+jrd_cha,shimai_f_shisu,20,character varying,3,YES,�I��F�w��
+jrd_cha,oikiri_shisu,21,character varying,3,YES,�ǐ؎w��
+jrd_cha,awase_kekka,22,character varying,1,YES,��������
+jrd_cha,oikiri_shurui_aiteuma,23,character varying,1,YES,�ǐ؎��(����n)
+jrd_cha,barei,24,character varying,2,YES,�n��
+jrd_cha,class_code,25,character varying,2,YES,�N���X�R�[�h
+jrd_cha,yobi_2,26,character varying,7,YES,�\��
+jrd_cyb,keibajo_code,1,character varying,2,NO,���n��R�[�h
+jrd_cyb,race_shikonen,2,character varying,10,NO,���[�X�{�s�N
+jrd_cyb,kaisai_kai,3,character varying,1,NO,�J�É�[��N��]
+jrd_cyb,kaisai_nichime,4,character varying,1,NO,�J�Ó���[N����]
+jrd_cyb,race_bango,5,character varying,2,NO,���[�X�ԍ�
+jrd_cyb,umaban,6,character varying,2,NO,�n��
+jrd_cyb,chokyo_type,7,character varying,2,YES,�����^�C�v�R�[�h
+jrd_cyb,chokyo_corse_shubetsu,8,character varying,1,YES,�����R�[�X��ʃR�[�h
+jrd_cyb,chokyo_corse_hanro,9,character varying,2,YES,��H
+jrd_cyb,chokyo_corse_wood,10,character varying,2,YES,�E�b�h�R�[�X
+jrd_cyb,chokyo_corse_dirt,11,character varying,2,YES,�_�[�g�R�[�X
+jrd_cyb,chokyo_corse_shiba,12,character varying,2,YES,�ŃR�[�X
+jrd_cyb,chokyo_corse_pool,13,character varying,2,YES,�v�[������
+jrd_cyb,chokyo_corse_shogai,14,character varying,2,YES,��Q���K
+jrd_cyb,chokyo_corse_polytrack,15,character varying,2,YES,�|���g���b�N
+jrd_cyb,chokyo_kyori,16,character varying,1,YES,��������
+jrd_cyb,chokyo_juten,17,character varying,1,YES,�����d�_
+jrd_cyb,oikiri_shisu,18,character varying,3,YES,�ǐ؎w��
+jrd_cyb,shiage_shisu,19,character varying,3,YES,�d��w��
+jrd_cyb,chokyo_ryo_hyoka,20,character varying,1,YES,�����ʕ]��
+jrd_cyb,shiage_shisu_henka,21,character varying,1,YES,�d��w���ω�
+jrd_cyb,chokyo_comment,22,character varying,40,YES,�����R�����g
+jrd_cyb,comment_nengappi,23,character varying,8,YES,�R�����g�N����
+jrd_cyb,chokyo_hyoka,24,character varying,1,YES,�����]��
+jrd_cyb,oikiri_shisu_isshumae,25,character varying,3,YES,�ǐ؎w��(��T�O)
+jrd_cyb,oikiri_corse_isshumae,26,character varying,2,YES,�ǐ؃R�[�X(��T�O)
+jrd_cyb,yobi_1,27,character varying,3,YES,�\��
+jrd_cyb_fixed,jrdb_race_key8,1,character varying,255,NO,
+jrd_cyb_fixed,race_shikonen,2,character varying,255,YES,
+jrd_cyb_fixed,keibajo_code,3,character varying,255,YES,
+jrd_cyb_fixed,kaisai_kai,4,character varying,255,YES,
+jrd_cyb_fixed,kaisai_nichime,5,character varying,255,YES,
+jrd_cyb_fixed,kaisai_nen_2,6,character varying,255,YES,
+jrd_cyb_fixed,race_bango,7,character varying,255,YES,
+jrd_cyb_fixed,umaban,8,character varying,255,NO,
+jrd_cyb_fixed,basho_code,9,character varying,255,YES,
+jrd_cyb_fixed,year,10,character varying,255,YES,
+jrd_cyb_fixed,kai,11,character varying,255,YES,
+jrd_cyb_fixed,nichi,12,character varying,255,YES,
+jrd_cyb_fixed,race_num,13,character varying,255,YES,
+jrd_cyb_fixed,chokyo_type,14,character varying,255,YES,
+jrd_cyb_fixed,oikiri_shisu,15,character varying,255,YES,
+jrd_cyb_fixed,shiage_shisu,16,character varying,255,YES,
+jrd_cyb_fixed,chokyo_ryo_hyoka,17,character varying,255,YES,
+jrd_cyb_fixed,shiage_shisu_henka,18,character varying,255,YES,
+jrd_cyb_fixed,chokyo_hyoka,19,character varying,255,YES,
+jrd_cza,chokyoshi_code,1,character varying,5,NO,�����t�R�[�h
+jrd_cza,massho_kubun,2,character varying,1,YES,�����敪
+jrd_cza,massho_nengappi,3,character varying,8,YES,�����N����
+jrd_cza,chokyoshimei,4,character varying,12,YES,�����t��
+jrd_cza,chokyoshi_kana,5,character varying,30,YES,�����t�J�i
+jrd_cza,chokyoshimei_ryakusho,6,character varying,6,YES,�����t������
+jrd_cza,shozoku_code,7,character varying,1,YES,�����R�[�h
+jrd_cza,shozoku_chiikimei,8,character varying,4,YES,�����n�於
+jrd_cza,seinengappi,9,character varying,8,YES,���N����
+jrd_cza,menkyo_kofu_nen,10,character varying,4,YES,�Ƌ���t�N
+jrd_cza,chokyoshi_comment,11,character varying,40,YES,�����t�R�����g
+jrd_cza,comment_nyuryoku_nengappi,12,character varying,8,YES,�R�����g���͔N����
+jrd_cza,seiseki_joho_1,13,character varying,33,YES,�{�N��O�N���я��
+jrd_cza,seiseki_joho_2,14,character varying,33,YES,�{�N��O�N���я��
+jrd_cza,tsusan_heichi,15,character varying,20,YES,�ʎZ���n�����
+jrd_cza,tsusan_shogai,16,character varying,20,YES,�ʎZ��Q�����
+jrd_cza,data_sakusei_nengappi,17,character varying,8,YES,�f�[�^�쐬�N����
+jrd_cza,yobi_1,18,character varying,29,YES,�\��
+jrd_joa,keibajo_code,1,character varying,2,NO,���n��R�[�h
+jrd_joa,race_shikonen,2,character varying,10,NO,���[�X�{�s�N
+jrd_joa,kaisai_kai,3,character varying,1,NO,�J�É�[��N��]
+jrd_joa,kaisai_nichime,4,character varying,1,NO,�J�Ó���[N����]
+jrd_joa,race_bango,5,character varying,2,NO,���[�X�ԍ�
+jrd_joa,umaban,6,character varying,2,NO,�n��
+jrd_joa,ketto_toroku_bango,7,character varying,8,YES,�����o�^�ԍ�
+jrd_joa,bamei,8,character varying,36,YES,�n��
+jrd_joa,kijun_odds_tansho,9,character varying,5,YES,��I�b�Y�P��
+jrd_joa,kijun_odds_fukusho,10,character varying,5,YES,��I�b�Y����
+jrd_joa,cid_chokyo_soten,11,character varying,5,YES,CID�����f�_
+jrd_joa,cid_kyusha_soten,12,character varying,5,YES,CID�X�ɑf�_
+jrd_joa,cid_soten,13,character varying,5,YES,CID�f�_
+jrd_joa,cid,14,character varying,3,YES,CID
+jrd_joa,ls_shisu,15,character varying,5,YES,LS�w��
+jrd_joa,ls_hyoka,16,character varying,1,YES,LS�]��
+jrd_joa,em,17,character varying,1,YES,EM
+jrd_joa,kyusha_bb_shirushi,18,character varying,1,YES,�X��BB��
+jrd_joa,kyusha_bb_nijumaru_tansho_kaishuritsu,19,character varying,5,YES,�X��BB���P�������
+jrd_joa,kyusha_bb_nijumaru_rentai_ritsu,20,character varying,5,YES,�X��BB���A�Η�
+jrd_joa,kishu_bb_shirushi,21,character varying,1,YES,�R��BB��
+jrd_joa,kishu_bb_nijumaru_tansho_kaishuritsu,22,character varying,5,YES,�R��BB���P�������
+jrd_joa,kishu_bb_nijumaru_rentai_ritsu,23,character varying,5,YES,�R��BB���A�Η�
+jrd_joa,yobi_1,24,character varying,3,YES,�\��
+jrd_joa_fixed,jrdb_race_key8,1,character varying,255,NO,
+jrd_joa_fixed,race_shikonen,2,character varying,255,YES,
+jrd_joa_fixed,keibajo_code,3,character varying,255,YES,
+jrd_joa_fixed,kaisai_kai,4,character varying,255,YES,
+jrd_joa_fixed,kaisai_nichime,5,character varying,255,YES,
+jrd_joa_fixed,kaisai_nen_2,6,character varying,255,YES,
+jrd_joa_fixed,race_bango,7,character varying,255,YES,
+jrd_joa_fixed,umaban,8,character varying,255,NO,
+jrd_joa_fixed,basho_code,9,character varying,255,YES,
+jrd_joa_fixed,year,10,character varying,255,YES,
+jrd_joa_fixed,kai,11,character varying,255,YES,
+jrd_joa_fixed,nichi,12,character varying,255,YES,
+jrd_joa_fixed,race_num,13,character varying,255,YES,
+jrd_joa_fixed,ls_shisu,14,character varying,255,YES,
+jrd_joa_fixed,ls_hyoka,15,character varying,255,YES,
+jrd_joa_fixed,odds_shisu,16,character varying,255,YES,
+jrd_kab,keibajo_code,1,character varying,2,NO,���n��R�[�h
+jrd_kab,race_shikonen,2,character varying,6,NO,���[�X�{�s�N
+jrd_kab,kaisai_kai,3,character varying,1,NO,�J�É�[��N��]
+jrd_kab,kaisai_nichime,4,character varying,1,NO,�J�Ó���[N����]
+jrd_kab,kaisai_nen,5,character varying,4,YES,�J�ÔN
+jrd_kab,kaisai_tsukihi,6,character varying,4,YES,�J�Ì���
+jrd_kab,kaisai_kubun,7,character varying,1,YES,�J�Ë敪
+jrd_kab,yobi_1,8,character varying,2,YES,�j��
+jrd_kab,keibajomei,9,character varying,4,YES,���n�ꖼ
+jrd_kab,tenko_code,10,character varying,1,YES,�V��R�[�h
+jrd_kab,babajotai_code_shiba,11,character varying,2,YES,�Ŕn���ԃR�[�h
+jrd_kab,babajotai_shiba_uchi,12,character varying,1,YES,�Ŕn����(��)
+jrd_kab,babajotai_shiba_naka,13,character varying,1,YES,�Ŕn����(��)
+jrd_kab,babajotai_shiba_soto,14,character varying,1,YES,�Ŕn����(�O)
+jrd_kab,babasa_shiba,15,character varying,3,YES,�n�ꍷ(��)
+jrd_kab,babasa_chokusen_saiuchi,16,character varying,2,YES,�n�ꍷ(������œ�)
+jrd_kab,babasa_chokusen_uchi,17,character varying,2,YES,�n�ꍷ(�������)
+jrd_kab,babasa_chokusen_naka,18,character varying,2,YES,�n�ꍷ(�������)
+jrd_kab,babasa_chokusen_soto,19,character varying,2,YES,�n�ꍷ(������O)
+jrd_kab,babasa_chokusen_osoto,20,character varying,2,YES,�n�ꍷ(�������O)
+jrd_kab,babajotai_code_dirt,21,character varying,2,YES,�_�[�g�n���ԃR�[�h
+jrd_kab,babajotai_dirt_uchi,22,character varying,1,YES,�_�[�g�n����(��)
+jrd_kab,babajotai_dirt_naka,23,character varying,1,YES,�_�[�g�n����(��)
+jrd_kab,babajotai_dirt_soto,24,character varying,1,YES,�_�[�g�n����(�O)
+jrd_kab,babasa_dirt,25,character varying,3,YES,�n�ꍷ(�_�[�g)
+jrd_kab,data_kubun,26,character varying,1,YES,�f�[�^�敪
+jrd_kab,renzoku_nannichime,27,character varying,2,YES,�A��������
+jrd_kab,shiba_shurui,28,character varying,1,YES,�Ŏ��
+jrd_kab,sojo,29,character varying,4,YES,����
+jrd_kab,tenatsu,30,character varying,1,YES,�]��
+jrd_kab,toketsu_boshizai,31,character varying,1,YES,�����h�~��
+jrd_kab,chukan_kosuiryo,32,character varying,5,YES,���ԍ~����
+jrd_kab,yobi_2,33,character varying,7,YES,�\��
+jrd_kka,keibajo_code,1,character varying,2,NO,���n��R�[�h
+jrd_kka,race_shikonen,2,character varying,6,NO,���[�X�{�s�N
+jrd_kka,kaisai_kai,3,character varying,1,NO,�J�É�[��N��]
+jrd_kka,kaisai_nichime,4,character varying,1,NO,�J�Ó���[N����]
+jrd_kka,race_bango,5,character varying,2,NO,���[�X�ԍ�
+jrd_kka,umaban,6,character varying,2,NO,�n��
+jrd_kka,jra,7,character varying,12,YES,JRA�����
+jrd_kka,koryu,8,character varying,12,YES,�𗬥����
+jrd_kka,hoka,9,character varying,12,YES,�������
+jrd_kka,shiba_dirt,10,character varying,12,YES,�Ń_��Q�ʥ����
+jrd_kka,shiba_dirt_kyori,11,character varying,12,YES,�Ń_��Q�ʋ��������
+jrd_kka,torakku_kyori,12,character varying,12,YES,�g���b�N���������
+jrd_kka,rotation,13,character varying,12,YES,���[�e�����
+jrd_kka,mawari,14,character varying,12,YES,��襒���
+jrd_kka,kishu,15,character varying,12,YES,�R�襒���
+jrd_kka,ryo,16,character varying,12,YES,�ǥ����
+jrd_kka,yayaomo,17,character varying,12,YES,�c�����
+jrd_kka,omo,18,character varying,12,YES,�d�����
+jrd_kka,pace_s,19,character varying,12,YES,S�y�[�X�����
+jrd_kka,pace_m,20,character varying,12,YES,M�y�[�X�����
+jrd_kka,pace_h,21,character varying,12,YES,H�y�[�X�����
+jrd_kka,kisetsu,22,character varying,12,YES,�G�ߥ����
+jrd_kka,waku,23,character varying,12,YES,�g�����
+jrd_kka,kishu_kyori,24,character varying,12,YES,�R�苗�������
+jrd_kka,kishu_track,25,character varying,12,YES,�R��g���b�N���������
+jrd_kka,kishu_chokyoshi,26,character varying,12,YES,�R�蒲���t�ʥ����
+jrd_kka,kishu_banushi,27,character varying,12,YES,�R��n��ʥ����
+jrd_kka,kishu_blinker,28,character varying,12,YES,�R��u�����J�[�����
+jrd_kka,chokyoshi_banushi,29,character varying,12,YES,�����t�n��ʥ����
+jrd_kka,seiseki_chichi_1,30,character varying,3,YES,���n�Y��ť�A�Η�
+jrd_kka,seiseki_chichi_2,31,character varying,3,YES,���n�Y��_��A�Η�
+jrd_kka,seiseki_chichi_3,32,character varying,4,YES,���n�Y�A�Ε��ϋ���
+jrd_kka,seiseki_hahachichi_1,33,character varying,3,YES,�ꕃ�n�Y��ť�A�Η�
+jrd_kka,seiseki_hahachichi_2,34,character varying,3,YES,�ꕃ�n�Y��_��A�Η�
+jrd_kka,seiseki_hahachichi_3,35,character varying,4,YES,�ꕃ�n�Y�A�Ε��ϋ���
+jrd_kka,yobi_1,36,character varying,16,YES,�\��
+jrd_kyi,keibajo_code,1,character varying,2,NO,���n��R�[�h
+jrd_kyi,race_shikonen,2,character varying,10,NO,���[�X�{�s�N
+jrd_kyi,kaisai_kai,3,character varying,1,NO,�J�É�[��N��]
+jrd_kyi,kaisai_nichime,4,character varying,1,NO,�J�Ó���[N����]
+jrd_kyi,race_bango,5,character varying,2,NO,���[�X�ԍ�
+jrd_kyi,umaban,6,character varying,2,NO,�n��
+jrd_kyi,ketto_toroku_bango,7,character varying,8,YES,�����o�^�ԍ�
+jrd_kyi,bamei,8,character varying,36,YES,�n��
+jrd_kyi,idm,9,character varying,5,YES,IDM
+jrd_kyi,kishu_shisu,10,character varying,5,YES,�R��w��
+jrd_kyi,joho_shisu,11,character varying,5,YES,���w��
+jrd_kyi,yobi_1,12,character varying,15,YES,�\��
+jrd_kyi,sogo_shisu,13,character varying,5,YES,�����w��
+jrd_kyi,kyakushitsu_code,14,character varying,1,YES,�r���R�[�h
+jrd_kyi,kyori_tekisei_code,15,character varying,1,YES,�����K���R�[�h
+jrd_kyi,joshodo_code,16,character varying,1,YES,�㏸�x�R�[�h
+jrd_kyi,rotation,17,character varying,3,YES,���[�e�[�V����
+jrd_kyi,kijun_odds_tansho,18,character varying,5,YES,��I�b�Y�P��
+jrd_kyi,kijun_ninkijun_tansho,19,character varying,2,YES,��l�C���ʒP��
+jrd_kyi,kijun_odds_fukusho,20,character varying,5,YES,��I�b�Y����
+jrd_kyi,kijun_ninkijun_fukusho,21,character varying,2,YES,��l�C���ʕ���
+jrd_kyi,tokutei_joho_1,22,character varying,3,YES,������
+jrd_kyi,tokutei_joho_2,23,character varying,3,YES,������
+jrd_kyi,tokutei_joho_3,24,character varying,3,YES,������
+jrd_kyi,tokutei_joho_4,25,character varying,3,YES,������
+jrd_kyi,tokutei_joho_5,26,character varying,3,YES,������~
+jrd_kyi,sogo_joho_1,27,character varying,3,YES,�������
+jrd_kyi,sogo_joho_2,28,character varying,3,YES,�������
+jrd_kyi,sogo_joho_3,29,character varying,3,YES,�������
+jrd_kyi,sogo_joho_4,30,character varying,3,YES,�������
+jrd_kyi,sogo_joho_5,31,character varying,3,YES,�������~
+jrd_kyi,ninki_shisu,32,character varying,5,YES,�l�C�w��
+jrd_kyi,chokyo_shisu,33,character varying,5,YES,�����w��
+jrd_kyi,kyusha_shisu,34,character varying,5,YES,�X�Ɏw��
+jrd_kyi,chokyo_yajirushi_code,35,character varying,1,YES,�������R�[�h
+jrd_kyi,kyusha_hyoka_code,36,character varying,1,YES,�X�ɕ]���R�[�h
+jrd_kyi,kishu_kitai_rentai_ritsu,37,character varying,4,YES,�R����ҘA�Η�
+jrd_kyi,gekiso_shisu,38,character varying,3,YES,�����w��
+jrd_kyi,hizume_code,39,character varying,2,YES,���R�[�h
+jrd_kyi,tekisei_code_omo,40,character varying,1,YES,�K���R�[�h(�d)
+jrd_kyi,class_code,41,character varying,2,YES,�N���X�R�[�h
+jrd_kyi,yobi_2,42,character varying,2,YES,�\��
+jrd_kyi,blinker_shiyo_kubun,43,character varying,1,YES,�u�����J�[�g�p�敪
+jrd_kyi,kishumei,44,character varying,12,YES,�R�薼
+jrd_kyi,futan_juryo,45,character varying,3,YES,���S�d��
+jrd_kyi,kishu_minarai_code,46,character varying,1,YES,�R�茩�K�R�[�h
+jrd_kyi,chokyoshimei,47,character varying,12,YES,�����t��
+jrd_kyi,chokyoshi_shozoku,48,character varying,4,YES,�����t����
+jrd_kyi,kako1_kyoso_seiseki_key,49,character varying,16,YES,�ߋ�1 �������уL�[
+jrd_kyi,kako2_kyoso_seiseki_key,50,character varying,16,YES,�ߋ�2 �������уL�[
+jrd_kyi,kako3_kyoso_seiseki_key,51,character varying,16,YES,�ߋ�3 �������уL�[
+jrd_kyi,kako4_kyoso_seiseki_key,52,character varying,16,YES,�ߋ�4 �������уL�[
+jrd_kyi,kako5_kyoso_seiseki_key,53,character varying,16,YES,�ߋ�5 �������уL�[
+jrd_kyi,kako1_race_key,54,character varying,8,YES,�ߋ�1 ���[�X�L�[
+jrd_kyi,kako2_race_key,55,character varying,8,YES,�ߋ�2 ���[�X�L�[
+jrd_kyi,kako3_race_key,56,character varying,8,YES,�ߋ�3 ���[�X�L�[
+jrd_kyi,kako4_race_key,57,character varying,8,YES,�ߋ�4 ���[�X�L�[
+jrd_kyi,kako5_race_key,58,character varying,8,YES,�ߋ�5 ���[�X�L�[
+jrd_kyi,wakuban,59,character varying,1,YES,�g��
+jrd_kyi,yobi_3,60,character varying,2,YES,�\��
+jrd_kyi,shirushi_code_1,61,character varying,1,YES,������
+jrd_kyi,shirushi_code_2,62,character varying,1,YES,IDM��
+jrd_kyi,shirushi_code_3,63,character varying,1,YES,����
+jrd_kyi,shirushi_code_4,64,character varying,1,YES,�R���
+jrd_kyi,shirushi_code_5,65,character varying,1,YES,�X�Ɉ�
+jrd_kyi,shirushi_code_6,66,character varying,1,YES,������
+jrd_kyi,shirushi_code_7,67,character varying,1,YES,������
+jrd_kyi,tekisei_code_shiba,68,character varying,1,YES,�K���R�[�h(��)
+jrd_kyi,tekisei_code_dirt,69,character varying,1,YES,�K���R�[�h(�_)
+jrd_kyi,kishu_code,70,character varying,5,YES,�R��R�[�h
+jrd_kyi,chokyoshi_code,71,character varying,5,YES,�����t�R�[�h
+jrd_kyi,yobi_4,72,character varying,1,YES,�\��
+jrd_kyi,kakutoku_shokin_ruikei,73,character varying,6,YES,�l���܋��݌v
+jrd_kyi,shutoku_shokin_ruikei,74,character varying,5,YES,�����܋��݌v
+jrd_kyi,joken_class_code,75,character varying,1,YES,�����N���X�R�[�h
+jrd_kyi,ten_shisu,76,character varying,5,YES,�e���w��
+jrd_kyi,pace_shisu,77,character varying,5,YES,�y�[�X�w��
+jrd_kyi,agari_shisu,78,character varying,5,YES,�オ��w��
+jrd_kyi,ichi_shisu,79,character varying,5,YES,�ʒu�w��
+jrd_kyi,pace_yoso,80,character varying,1,YES,�y�[�X�\�z
+jrd_kyi,dochu_juni,81,character varying,2,YES,��������
+jrd_kyi,dochu_sa,82,character varying,2,YES,������
+jrd_kyi,dochu_uchisoto,83,character varying,1,YES,�������O
+jrd_kyi,kohan_3f_juni,84,character varying,2,YES,��3�n��������
+jrd_kyi,kohan_3f_sa,85,character varying,2,YES,��3�n������
+jrd_kyi,kohan_3f_uchisoto,86,character varying,1,YES,��3�n�������O
+jrd_kyi,goal_juni,87,character varying,2,YES,�S�[������
+jrd_kyi,goal_sa,88,character varying,2,YES,�S�[����
+jrd_kyi,goal_uchisoto,89,character varying,1,YES,�S�[�����O
+jrd_kyi,tenkai_kigo_code,90,character varying,1,YES,�W�J�L���R�[�h
+jrd_kyi,kyori_tekisei_code_2,91,character varying,1,YES,�����K���R�[�h2
+jrd_kyi,bataiju,92,character varying,3,YES,(�g�m��)�n�̏d
+jrd_kyi,bataiju_zogen,93,character varying,3,YES,(�g�m��)�n�̏d����
+jrd_kyi,torikeshi_flag,94,character varying,1,YES,����t���O
+jrd_kyi,seibetsu_code,95,character varying,1,YES,���ʃR�[�h
+jrd_kyi,banushimei,96,character varying,40,YES,�n�喼
+jrd_kyi,banushikai_code,97,character varying,2,YES,�n���R�[�h
+jrd_kyi,umakigo_code,98,character varying,2,YES,�n�L���R�[�h
+jrd_kyi,gekiso_juni,99,character varying,2,YES,��������
+jrd_kyi,ls_shisu_juni,100,character varying,2,YES,LS�w������
+jrd_kyi,ten_shisu_juni,101,character varying,2,YES,�e���w������
+jrd_kyi,pace_shisu_juni,102,character varying,2,YES,�y�[�X�w������
+jrd_kyi,agari_shisu_juni,103,character varying,2,YES,�オ��w������
+jrd_kyi,ichi_shisu_juni,104,character varying,2,YES,�ʒu�w������
+jrd_kyi,kishu_kitai_tansho_ritsu,105,character varying,4,YES,�R����ҒP����
+jrd_kyi,kishu_kitai_sanchakunai_ritsu,106,character varying,4,YES,�R�����3������
+jrd_kyi,yuso_kubun,107,character varying,1,YES,�A���敪
+jrd_kyi,soho,108,character varying,8,YES,���@
+jrd_kyi,taikei,109,character varying,24,YES,�̌^
+jrd_kyi,taikei_sogo_1,110,character varying,3,YES,�̌^����1
+jrd_kyi,taikei_sogo_2,111,character varying,3,YES,�̌^����2
+jrd_kyi,taikei_sogo_3,112,character varying,3,YES,�̌^����3
+jrd_kyi,uma_tokki_1,113,character varying,3,YES,�n���L1
+jrd_kyi,uma_tokki_2,114,character varying,3,YES,�n���L2
+jrd_kyi,uma_tokki_3,115,character varying,3,YES,�n���L3
+jrd_kyi,uma_start_shisu,116,character varying,4,YES,�n�X�^�[�g�w��
+jrd_kyi,uma_deokure_ritsu,117,character varying,4,YES,�n�o�x�ꗦ
+jrd_kyi,sanko_zenso,118,character varying,2,YES,�Q�l�O��
+jrd_kyi,sanko_zenso_kishu_code,119,character varying,5,YES,�Q�l�O���R��R�[�h
+jrd_kyi,manken_shisu,120,character varying,3,YES,�����w��
+jrd_kyi,manken_shirushi,121,character varying,1,YES,������
+jrd_kyi,kokyu_flag,122,character varying,1,YES,�~���t���O
+jrd_kyi,gekiso_type,123,character varying,2,YES,�����^�C�v
+jrd_kyi,kyuyo_riyu_bunrui_code,124,character varying,2,YES,�x�{���R���ރR�[�h
+jrd_kyi,flag,125,character varying,16,YES,�t���O
+jrd_kyi,nyukyu_nansome,126,character varying,2,YES,���X������
+jrd_kyi,nyukyu_nengappi,127,character varying,8,YES,���X�N����
+jrd_kyi,nyukyu_nannichimae,128,character varying,3,YES,���X�����O
+jrd_kyi,hobokusaki,129,character varying,50,YES,���q��
+jrd_kyi,hobokusaki_rank,130,character varying,1,YES,���q�惉���N
+jrd_kyi,kyusha_rank,131,character varying,1,YES,�X�Ƀ����N
+jrd_kyi,yobi_5,132,character varying,398,YES,�\��
+jrd_kyi_fixed,jrdb_race_key8,1,character varying,255,NO,
+jrd_kyi_fixed,race_shikonen,2,character varying,255,YES,
+jrd_kyi_fixed,keibajo_code,3,character varying,255,YES,
+jrd_kyi_fixed,kaisai_kai,4,character varying,255,YES,
+jrd_kyi_fixed,kaisai_nichime,5,character varying,255,YES,
+jrd_kyi_fixed,kaisai_nen_2,6,character varying,255,YES,
+jrd_kyi_fixed,race_bango,7,character varying,255,YES,
+jrd_kyi_fixed,umaban,8,character varying,255,NO,
+jrd_kyi_fixed,basho_code,9,character varying,255,YES,
+jrd_kyi_fixed,year,10,character varying,255,YES,
+jrd_kyi_fixed,kai,11,character varying,255,YES,
+jrd_kyi_fixed,nichi,12,character varying,255,YES,
+jrd_kyi_fixed,race_num,13,character varying,255,YES,
+jrd_kyi_fixed,kettou_toroku_bango,14,character varying,255,YES,
+jrd_kyi_fixed,bamei,15,character varying,255,YES,
+jrd_kyi_fixed,idm,16,character varying,255,YES,
+jrd_kyi_fixed,kishu_shisu,17,character varying,255,YES,
+jrd_kyi_fixed,sogo_shisu,18,character varying,255,YES,
+jrd_kyi_fixed,kyakushitsu,19,character varying,255,YES,
+jrd_kyi_fixed,kyori_tekisei,20,character varying,255,YES,
+jrd_kyi_fixed,chokyo_shisu,21,character varying,255,YES,
+jrd_kyi_fixed,kyusha_shisu,22,character varying,255,YES,
+jrd_kyi_fixed,chokyo_yajirushi_code,23,character varying,255,YES,
+jrd_kyi_fixed,omo_tekisei_code,24,character varying,255,YES,
+jrd_kyi_fixed,shiba_tekisei_code,25,character varying,255,YES,
+jrd_kyi_fixed,da_tekisei_code,26,character varying,255,YES,
+jrd_kyi_fixed,soho,27,character varying,255,YES,
+jrd_kyi_fixed,blinker,28,character varying,255,YES,
+jrd_kyi_fixed,futan_juryo,29,character varying,255,YES,
+jrd_kyi_fixed,ten_shisu,30,character varying,255,YES,
+jrd_kyi_fixed,pace_shisu,31,character varying,255,YES,
+jrd_kyi_fixed,agari_shisu,32,character varying,255,YES,
+jrd_kyi_fixed,ichi_shisu,33,character varying,255,YES,
+jrd_kyi_fixed,kyori_tekisei_2,34,character varying,255,YES,
+jrd_kyi_fixed,seibetsu_code,35,character varying,255,YES,
+jrd_kyi_fixed,kishu_code,36,character varying,255,YES,
+jrd_kyi_fixed,chokyoshi_code,37,character varying,255,YES,
+jrd_kyi_fixed,kyusha_rank,38,character varying,255,YES,
+jrd_kza,kishu_code,1,character varying,5,NO,�R��R�[�h
+jrd_kza,massho_kubun,2,character varying,1,YES,�����敪
+jrd_kza,massho_nengappi,3,character varying,8,YES,�����N����
+jrd_kza,kishumei,4,character varying,12,YES,�R�薼
+jrd_kza,kishu_kana,5,character varying,30,YES,�R��J�i
+jrd_kza,kishumei_ryakusho,6,character varying,6,YES,�R�薼����
+jrd_kza,shozoku_code,7,character varying,1,YES,�����R�[�h
+jrd_kza,shozoku_chiikimei,8,character varying,4,YES,�����n�於
+jrd_kza,seinengappi,9,character varying,8,YES,���N����
+jrd_kza,menkyo_kofu_nen,10,character varying,4,YES,�Ƌ���t�N
+jrd_kza,kishu_minarai_code,11,character varying,1,YES,�R�茩�K�R�[�h
+jrd_kza,chokyoshi_code,12,character varying,5,YES,���������t�R�[�h
+jrd_kza,kishu_comment,13,character varying,40,YES,�R��R�����g
+jrd_kza,comment_nyuryoku_nengappi,14,character varying,8,YES,�R�����g���͔N����
+jrd_kza,seiseki_joho_1,15,character varying,33,YES,�{�N��O�N���я��
+jrd_kza,seiseki_joho_2,16,character varying,33,YES,�{�N��O�N���я��
+jrd_kza,tsusan_heichi,17,character varying,20,YES,�ʎZ���n�����
+jrd_kza,tsusan_shogai,18,character varying,20,YES,�ʎZ��Q�����
+jrd_kza,data_sakusei_nengappi,19,character varying,8,YES,�f�[�^�쐬�N����
+jrd_kza,yobi_1,20,character varying,23,YES,�\��
+jrd_ot,keibajo_code,1,character varying,2,NO,���n��R�[�h
+jrd_ot,race_shikonen,2,character varying,6,NO,���[�X�{�s�N
+jrd_ot,kaisai_kai,3,character varying,1,NO,�J�É�[��N��]
+jrd_ot,kaisai_nichime,4,character varying,1,NO,�J�Ó���[N����]
+jrd_ot,race_bango,5,character varying,2,NO,���[�X�ԍ�
+jrd_ot,toroku_tosu,6,character varying,2,YES,�o�^����
+jrd_ot,odds_sanrempuku,7,character varying,4896,YES,3�A���I�b�Y
+jrd_ot,yobi_1,8,character varying,4,YES,�\��
+jrd_ou,keibajo_code,1,character varying,2,NO,���n��R�[�h
+jrd_ou,race_shikonen,2,character varying,6,NO,���[�X�{�s�N
+jrd_ou,kaisai_kai,3,character varying,1,NO,�J�É�[��N��]
+jrd_ou,kaisai_nichime,4,character varying,1,NO,�J�Ó���[N����]
+jrd_ou,race_bango,5,character varying,2,NO,���[�X�ԍ�
+jrd_ou,toroku_tosu,6,character varying,2,YES,�o�^����
+jrd_ou,odds_umatan,7,character varying,1836,YES,�n�P�I�b�Y
+jrd_ou,yobi_1,8,character varying,8,YES,�\��
+jrd_ov,keibajo_code,1,character varying,2,NO,���n��R�[�h
+jrd_ov,race_shikonen,2,character varying,6,NO,���[�X�{�s�N
+jrd_ov,kaisai_kai,3,character varying,1,NO,�J�É�[��N��]
+jrd_ov,kaisai_nichime,4,character varying,1,NO,�J�Ó���[N����]
+jrd_ov,race_bango,5,character varying,2,NO,���[�X�ԍ�
+jrd_ov,toroku_tosu,6,character varying,2,YES,�o�^����
+jrd_ov,odds_sanrentan,7,character varying,34272,YES,3�A�P�I�b�Y
+jrd_ov,yobi_1,8,character varying,4,YES,�\��
+jrd_ow,keibajo_code,1,character varying,2,NO,���n��R�[�h
+jrd_ow,race_shikonen,2,character varying,6,NO,���[�X�{�s�N
+jrd_ow,kaisai_kai,3,character varying,1,NO,�J�É�[��N��]
+jrd_ow,kaisai_nichime,4,character varying,1,NO,�J�Ó���[N����]
+jrd_ow,race_bango,5,character varying,2,NO,���[�X�ԍ�
+jrd_ow,toroku_tosu,6,character varying,2,YES,�o�^����
+jrd_ow,odds_wide,7,character varying,765,YES,���C�h�I�b�Y
+jrd_ow,yobi_1,8,character varying,3,YES,�\��
+jrd_oz,keibajo_code,1,character varying,2,NO,���n��R�[�h
+jrd_oz,race_shikonen,2,character varying,6,NO,���[�X�{�s�N
+jrd_oz,kaisai_kai,3,character varying,1,NO,�J�É�[��N��]
+jrd_oz,kaisai_nichime,4,character varying,1,NO,�J�Ó���[N����]
+jrd_oz,race_bango,5,character varying,2,NO,���[�X�ԍ�
+jrd_oz,toroku_tosu,6,character varying,2,YES,�o�^����
+jrd_oz,tansho_odds,7,character varying,90,YES,�P���I�b�Y
+jrd_oz,odds_fukusho,8,character varying,90,YES,�����I�b�Y
+jrd_oz,odds_rensho,9,character varying,765,YES,�A���I�b�Y
+jrd_sed,keibajo_code,1,character varying,2,NO,���n��R�[�h
+jrd_sed,race_shikonen,2,character varying,10,NO,���[�X�{�s�N
+jrd_sed,kaisai_kai,3,character varying,1,NO,�J�É�[��N��]
+jrd_sed,kaisai_nichime,4,character varying,1,NO,�J�Ó���[N����]
+jrd_sed,race_bango,5,character varying,2,NO,���[�X�ԍ�
+jrd_sed,umaban,6,character varying,2,NO,�n��
+jrd_sed,ketto_toroku_bango,7,character varying,8,YES,�����o�^�ԍ�
+jrd_sed,kaisai_nen,8,character varying,4,YES,�J�ÔN
+jrd_sed,kaisai_tsukihi,9,character varying,4,YES,�J�Ì���
+jrd_sed,bamei,10,character varying,36,YES,�n��
+jrd_sed,kyori,11,character varying,4,YES,����
+jrd_sed,track_code,12,character varying,3,YES,�g���b�N�R�[�h
+jrd_sed,babajotai_code,13,character varying,2,YES,�n���ԃR�[�h
+jrd_sed,kyoso_shubetsu_code,14,character varying,2,YES,������ʃR�[�h
+jrd_sed,kyoso_joken_code,15,character varying,2,YES,���������R�[�h
+jrd_sed,kyoso_kigo_code,16,character varying,3,YES,�����L���R�[�h
+jrd_sed,juryo_shubetsu_code,17,character varying,1,YES,�d�ʎ�ʃR�[�h
+jrd_sed,grade_code,18,character varying,1,YES,�O���[�h�R�[�h
+jrd_sed,kyosomei,19,character varying,50,YES,������
+jrd_sed,toroku_tosu,20,character varying,2,YES,�o�^����
+jrd_sed,kyosomei_ryakusho_4,21,character varying,8,YES,����������4����
+jrd_sed,kakutei_chakujun,22,character varying,2,YES,�m�蒅��
+jrd_sed,ijo_kubun_code,23,character varying,1,YES,�ُ�敪�R�[�h
+jrd_sed,soha_time,24,character varying,4,YES,���j�^�C��
+jrd_sed,futan_juryo,25,character varying,3,YES,���S�d��
+jrd_sed,kishumei,26,character varying,12,YES,�R�薼
+jrd_sed,chokyoshimei,27,character varying,12,YES,�����t��
+jrd_sed,tansho_odds,28,character varying,6,YES,�P���I�b�Y
+jrd_sed,tansho_ninkijun,29,character varying,2,YES,�P���l�C��
+jrd_sed,idm,30,character varying,3,YES,IDM
+jrd_sed,soten,31,character varying,3,YES,�f�_
+jrd_sed,babasa,32,character varying,3,YES,�n�ꍷ
+jrd_sed,pace,33,character varying,3,YES,�y�[�X
+jrd_sed,deokure,34,character varying,3,YES,�o�x��
+jrd_sed,ichidori,35,character varying,3,YES,�ʒu���
+jrd_sed,furi,36,character varying,3,YES,�s��
+jrd_sed,furi_1,37,character varying,3,YES,�O�s��
+jrd_sed,furi_2,38,character varying,3,YES,���s��
+jrd_sed,furi_3,39,character varying,3,YES,��s��
+jrd_sed,race,40,character varying,3,YES,���[�X
+jrd_sed,course_dori_code,41,character varying,1,YES,�R�[�X���R�[�h
+jrd_sed,joshodo_code,42,character varying,1,YES,�㏸�x�R�[�h
+jrd_sed,class_code,43,character varying,2,YES,�N���X�R�[�h
+jrd_sed,batai_code,44,character varying,1,YES,�n�̃R�[�h
+jrd_sed,kehai_code,45,character varying,1,YES,�C�z�R�[�h
+jrd_sed,race_pace,46,character varying,1,YES,���[�X�y�[�X
+jrd_sed,uma_pace,47,character varying,1,YES,�n�y�[�X
+jrd_sed,ten_shisu,48,character varying,5,YES,�e���w��
+jrd_sed,agari_shisu,49,character varying,5,YES,�オ��w��
+jrd_sed,pace_shisu,50,character varying,5,YES,�y�[�X�w��
+jrd_sed,race_p_shisu,51,character varying,5,YES,���[�XP�w��
+jrd_sed,aiteuma_joho_1,52,character varying,15,YES,1���n(����n)���
+jrd_sed,zenhan_3f_taimu,53,character varying,3,YES,�O3�n�����^�C��
+jrd_sed,kohan_3f,54,character varying,3,YES,��3�n�����^�C��
+jrd_sed,biko,55,character varying,24,YES,���l
+jrd_sed,yobi_1,56,character varying,2,YES,�\��
+jrd_sed,odds_fukusho,57,character varying,6,YES,�����I�b�Y
+jrd_sed,odds_tansho_10am,58,character varying,6,YES,�P���I�b�Y(10��)
+jrd_sed,odds_fukusho_10am,59,character varying,6,YES,�����I�b�Y(10��)
+jrd_sed,corner_1,60,character varying,2,YES,1�R�[�i�[�ł̏���
+jrd_sed,corner_2,61,character varying,2,YES,2�R�[�i�[�ł̏���
+jrd_sed,corner_3,62,character varying,2,YES,3�R�[�i�[�ł̏���
+jrd_sed,corner_4,63,character varying,2,YES,4�R�[�i�[�ł̏���
+jrd_sed,zenhan_3f_sento_sa,64,character varying,3,YES,�O3�n�����擪��
+jrd_sed,kohan_3f_sento_sa,65,character varying,3,YES,��3�n�����擪��
+jrd_sed,kishu_code,66,character varying,5,YES,�R��R�[�h
+jrd_sed,chokyoshi_code,67,character varying,5,YES,�����t�R�[�h
+jrd_sed,bataiju,68,character varying,3,YES,�n�̏d
+jrd_sed,bataiju_zogen,69,character varying,3,YES,�n�̏d����
+jrd_sed,tenko_code,70,character varying,1,YES,�V��R�[�h
+jrd_sed,course_kubun,71,character varying,1,YES,�R�[�X�敪
+jrd_sed,kyakushitsu_code,72,character varying,1,YES,�r���R�[�h
+jrd_sed,haraimodoshi_tansho,73,character varying,7,YES,�P������
+jrd_sed,haraimodoshi_fukusho,74,character varying,7,YES,��������
+jrd_sed,honshokin,75,character varying,5,YES,�{�܋�
+jrd_sed,shutoku_shokin,76,character varying,5,YES,�����܋�
+jrd_sed,race_pace_nagare,77,character varying,2,YES,���[�X�y�[�X����
+jrd_sed,uma_pace_nagare,78,character varying,2,YES,�n�y�[�X����
+jrd_sed,corse_dori_code_corner_4,79,character varying,1,YES,�R�[�X���R�[�h(4�R�[�i�[)
+jrd_sed,hasso_jikoku,80,character varying,4,YES,��������
+jrd_skb,keibajo_code,1,character varying,2,NO,���n��R�[�h
+jrd_skb,race_shikonen,2,character varying,6,NO,���[�X�{�s�N
+jrd_skb,kaisai_kai,3,character varying,1,NO,�J�É�[��N��]
+jrd_skb,kaisai_nichime,4,character varying,1,NO,�J�Ó���[N����]
+jrd_skb,race_bango,5,character varying,2,NO,���[�X�ԍ�
+jrd_skb,umaban,6,character varying,2,NO,�n��
+jrd_skb,ketto_toroku_bango,7,character varying,8,YES,�����o�^�ԍ�
+jrd_skb,kaisai_nen,8,character varying,4,YES,�J�ÔN
+jrd_skb,kaisai_tsukihi,9,character varying,4,YES,�J�Ì���
+jrd_skb,tokki_code,10,character varying,18,YES,���L�R�[�h
+jrd_skb,bagu_code,11,character varying,24,YES,�n��R�[�h
+jrd_skb,sogo,12,character varying,9,YES,����
+jrd_skb,hidarimae,13,character varying,9,YES,���O
+jrd_skb,migimae,14,character varying,9,YES,�E�O
+jrd_skb,hidariushiro,15,character varying,9,YES,����
+jrd_skb,migiushiro,16,character varying,9,YES,�E��
+jrd_skb,comment_paddock,17,character varying,40,YES,�p�h�b�N�R�����g
+jrd_skb,comment_ashimoto,18,character varying,40,YES,�r���R�����g
+jrd_skb,comment_bagu_sonota,19,character varying,40,YES,�n��(���̑�)�R�����g
+jrd_skb,comment_race,20,character varying,40,YES,���[�X�R�����g
+jrd_skb,hami,21,character varying,3,YES,�n�~
+jrd_skb,bandage,22,character varying,3,YES,�o���e�[�W
+jrd_skb,teitetsu,23,character varying,3,YES,���S
+jrd_skb,hizume_jotai,24,character varying,3,YES,�����
+jrd_skb,soe,25,character varying,3,YES,�\�G
+jrd_skb,kotsuryu,26,character varying,3,YES,���
+jrd_skb,yobi_1,27,character varying,11,YES,�\��
+jrd_tyb,keibajo_code,1,character varying,2,NO,���n��R�[�h
+jrd_tyb,race_shikonen,2,character varying,6,NO,���[�X�{�s�N
+jrd_tyb,kaisai_kai,3,character varying,1,NO,�J�É�[��N��]
+jrd_tyb,kaisai_nichime,4,character varying,1,NO,�J�Ó���[N����]
+jrd_tyb,race_bango,5,character varying,2,NO,���[�X�ԍ�
+jrd_tyb,umaban,6,character varying,2,NO,�n��
+jrd_tyb,idm,7,character varying,5,YES,IDM
+jrd_tyb,kishu_shisu,8,character varying,5,YES,�R��w��
+jrd_tyb,joho_shisu,9,character varying,5,YES,���w��
+jrd_tyb,odds_shisu,10,character varying,5,YES,�I�b�Y�w��
+jrd_tyb,paddock_shisu,11,character varying,5,YES,�p�h�b�N�w��
+jrd_tyb,yobi_1,12,character varying,5,YES,�\��
+jrd_tyb,sogo_shisu,13,character varying,5,YES,�����w��
+jrd_tyb,bagu_henko_joho,14,character varying,1,YES,�n��ύX���
+jrd_tyb,ashimoto_joho,15,character varying,1,YES,�r�����
+jrd_tyb,torikeshi_flag,16,character varying,1,YES,����t���O
+jrd_tyb,kishu_code,17,character varying,5,YES,�R��R�[�h
+jrd_tyb,kishumei,18,character varying,12,YES,�R�薼
+jrd_tyb,futan_juryo,19,character varying,3,YES,���S�d��
+jrd_tyb,kishu_minarai_code,20,character varying,1,YES,�R�茩�K�R�[�h
+jrd_tyb,babajotai_code,21,character varying,2,YES,�n���ԃR�[�h
+jrd_tyb,tenko_code,22,character varying,1,YES,�V��R�[�h
+jrd_tyb,tansho_odds,23,character varying,6,YES,�P���I�b�Y
+jrd_tyb,odds_fukusho,24,character varying,6,YES,�����I�b�Y
+jrd_tyb,odds_happyo_jifun,25,character varying,4,YES,�I�b�Y���\����
+jrd_tyb,bataiju,26,character varying,3,YES,�n�̏d
+jrd_tyb,bataiju_zogen,27,character varying,3,YES,�n�̏d����
+jrd_tyb,odds_shirushi,28,character varying,1,YES,�I�b�Y��
+jrd_tyb,paddock_shirushi,29,character varying,1,YES,�p�h�b�N��
+jrd_tyb,chokuzen_sogo_shirushi,30,character varying,1,YES,���O������
+jrd_tyb,batai_code,31,character varying,1,YES,�n�̃R�[�h
+jrd_tyb,kehai_code,32,character varying,1,YES,�C�z�R�[�h
+jrd_tyb,hasso_jikoku,33,character varying,4,YES,��������
+jrd_tyb,yobi_2,34,character varying,23,YES,�\��
+jrd_ukc,ketto_toroku_bango,1,character varying,8,NO,�����o�^�ԍ�
+jrd_ukc,bamei,2,character varying,36,YES,�n��
+jrd_ukc,seibetsu_code,3,character varying,1,YES,���ʃR�[�h
+jrd_ukc,moshoku_code,4,character varying,2,YES,�ѐF�R�[�h
+jrd_ukc,umakigo_code,5,character varying,2,YES,�n�L���R�[�h
+jrd_ukc,bamei_chichi,6,character varying,36,YES,���n��
+jrd_ukc,bamei_haha,7,character varying,36,YES,��n��
+jrd_ukc,bamei_hahachichi,8,character varying,36,YES,�ꕃ�n��
+jrd_ukc,seinengappi,9,character varying,8,YES,���N����
+jrd_ukc,seinen_chichi,10,character varying,4,YES,���n���N
+jrd_ukc,seinen_haha,11,character varying,4,YES,��n���N
+jrd_ukc,seinen_hahachichi,12,character varying,4,YES,�ꕃ�n���N
+jrd_ukc,banushimei,13,character varying,40,YES,�n�喼
+jrd_ukc,banushikai_code,14,character varying,2,YES,�n���R�[�h
+jrd_ukc,seisanshamei,15,character varying,40,YES,���Y�Җ�
+jrd_ukc,sanchimei,16,character varying,8,YES,�Y�n��
+jrd_ukc,massho_kubun,17,character varying,1,YES,�����敪
+jrd_ukc,data_sakusei_nengappi,18,character varying,8,YES,�f�[�^�쐬�N����
+jrd_ukc,keito_code_chichi,19,character varying,4,YES,���n���R�[�h
+jrd_ukc,keito_code_hahachichi,20,character varying,4,YES,�ꕃ�n���R�[�h
+jrd_ukc,yobi_1,21,character varying,6,YES,�\��
+jvd_av,record_id,1,character varying,2,YES,"���R�[�h���ID: ""AV"" ���Z�b�g���R�[�h�t�H�[�}�b�g����肷��"
+jvd_av,data_kubun,2,character varying,1,YES,�f�[�^�敪: 1:�o������@2:�������O
+jvd_av,data_sakusei_nengappi,3,character varying,8,YES,�f�[�^�쐬�N����: ����4���{�����e2�� yyyymmdd �`��
+jvd_av,kaisai_nen,4,character varying,4,NO,�J�ÔN: �Y�����[�X�{�s�N ����4�� yyyy�`��
+jvd_av,kaisai_tsukihi,5,character varying,4,NO,�J�Ì���: �Y�����[�X�{�s���� �e2�� mmdd�`��
+jvd_av,keibajo_code,6,character varying,2,NO,���n��R�[�h: �Y�����[�X�{�s���n�� <�R�[�h�\ 2001.���n��R�[�h>�Q��
+jvd_av,kaisai_kai,7,character varying,2,YES,�J�É�[��N��]: �Y�����[�X�{�s�� ���̋��n��ł��̔N�̉���ڂ̊J�Â�������
+jvd_av,kaisai_nichime,8,character varying,2,YES,�J�Ó���[N����]: �Y�����[�X�{�s���� ���̃��[�X�{�s��ŉ����ڂ̊J�Â�������
+jvd_av,race_bango,9,character varying,2,NO,���[�X�ԍ�: �Y�����[�X�ԍ�
+jvd_av,happyo_tsukihi_jifun,10,character varying,8,YES,���\��������: ���������e2��
+jvd_av,umaban,11,character varying,2,NO,�n��: �Y���n��01?18
+jvd_av,bamei,12,character varying,36,YES,�n��: �S�p18�����@���������ʂ͑S�p9�����̂ݐݒ�(9�����𒴂���n����9�����܂łƂ���)
+jvd_av,jiyu_kubun,13,character varying,3,YES,���R�敪: 000:�����l�@001:���a�@002:���́@003:���̑�
+jvd_bn,record_id,1,character varying,2,YES,"���R�[�h���ID: ""BN"" ���Z�b�g���R�[�h�t�H�[�}�b�g����肷��"
+jvd_bn,data_kubun,2,character varying,1,YES,�f�[�^�敪: 1:�V�K�o�^ 2:�X�V 0:�Y�����R�[�h�폜(�񋟃~�X�Ȃǂ̗��R�ɂ��)
+jvd_bn,data_sakusei_nengappi,3,character varying,8,YES,�f�[�^�쐬�N����: ����4���{�����e2�� yyyymmdd �`��
+jvd_bn,banushi_code,4,character varying,6,NO,�n��R�[�h: nan
+jvd_bn,banushimei_hojinkaku,5,character varying,64,YES,�n�喼(�@�l�i�L): �S�p32���� ? ���p64���� �i�S�p�Ɣ��p�����݁j �O���n��̏ꍇ�́A8.�n�喼�����̓�64�o�C�g��ݒ�B
+jvd_bn,banushimei,6,character varying,64,YES,�n�喼(�@�l�i��): �S�p32���� ? ���p64���� �i�S�p�Ɣ��p�����݁j ������ЁA�L����ЂȂǂ̖@�l�i�����������񂪓��������͖����ɂ���ꍇ�ɂ�����폜�������̂�ݒ�B�܂��A�O���n��̏ꍇ�́A8.�n�喼�����̓�64�o�C�g��ݒ�B
+jvd_bn,banushimei_hankaku_kana,7,character varying,50,YES,�n�喼���p��: ���p50���� ���{�ꔼ�p�ł�ݒ�(���p�ňȊO�̕����͐ݒ肵�Ȃ�)�@�O���n��ɂ��Ă͐ݒ肵�Ȃ��B
+jvd_bn,banushimei_eur,8,character varying,100,YES,�n�喼����: �S�p50���� ? ���p100���� (�S�p�Ɣ��p������) �A���t�@�x�b�g���ȊO�̓��ꕶ���ɂ��ẮA�S�p�Őݒ�B
+jvd_bn,fukushoku_hyoji,9,character varying,60,YES,"���F�W��: �S�p30�����@�n�喈�Ɏw�肳���R��̏������̐F�E�͗l������ (���[�V���O�v���O�����ɋL�ڂ���Ă�����́j (��)""���F�C�ԎR�`��{�ցC���F���@�@�@"""
+jvd_bn,seiseki_joho_1,10,character varying,60,YES,<�{�N��݌v���я��>: �{�N�E�݌v�̏��ɐݒ�
+jvd_bn,seiseki_joho_2,11,character varying,60,YES,�ݒ�N: ���я��ɐݒ肳��Ă���N�x(����)
+jvd_br,record_id,1,character varying,2,YES,"���R�[�h���ID: ""BR"" ���Z�b�g���R�[�h�t�H�[�}�b�g����肷��"
+jvd_br,data_kubun,2,character varying,1,YES,�f�[�^�敪: 1:�V�K�o�^ 2:�X�V 0:�Y�����R�[�h�폜(�񋟃~�X�Ȃǂ̗��R�ɂ��)
+jvd_br,data_sakusei_nengappi,3,character varying,8,YES,�f�[�^�쐬�N����: ����4���{�����e2�� yyyymmdd �`��
+jvd_br,seisansha_code,4,character varying,8,NO,���Y�҃R�[�h: nan
+jvd_br,seisanshamei_hojinkaku,5,character varying,72,YES,���Y�Җ�(�@�l�i�L): �S�p36���� ? ���p72���� �i�S�p�Ɣ��p�����݁j �O�����Y�҂̏ꍇ�́A8.���Y�Җ������̓�70�o�C�g��ݒ�B
+jvd_br,seisanshamei,6,character varying,72,YES,���Y�Җ�(�@�l�i��): �S�p36���� ? ���p72���� �i�S�p�Ɣ��p�����݁j ������ЁA�L����ЂȂǂ̖@�l�i�����������񂪓��������͖����ɂ���ꍇ�ɂ�����폜�������̂�ݒ�B�܂��A�O�����Y�҂̏ꍇ�́A8.���Y�Җ������̓�70�o�C�g��ݒ�B
+jvd_br,seisanshamei_hankaku_kana,7,character varying,72,YES,���Y�Җ����p��: ���p72���� ���{�ꔼ�p�ł�ݒ�(���p�ňȊO�̕����͐ݒ肵�Ȃ�)�@�O�����Y�҂ɂ��Ă͐ݒ肵�Ȃ��B
+jvd_br,seisanshamei_eur,8,character varying,168,YES,���Y�Җ�����: �S�p84���� ? ���p168���� (�S�p�Ɣ��p������) �A���t�@�x�b�g���ȊO�̓��ꕶ���ɂ��ẮA�S�p�Őݒ�B
+jvd_br,seisansha_jusho_jichishomei,9,character varying,20,YES,���Y�ҏZ�������Ȗ�: �S�p10�����@���Y�҂̏��ݒn������
+jvd_br,seiseki_joho_1,10,character varying,60,YES,<�{�N��݌v���я��>: �{�N�E�݌v�̏��ɐݒ�
+jvd_br,seiseki_joho_2,11,character varying,60,YES,�ݒ�N: ���я��ɐݒ肳��Ă���N�x(����)
+jvd_bt,record_id,1,character varying,2,YES,"���R�[�h���ID: ""BT""���Z�b�g���R�[�h�t�H�[�}�b�g����肷��"
+jvd_bt,data_kubun,2,character varying,1,YES,�f�[�^�敪: 1:�V�K�o�^ 2:�X�V 0:�Y�����R�[�h�폜(�񋟃~�X�Ȃǂ̗��R�ɂ��)
+jvd_bt,data_sakusei_nengappi,3,character varying,8,YES,�f�[�^�쐬�N����: ����4���{�����e2�� yyyymmdd �`��
+jvd_bt,hanshoku_toroku_bango,4,character varying,10,NO,�ɐB�o�^�ԍ�: nan
+jvd_bt,keito_id,5,character varying,30,YES,�n��ID: 2�����ƂɌn����\������ID�B�ڂ����͓��L�������Q��
+jvd_bt,keito_mei,6,character varying,36,YES,"�n����: ""�T���f�[�T�C�����X""�n�ȂǁA���̌n���̖���"
+jvd_bt,keito_setsumei,7,character varying,6800,YES,�n������: �e�L�X�g��
+jvd_cc,record_id,1,character varying,2,YES,"���R�[�h���ID: ""CC"" ���Z�b�g���R�[�h�t�H�[�}�b�g����肷��"
+jvd_cc,data_kubun,2,character varying,1,YES,�f�[�^�敪: 1:�����l
+jvd_cc,data_sakusei_nengappi,3,character varying,8,YES,�f�[�^�쐬�N����: ����4���{�����e2�� yyyymmdd �`��
+jvd_cc,kaisai_nen,4,character varying,4,NO,�J�ÔN: �Y�����[�X�{�s�N ����4�� yyyy�`��
+jvd_cc,kaisai_tsukihi,5,character varying,4,NO,�J�Ì���: �Y�����[�X�{�s���� �e2�� mmdd�`��
+jvd_cc,keibajo_code,6,character varying,2,NO,���n��R�[�h: �Y�����[�X�{�s���n�� <�R�[�h�\ 2001.���n��R�[�h>�Q��
+jvd_cc,kaisai_kai,7,character varying,2,YES,�J�É�[��N��]: �Y�����[�X�{�s�� ���̋��n��ł��̔N�̉���ڂ̊J�Â�������
+jvd_cc,kaisai_nichime,8,character varying,2,YES,�J�Ó���[N����]: �Y�����[�X�{�s���� ���̃��[�X�{�s��ŉ����ڂ̊J�Â�������
+jvd_cc,race_bango,9,character varying,2,NO,���[�X�ԍ�: �Y�����[�X�ԍ�
+jvd_cc,happyo_tsukihi_jifun,10,character varying,8,YES,���\��������: ���������e2��
+jvd_cc,kyori,11,character varying,4,YES,<�ύX����>: nan
+jvd_cc,track_code,12,character varying,2,YES,�ύX�� ����: �P�ʁF���[�g��
+jvd_cc,kyori_henkomae,13,character varying,4,YES,�ύX�� �g���b�N�R�[�h: <�R�[�h�\ 2009.�g���b�N�R�[�h>�Q��
+jvd_cc,track_code_henkomae,14,character varying,2,YES,<�ύX�O���>: nan
+jvd_cc,jiyu_kubun,15,character varying,1,YES,�ύX�O ����: �P�ʁF���[�g��
+jvd_ch,record_id,1,character varying,2,YES,"���R�[�h���ID: ""CH"" ���Z�b�g���R�[�h�t�H�[�}�b�g����肷��"
+jvd_ch,data_kubun,2,character varying,1,YES,�f�[�^�敪: 1:�V�K�o�^ 2:�X�V 0:�Y�����R�[�h�폜(�񋟃~�X�Ȃǂ̗��R�ɂ��)
+jvd_ch,data_sakusei_nengappi,3,character varying,8,YES,�f�[�^�쐬�N����: ����4���{�����e2�� yyyymmdd �`��
+jvd_ch,chokyoshi_code,4,character varying,5,NO,�����t�R�[�h: nan
+jvd_ch,massho_kubun,5,character varying,1,YES,�����t�����敪: 0:���� 1:����
+jvd_ch,menkyo_kofu_nengappi,6,character varying,8,YES,�����t�Ƌ���t�N����: �N4��(����)�{�����e2�� yyyymmdd �`��
+jvd_ch,menkyo_massho_nengappi,7,character varying,8,YES,�����t�Ƌ������N����: �N4��(����)�{�����e2�� yyyymmdd �`��
+jvd_ch,seinengappi,8,character varying,8,YES,���N����: �N4��(����)�{�����e2�� yyyymmdd �`��
+jvd_ch,chokyoshimei,9,character varying,34,YES,�����t��: �S�p17�����@���{�S�p��1�����{���@�O���l�̏ꍇ�͘A��17����
+jvd_ch,chokyoshimei_hankaku_kana,10,character varying,30,YES,�����t�����p��: ���p30�����@��15�����{��15�����@�O���l�̏ꍇ�͘A��30����
+jvd_ch,chokyoshimei_ryakusho,11,character varying,8,YES,�����t������: �S�p4����
+jvd_ch,chokyoshimei_eur,12,character varying,80,YES,�����t������: ���p80�����@���{���p��1�����{���@�t���l�[���ŋL��
+jvd_ch,seibetsu_kubun,13,character varying,1,YES,���ʋ敪: 1:�j���@2:����
+jvd_ch,tozai_shozoku_code,14,character varying,1,YES,�����t���������R�[�h: <�R�[�h�\ 2301.���������R�[�h>�Q��
+jvd_ch,shotai_chiikimei,15,character varying,20,YES,���Ғn�於: �S�p10����
+jvd_ch,jushoshori_joho_1,16,character varying,163,YES,<�ŋߏd�܏������>: ���߂̏d�܏������珇�ɐݒ�
+jvd_ch,jushoshori_joho_2,17,character varying,163,YES,�N��������R: ���[�X�ڍׂ̃L�[���
+jvd_ch,jushoshori_joho_3,18,character varying,163,YES,�������{��: �S�p30����
+jvd_ch,seiseki_joho_1,19,character varying,1052,YES,����������10����: �S�p10����
+jvd_ch,seiseki_joho_2,20,character varying,1052,YES,����������6����: �S�p6����
+jvd_ch,seiseki_joho_3,21,character varying,1052,YES,����������3����: �S�p3����
+jvd_ck,record_id,1,character varying,2,YES,"���R�[�h���ID: ""CK"" ���Z�b�g���R�[�h�t�H�[�}�b�g����肷��"
+jvd_ck,data_kubun,2,character varying,1,YES,�f�[�^�敪: 1:�V�K�o�^ 2:�X�V 0:�Y�����R�[�h�폜(�񋟃~�X�Ȃǂ̗��R�ɂ��)
+jvd_ck,data_sakusei_nengappi,3,character varying,8,YES,�f�[�^�쐬�N����: ����4���{�����e2�� yyyymmdd �`��
+jvd_ck,kaisai_nen,4,character varying,4,NO,�J�ÔN: �Y�����[�X�{�s�N ����4�� yyyy�`��
+jvd_ck,kaisai_tsukihi,5,character varying,4,NO,�J�Ì���: �Y�����[�X�{�s���� �e2�� mmdd�`��
+jvd_ck,keibajo_code,6,character varying,2,NO,���n��R�[�h: �Y�����[�X�{�s���n�� <�R�[�h�\ 2001.���n��R�[�h>�Q��
+jvd_ck,kaisai_kai,7,character varying,2,YES,�J�É�[��N��]: �Y�����[�X�{�s�� ���̋��n��ł��̔N�̉���ڂ̊J�Â�������
+jvd_ck,kaisai_nichime,8,character varying,2,YES,�J�Ó���[N����]: �Y�����[�X�{�s���� ���̃��[�X�{�s��ŉ����ڂ̊J�Â�������
+jvd_ck,race_bango,9,character varying,2,NO,���[�X�ԍ�: �Y�����[�X�ԍ�
+jvd_ck,ketto_toroku_bango,10,character varying,10,NO,�����o�^�ԍ�: ���N(����)4���{1�{����5��
+jvd_ck,bamei,11,character varying,36,YES,�n��: �ʏ�S�p18�����B
+jvd_ck,heichi_honshokin_ruikei,12,character varying,9,YES,���n�{�܋��݌v: �P�ʁF�S�~�@�i�����̕��n�{�܋��̍��v�j
+jvd_ck,shogai_honshokin_ruikei,13,character varying,9,YES,��Q�{�܋��݌v: �P�ʁF�S�~�@�i�����̏�Q�{�܋��̍��v�j
+jvd_ck,heichi_fukashokin_ruikei,14,character varying,9,YES,���n�t���܋��݌v: �P�ʁF�S�~�@�i�����̕��n�t���܋��̍��v�j
+jvd_ck,shogai_fukashokin_ruikei,15,character varying,9,YES,��Q�t���܋��݌v: �P�ʁF�S�~�@�i�����̏�Q�t���܋��̍��v�j
+jvd_ck,heichi_shutokushokin_ruikei,16,character varying,9,YES,���n�����܋��݌v: �P�ʁF�S�~�@�i�����{�����ȊO�̕��n�ݐώ����܋��j
+jvd_ck,shogai_shutokushokin_ruikei,17,character varying,9,YES,��Q�����܋��݌v: �P�ʁF�S�~�@�i�����{�����ȊO�̏�Q�ݐώ����܋��j
+jvd_ck,sogo,18,character varying,18,YES,��������: 1��?5���y�ђ��O(6���ȉ�)�̉񐔁i�����{�n���{�C�O)
+jvd_ck,chuo_gokei,19,character varying,18,YES,�������v����: 1��?5���y�ђ��O(6���ȉ�)�̉񐔁i�����̂�)
+jvd_ck,shiba_choku,20,character varying,18,YES,<�n��ʒ���>: nan
+jvd_ck,shiba_migi,21,character varying,18,YES,�Œ��E����: �ŁE�����R�[�X�ł�1��?5���y�ђ��O(6���ȉ�)�̉񐔁i�����̂�)
+jvd_ck,shiba_hidari,22,character varying,18,YES,�ŉE�E����: �ŁE�E���R�[�X�ł�1��?5���y�ђ��O(6���ȉ�)�̉񐔁i�����̂�)
+jvd_ck,dirt_choku,23,character varying,18,YES,�ō��E����: �ŁE�����R�[�X�ł�1��?5���y�ђ��O(6���ȉ�)�̉񐔁i�����̂�)
+jvd_ck,dirt_migi,24,character varying,18,YES,�_���E����: �_�[�g�E�����R�[�X�ł�1��?5���y�ђ��O(6���ȉ�)�̉񐔁i�����̂�)
+jvd_ck,dirt_hidari,25,character varying,18,YES,�_�E�E����: �_�[�g�E�E���R�[�X�ł�1��?5���y�ђ��O(6���ȉ�)�̉񐔁i�����̂�)
+jvd_ck,shogai,26,character varying,18,YES,�_���E����: �_�[�g�E�����R�[�X�ł�1��?5���y�ђ��O(6���ȉ�)�̉񐔁i�����̂�)
+jvd_ck,shiba_ryo,27,character varying,18,YES,��Q�E����: ��Q���[�X�ł�1��?5���y�ђ��O(6���ȉ�)�̉񐔁i�����̂�)
+jvd_ck,shiba_yayaomo,28,character varying,18,YES,<�n���ԕʒ���>: nan
+jvd_ck,shiba_omo,29,character varying,18,YES,�ŗǁE����: �ŁE�ǔn��ł�1��?5���y�ђ��O(6���ȉ�)�̉񐔁i�����̂�)
+jvd_ck,shiba_furyo,30,character varying,18,YES,���c�E����: �ŁE�c�d�n��ł�1��?5���y�ђ��O(6���ȉ�)�̉񐔁i�����̂�)
+jvd_ck,dirt_ryo,31,character varying,18,YES,�ŏd�E����: �ŁE�d�n��ł�1��?5���y�ђ��O(6���ȉ�)�̉񐔁i�����̂�)
+jvd_ck,dirt_yayaomo,32,character varying,18,YES,�ŕs�E����: �ŁE�s�ǔn��ł�1��?5���y�ђ��O(6���ȉ�)�̉񐔁i�����̂�)
+jvd_ck,dirt_omo,33,character varying,18,YES,�_�ǁE����: �_�[�g�E�ǔn��ł�1��?5���y�ђ��O(6���ȉ�)�̉񐔁i�����̂�)
+jvd_ck,dirt_furyo,34,character varying,18,YES,�_�c�E����: �_�[�g�E�c�d�n��ł�1��?5���y�ђ��O(6���ȉ�)�̉񐔁i�����̂�)
+jvd_ck,shogai_ryo,35,character varying,18,YES,�_�d�E����: �_�[�g�E�d�n��ł�1��?5���y�ђ��O(6���ȉ�)�̉񐔁i�����̂�)
+jvd_ck,shogai_yayaomo,36,character varying,18,YES,�_�s�E����: �_�[�g�E�s�ǔn��ł�1��?5���y�ђ��O(6���ȉ�)�̉񐔁i�����̂�)
+jvd_ck,shogai_omo,37,character varying,18,YES,��ǁE����: ��Q���[�X�E�ǔn��ł�1��?5���y�ђ��O(6���ȉ�)�̉񐔁i�����̂�)
+jvd_ck,shogai_furyo,38,character varying,18,YES,���c�E����: ��Q���[�X�E�c�d�n��ł�1��?5���y�ђ��O(6���ȉ�)�̉񐔁i�����̂�)
+jvd_ck,shiba_1200_ika,39,character varying,18,YES,��d�E����: ��Q���[�X�E�d�n��ł�1��?5���y�ђ��O(6���ȉ�)�̉񐔁i�����̂�)
+jvd_ck,shiba_1201_1400,40,character varying,18,YES,��s�E����: ��Q���[�X�E�s�ǔn��ł�1��?5���y�ђ��O(6���ȉ�)�̉񐔁i�����̂�)
+jvd_ck,shiba_1401_1600,41,character varying,18,YES,<�����ʒ���>: nan
+jvd_ck,shiba_1601_1800,42,character varying,18,YES,��1200�ȉ��E����: �ť1200M�ȉ��ł�1��?5���y�ђ��O(6���ȉ�)�̉񐔁i�����̂�)
+jvd_ck,shiba_1801_2000,43,character varying,18,YES,��1201-1400�E����: �ť1201�l�ȏ�1400M�ȉ��ł�1��?5���y�ђ��O(6���ȉ�)�̉񐔁i�����̂�)
+jvd_ck,shiba_2001_2200,44,character varying,18,YES,��1401-1600�E����: �ť1401�l�ȏ�1600M�ȉ��ł�1��?5���y�ђ��O(6���ȉ�)�̉񐔁i�����̂�)
+jvd_ck,shiba_2201_2400,45,character varying,18,YES,��1601-1800�E����: �ť1601�l�ȏ�1800M�ȉ��ł�1��?5���y�ђ��O(6���ȉ�)�̉񐔁i�����̂�)
+jvd_ck,shiba_2401_2800,46,character varying,18,YES,��1801-2000�E����: �ť1801�l�ȏ�2000M�ȉ��ł�1��?5���y�ђ��O(6���ȉ�)�̉񐔁i�����̂�)
+jvd_ck,shiba_2801_ijo,47,character varying,18,YES,��2001-2200�E����: �ť2001�l�ȏ�2200M�ȉ��ł�1��?5���y�ђ��O(6���ȉ�)�̉񐔁i�����̂�)
+jvd_ck,dirt_1200_ika,48,character varying,18,YES,��2201-2400�E����: �ť2201�l�ȏ�2400M�ȉ��ł�1��?5���y�ђ��O(6���ȉ�)�̉񐔁i�����̂�)
+jvd_ck,dirt_1201_1400,49,character varying,18,YES,��2401-2800�E����: �ť2401�l�ȏ�2800M�ȉ��ł�1��?5���y�ђ��O(6���ȉ�)�̉񐔁i�����̂�)
+jvd_ck,dirt_1401_1600,50,character varying,18,YES,��2801�ȏ�E����: �ť2801�l�ȏ�ł�1��?5���y�ђ��O(6���ȉ�)�̉񐔁i�����̂�)
+jvd_ck,dirt_1601_1800,51,character varying,18,YES,�_1200�ȉ��E����: �_�[�g�1200M�ȉ��ł�1��?5���y�ђ��O(6���ȉ�)�̉񐔁i�����̂�)
+jvd_ck,dirt_1801_2000,52,character varying,18,YES,�_1201-1400�E����: �_�[�g�1201�l�ȏ�1400M�ȉ��ł�1��?5���y�ђ��O(6���ȉ�)�̉񐔁i�����̂�)
+jvd_ck,dirt_2001_2200,53,character varying,18,YES,�_1401-1600�E����: �_�[�g�1401�l�ȏ�1600M�ȉ��ł�1��?5���y�ђ��O(6���ȉ�)�̉񐔁i�����̂�)
+jvd_ck,dirt_2201_2400,54,character varying,18,YES,�_1601-1800�E����: �_�[�g�1601�l�ȏ�1800M�ȉ��ł�1��?5���y�ђ��O(6���ȉ�)�̉񐔁i�����̂�)
+jvd_ck,dirt_2401_2800,55,character varying,18,YES,�_1801-2000�E����: �_�[�g�1801�l�ȏ�2000M�ȉ��ł�1��?5���y�ђ��O(6���ȉ�)�̉񐔁i�����̂�)
+jvd_ck,dirt_2801_ijo,56,character varying,18,YES,�_2001-2200�E����: �_�[�g�2001�l�ȏ�2200M�ȉ��ł�1��?5���y�ђ��O(6���ȉ�)�̉񐔁i�����̂�)
+jvd_ck,shiba_sapporo,57,character varying,18,YES,�_2201-2400�E����: �_�[�g�2201�l�ȏ�2400M�ȉ��ł�1��?5���y�ђ��O(6���ȉ�)�̉񐔁i�����̂�)
+jvd_ck,shiba_hakodate,58,character varying,18,YES,�_2401-2800�E����: �_�[�g�2401�l�ȏ�2800M�ȉ��ł�1��?5���y�ђ��O(6���ȉ�)�̉񐔁i�����̂�)
+jvd_ck,shiba_fukushima,59,character varying,18,YES,�_2801�ȏ�E����: �_�[�g�2801�l�ȏ�ł�1��?5���y�ђ��O(6���ȉ�)�̉񐔁i�����̂�)
+jvd_ck,shiba_niigata,60,character varying,18,YES,<���n��ʒ���>: nan
+jvd_ck,shiba_tokyo,61,character varying,18,YES,�D�y�ŁE����: �D�y�E�łł�1��?5���y�ђ��O(6���ȉ�)�̉�
+jvd_ck,shiba_nakayama,62,character varying,18,YES,���َŁE����: ���فE�łł�1��?5���y�ђ��O(6���ȉ�)�̉�
+jvd_ck,shiba_chukyo,63,character varying,18,YES,�����ŁE����: �����E�łł�1��?5���y�ђ��O(6���ȉ�)�̉�
+jvd_ck,shiba_kyoto,64,character varying,18,YES,�V���ŁE����: �V���E�łł�1��?5���y�ђ��O(6���ȉ�)�̉�
+jvd_ck,shiba_hanshin,65,character varying,18,YES,�����ŁE����: �����E�łł�1��?5���y�ђ��O(6���ȉ�)�̉�
+jvd_ck,shiba_kokura,66,character varying,18,YES,���R�ŁE����: ���R�E�łł�1��?5���y�ђ��O(6���ȉ�)�̉�
+jvd_ck,dirt_sapporo,67,character varying,18,YES,�����ŁE����: �����E�łł�1��?5���y�ђ��O(6���ȉ�)�̉�
+jvd_ck,dirt_hakodate,68,character varying,18,YES,���s�ŁE����: ���s�E�łł�1��?5���y�ђ��O(6���ȉ�)�̉�
+jvd_ck,dirt_fukushima,69,character varying,18,YES,��_�ŁE����: ��_�E�łł�1��?5���y�ђ��O(6���ȉ�)�̉�
+jvd_ck,dirt_niigata,70,character varying,18,YES,���q�ŁE����: ���q�E�łł�1��?5���y�ђ��O(6���ȉ�)�̉�
+jvd_ck,dirt_tokyo,71,character varying,18,YES,�D�y�_�E����: �D�y�E�_�[�g�ł�1��?5���y�ђ��O(6���ȉ�)�̉�
+jvd_ck,dirt_nakayama,72,character varying,18,YES,���ك_�E����: ���فE�_�[�g�ł�1��?5���y�ђ��O(6���ȉ�)�̉�
+jvd_ck,dirt_chukyo,73,character varying,18,YES,�����_�E����: �����E�_�[�g�ł�1��?5���y�ђ��O(6���ȉ�)�̉�
+jvd_ck,dirt_kyoto,74,character varying,18,YES,�V���_�E����: �V���E�_�[�g�ł�1��?5���y�ђ��O(6���ȉ�)�̉�
+jvd_ck,dirt_hanshin,75,character varying,18,YES,�����_�E����: �����E�_�[�g�ł�1��?5���y�ђ��O(6���ȉ�)�̉�
+jvd_ck,dirt_kokura,76,character varying,18,YES,���R�_�E����: ���R�E�_�[�g�ł�1��?5���y�ђ��O(6���ȉ�)�̉�
+jvd_ck,shogai_sapporo,77,character varying,18,YES,�����_�E����: �����E�_�[�g�ł�1��?5���y�ђ��O(6���ȉ�)�̉�
+jvd_ck,shogai_hakodate,78,character varying,18,YES,���s�_�E����: ���s�E�_�[�g�ł�1��?5���y�ђ��O(6���ȉ�)�̉�
+jvd_ck,shogai_fukushima,79,character varying,18,YES,��_�_�E����: ��_�E�_�[�g�ł�1��?5���y�ђ��O(6���ȉ�)�̉�
+jvd_ck,shogai_niigata,80,character varying,18,YES,���q�_�E����: ���q�E�_�[�g�ł�1��?5���y�ђ��O(6���ȉ�)�̉�
+jvd_ck,shogai_tokyo,81,character varying,18,YES,�D�y��E����: �D�y�E��Q�ł�1��?5���y�ђ��O(6���ȉ�)�̉�
+jvd_ck,shogai_nakayama,82,character varying,18,YES,���ُ�E����: ���فE��Q�ł�1��?5���y�ђ��O(6���ȉ�)�̉�
+jvd_ck,shogai_chukyo,83,character varying,18,YES,������E����: �����E��Q�ł�1��?5���y�ђ��O(6���ȉ�)�̉�
+jvd_ck,shogai_kyoto,84,character varying,18,YES,�V����E����: �V���E��Q�ł�1��?5���y�ђ��O(6���ȉ�)�̉�
+jvd_ck,shogai_hanshin,85,character varying,18,YES,������E����: �����E��Q�ł�1��?5���y�ђ��O(6���ȉ�)�̉�
+jvd_ck,shogai_kokura,86,character varying,18,YES,���R��E����: ���R�E��Q�ł�1��?5���y�ђ��O(6���ȉ�)�̉�
+jvd_ck,kyakushitsu_keiko,87,character varying,12,YES,������E����: �����E��Q�ł�1��?5���y�ђ��O(6���ȉ�)�̉�
+jvd_ck,toroku_race_su,88,character varying,3,YES,���s��E����: ���s�E��Q�ł�1��?5���y�ђ��O(6���ȉ�)�̉�
+jvd_ck,kishu_code,89,character varying,5,YES,��_��E����: ��_�E��Q�ł�1��?5���y�ђ��O(6���ȉ�)�̉�
+jvd_ck,kishumei,90,character varying,34,YES,���q��E����: ���q�E��Q�ł�1��?5���y�ђ��O(6���ȉ�)�̉�
+jvd_ck,seiseki_joho_kishu_1,91,character varying,1220,YES,�r���X��: �����񐔁A��s�񐔁A�����񐔁A�Ǎ��񐔂�ݒ� �ߋ��o�����[�X�̋r���𔻒肵�J�E���g��������(�������[�X�̂�)
+jvd_ck,seiseki_joho_kishu_2,92,character varying,1220,YES,�o�^���[�X��: JRA-VAN�ɓo�^����Ă��鐬�у��[�X��
+jvd_ck,chokyoshi_code,93,character varying,5,YES,<�R����>: nan
+jvd_ck,chokyoshimei,94,character varying,34,YES,�R��R�[�h: nan
+jvd_ck,seiseki_joho_chokyoshi_1,95,character varying,1220,YES,�R�薼: �S�p17�����@���{�S�p��1�����{���@�O���l�̏ꍇ�͘A��17����
+jvd_ck,seiseki_joho_chokyoshi_2,96,character varying,1220,YES,<�R��{�N��݌v���я��>: �{�N�E�݌v�̏��ɐݒ�
+jvd_ck,banushi_code,97,character varying,6,YES,�ݒ�N: ���я��ɐݒ肳��Ă���N�x(����)
+jvd_ck,banushimei_hojinkaku,98,character varying,64,YES,���n�{�܋����v: �P�ʁF�S�~�@�i�����̕��n�{�܋��̍��v�j
+jvd_ck,banushimei,99,character varying,64,YES,��Q�{�܋����v: �P�ʁF�S�~�@�i�����̏�Q�{�܋��̍��v�j
+jvd_ck,seiseki_joho_banushi_1,100,character varying,60,YES,���n�t���܋����v: �P�ʁF�S�~�@�i�����̕��n�t���܋��̍��v�j
+jvd_ck,seiseki_joho_banushi_2,101,character varying,60,YES,��Q�t���܋����v: �P�ʁF�S�~�@�i�����̏�Q�t���܋��̍��v�j
+jvd_ck,seisansha_code,102,character varying,8,YES,�Œ���: 1��?5���y�ђ��O(6���ȉ�)�̉񐔁i�����̂�)
+jvd_ck,seisanshamei_hojinkaku,103,character varying,72,YES,�_�[�g����: 1��?5���y�ђ��O(6���ȉ�)�̉񐔁i�����̂�)
+jvd_ck,seisanshamei,104,character varying,72,YES,��Q����: 1��?5���y�ђ��O(6���ȉ�)�̉񐔁i�����̂�)
+jvd_ck,seiseki_joho_seisansha_1,105,character varying,60,YES,��1200�ȉ��E����: �ť1200M�ȉ��ł�1��?5���y�ђ��O(6���ȉ�)�̉񐔁i�����̂�)
+jvd_ck,seiseki_joho_seisansha_2,106,character varying,60,YES,��1201-1400�E����: �ť1201�l�ȏ�1400M�ȉ��ł�1��?5���y�ђ��O(6���ȉ�)�̉񐔁i�����̂�)
+jvd_cs,record_id,1,character varying,2,YES,"���R�[�h���ID: ""CS""���Z�b�g���R�[�h�t�H�[�}�b�g����肷��"
+jvd_cs,data_kubun,2,character varying,1,YES,�f�[�^�敪: 1:�V�K�o�^ 2:�X�V 0:�Y�����R�[�h�폜(�񋟃~�X�Ȃǂ̗��R�ɂ��)
+jvd_cs,data_sakusei_nengappi,3,character varying,8,YES,�f�[�^�쐬�N����: ����4���{�����e2�� yyyymmdd �`��
+jvd_cs,keibajo_code,4,character varying,2,NO,���n��R�[�h: <�R�[�h�\ 2001.���n��R�[�h>�Q��
+jvd_cs,kyori,5,character varying,4,NO,����: �P�ʁF���[�g��
+jvd_cs,track_code,6,character varying,2,NO,�g���b�N�R�[�h: <�R�[�h�\ 2009.�g���b�N�R�[�h>�Q��
+jvd_cs,course_kaishu_nengappi,7,character varying,8,NO,�R�[�X���C�N����: ����4���{�����e2�� yyyymmdd �`���@(�R�[�X���C��A�ŏ��ɍs��ꂽ�J�Ó��j
+jvd_cs,course_setsumei,8,character varying,6800,YES,�R�[�X����: �e�L�X�g��
+jvd_dm,record_id,1,character varying,2,YES,"���R�[�h���ID: ""DM""���Z�b�g���R�[�h�t�H�[�}�b�g����肷��"
+jvd_dm,data_kubun,2,character varying,1,YES,�f�[�^�敪: 1:�O���\�z(�o�n���\��)�@2:�����\�z(�V��n�ꔭ�\��) 3:���O�\�z(�n�̏d���\��) 7:����(���j)�@0:�Y�����R�[�h�폜(�񋟃~�X�Ȃǂ̗��R�ɂ��) ��1 7:����(���j)�͒~�όn�f�[�^�̂ݐݒ肳��܂��B     �~�όn�f�[�^�ɂ�7:����(���j)�񋟌������n�f�[�^�ɂ�3:���O�\�z(�n�̏d��...
+jvd_dm,data_sakusei_nengappi,3,character varying,8,YES,�f�[�^�쐬�N����: ����4���{�����e2�� yyyymmdd �`��
+jvd_dm,kaisai_nen,4,character varying,4,NO,�J�ÔN: �Y�����[�X�{�s�N ����4�� yyyy�`��
+jvd_dm,kaisai_tsukihi,5,character varying,4,NO,�J�Ì���: �Y�����[�X�{�s���� �e2�� mmdd�`��
+jvd_dm,keibajo_code,6,character varying,2,NO,���n��R�[�h: �Y�����[�X�{�s���n�� <�R�[�h�\ 2001.���n��R�[�h>�Q��
+jvd_dm,kaisai_kai,7,character varying,2,YES,�J�É�[��N��]: �Y�����[�X�{�s�� ���̋��n��ł��̔N�̉���ڂ̊J�Â�������
+jvd_dm,kaisai_nichime,8,character varying,2,YES,�J�Ó���[N����]: �Y�����[�X�{�s���� ���̃��[�X�{�s��ŉ����ڂ̊J�Â�������
+jvd_dm,race_bango,9,character varying,2,NO,���[�X�ԍ�: �Y�����[�X�ԍ�
+jvd_dm,data_sakusei_jifun,10,character varying,4,YES,�f�[�^�쐬����: �����e2��
+jvd_dm,mining_yoso_01,11,character varying,15,YES,<�}�C�j���O�\�z>: nan
+jvd_dm,mining_yoso_02,12,character varying,15,YES,�n��: �Y���n��01?18
+jvd_dm,mining_yoso_03,13,character varying,15,YES,�\�z���j�^�C��: 9��99�b99�Őݒ�
+jvd_dm,mining_yoso_04,14,character varying,15,YES,�\�z�덷(�M���x)�{: 99�b99�Őݒ� �\�z�^�C���́{�덷��ݒ�(�{�����̌덷�B�\�z���j�^�C���ɑ΂��đ����Ȃ�����B�\�z���j�^�C������}�C�i�X����B)
+jvd_dm,mining_yoso_05,15,character varying,15,YES,�\�z�덷(�M���x)?: 99�b99�Őݒ� �\�z�^�C����?�덷��ݒ�(?�����̌덷�B�\�z���j�^�C���ɑ΂��Ēx���Ȃ�����B�\�z���j�^�C���Ƀv���X����B)
+jvd_dm,mining_yoso_06,16,character varying,15,YES,���R�[�h���: CR/LF
+jvd_dm,mining_yoso_07,17,character varying,15,YES,���ږ�: ����
+jvd_dm,mining_yoso_08,18,character varying,15,YES,�}�C�j���O�\�z8
+jvd_dm,mining_yoso_09,19,character varying,15,YES,�}�C�j���O�\�z9
+jvd_dm,mining_yoso_10,20,character varying,15,YES,�}�C�j���O�\�z10
+jvd_dm,mining_yoso_11,21,character varying,15,YES,�}�C�j���O�\�z11
+jvd_dm,mining_yoso_12,22,character varying,15,YES,�}�C�j���O�\�z12
+jvd_dm,mining_yoso_13,23,character varying,15,YES,�}�C�j���O�\�z13
+jvd_dm,mining_yoso_14,24,character varying,15,YES,�}�C�j���O�\�z14
+jvd_dm,mining_yoso_15,25,character varying,15,YES,�}�C�j���O�\�z15
+jvd_dm,mining_yoso_16,26,character varying,15,YES,�}�C�j���O�\�z16
+jvd_dm,mining_yoso_17,27,character varying,15,YES,�}�C�j���O�\�z17
+jvd_dm,mining_yoso_18,28,character varying,15,YES,�}�C�j���O�\�z18
+jvd_h1,record_id,1,character varying,2,YES,"���R�[�h���ID: ""H1"" ���Z�b�g���R�[�h�t�H�[�}�b�g����肷��"
+jvd_h1,data_kubun,2,character varying,1,YES,�f�[�^�敪: 2:�O�����ŏI�@4:�m��@5:�m��(���j) 9:���[�X���~�@0:�Y�����R�[�h�폜(�񋟃~�X�Ȃǂ̗��R�ɂ��)
+jvd_h1,data_sakusei_nengappi,3,character varying,8,YES,�f�[�^�쐬�N����: ����4���{�����e2�� yyyymmdd �`��
+jvd_h1,kaisai_nen,4,character varying,4,NO,�J�ÔN: �Y�����[�X�{�s�N ����4�� yyyy�`��
+jvd_h1,kaisai_tsukihi,5,character varying,4,NO,�J�Ì���: �Y�����[�X�{�s���� �e2�� mmdd�`��
+jvd_h1,keibajo_code,6,character varying,2,NO,���n��R�[�h: �Y�����[�X�{�s���n�� <�R�[�h�\ 2001.���n��R�[�h>�Q��
+jvd_h1,kaisai_kai,7,character varying,2,YES,�J�É�[��N��]: �Y�����[�X�{�s�� ���̋��n��ł��̔N�̉���ڂ̊J�Â�������
+jvd_h1,kaisai_nichime,8,character varying,2,YES,�J�Ó���[N����]: �Y�����[�X�{�s���� ���̃��[�X�{�s��ŉ����ڂ̊J�Â�������
+jvd_h1,race_bango,9,character varying,2,NO,���[�X�ԍ�: �Y�����[�X�ԍ�
+jvd_h1,toroku_tosu,10,character varying,2,YES,�o�^����: �o�n�\���\���̓o�^����
+jvd_h1,shusso_tosu,11,character varying,2,YES,�o������: �o�^��������o������Ƌ������O��������O������������
+jvd_h1,hatsubai_flag_tansho,12,character varying,1,YES,�����t���O�@�P��: �P�������̗L���@�i0:�����Ȃ� 1:�����O��� 3:�������� 7:��������j
+jvd_h1,hatsubai_flag_fukusho,13,character varying,1,YES,�����t���O�@����: ���������̗L���@�i0:�����Ȃ� 1:�����O��� 3:�������� 7:��������j
+jvd_h1,hatsubai_flag_wakuren,14,character varying,1,YES,�����t���O�@�g�A: �g�A�����̗L���@�i0:�����Ȃ� 1:�����O��� 3:�������� 7:��������j
+jvd_h1,hatsubai_flag_umaren,15,character varying,1,YES,�����t���O�@�n�A: �n�A�����̗L���@�i0:�����Ȃ� 1:�����O��� 3:�������� 7:��������j
+jvd_h1,hatsubai_flag_wide,16,character varying,1,YES,�����t���O�@���C�h: ���C�h�����̗L���i0:�����Ȃ� 1:�����O��� 3:�������� 7:��������j
+jvd_h1,hatsubai_flag_umatan,17,character varying,1,YES,�����t���O�@�n�P: �n�P�����̗L���@�i0:�����Ȃ� 1:�����O��� 3:�������� 7:��������j
+jvd_h1,hatsubai_flag_sanrenpuku,18,character varying,1,YES,�����t���O�@3�A��: 3�A�������̗L�� �i0:�����Ȃ� 1:�����O��� 3:�������� 7:��������j
+jvd_h1,fukusho_chakubarai_key,19,character varying,1,YES,���������L�[: �����̒����L�[�@�i0:���������Ȃ� 2:2���܂ŕ��� 3:3���܂ŕ����j
+jvd_h1,henkan_umaban_joho,20,character varying,28,YES,"�ԊҔn�ԏ��(�n��01?28): �i0:�Ԋ҂Ȃ� 1:�Ԋ҂���j�@�����������ƂȂ�ԊґΏۂƂȂ����n�Ԃ̃G���A�� ""1"" ��ݒ� �i��j5�Ԏ�����̏ꍇ 0000100000000000000000000000"
+jvd_h1,henkan_wakuban_joho,21,character varying,8,YES,"�ԊҘg�ԏ��(�g��1?8): �i0:�Ԋ҂Ȃ� 1:�Ԋ҂���j�@�����������ƂȂ�ԊґΏۂƂȂ����g�Ԃ̃G���A�� ""1"" ��ݒ� �i��j10�����Ă�5�Ԏ�����̏ꍇ�A5�g��5�Ԃ݂̂̂���5�g�͂Ȃ��Ȃ� 00001000"
+jvd_h1,henkan_dowaku_joho,22,character varying,8,YES,"�Ԋғ��g���(�g��1?8): �i0:�Ԋ҂Ȃ� 1:�Ԋ҂���j�@�����������ƂȂ�ԊґΏۂƂȂ����g�Ԃ̃G���A�� ""1"" ��ݒ� �i��j10�����Ă�8�Ԏ�����̏ꍇ�A7�g��7�ԁA8�Ԃ̓o�^�����邽��7�g�͎�����ɂȂ�Ȃ� �@�@�@������7-7�͎�����ɂȂ�̂œ��g�̂ݎ������ƂȂ� 00000010"
+jvd_h1,hyosu_tansho,23,character varying,420,YES,<�P���[��>: 28�����Ă܂ōl�����J�Ԃ�28��@�n�ԏ���01?28
+jvd_h1,hyosu_fukusho,24,character varying,420,YES,�n��: �Y���n��
+jvd_h1,hyosu_wakuren,25,character varying,540,YES,�[��: �P�ʕS�~ ALL0:�����O������A�����[���Ȃ��@�X�y�[�X:�o�^�Ȃ�
+jvd_h1,hyosu_umaren,26,character varying,2754,YES,�l�C��: �X�y�[�X:�o�^�Ȃ� ''--'':�����O��� ''**'':��������
+jvd_h1,hyosu_wide,27,character varying,2754,YES,<�����[��>: 28�����Ă܂ōl�����J�Ԃ�28��@�n�ԏ���01?28
+jvd_h1,hyosu_umatan,28,character varying,5508,YES,�n��: �Y���n��
+jvd_h1,hyosu_sanrenpuku,29,character varying,16320,YES,�[��: �P�ʕS�~ ALL0:�����O������A�����[���Ȃ��@�X�y�[�X:�o�^�Ȃ�
+jvd_h1,hyosu_gokei_tansho,30,character varying,11,YES,�l�C��: �X�y�[�X:�o�^�Ȃ� ''--'':�����O��� ''**'':��������
+jvd_h1,hyosu_gokei_fukusho,31,character varying,11,YES,<�g�A�[��>: �g�ԏ����@1-1?8-8
+jvd_h1,hyosu_gokei_wakuren,32,character varying,11,YES,�g��: �Y���g��
+jvd_h1,hyosu_gokei_umaren,33,character varying,11,YES,�[��: �P�ʕS�~ ALL0:�����O������A�����[���Ȃ��@�X�y�[�X:�o�^�Ȃ�
+jvd_h1,hyosu_gokei_wide,34,character varying,11,YES,�l�C��: �X�y�[�X:�o�^�Ȃ� ''--'':�����O��� ''**'':��������
+jvd_h1,hyosu_gokei_umatan,35,character varying,11,YES,<�n�A�[��>: �g�ԏ����@01-02?17-18
+jvd_h1,hyosu_gokei_sanrenpuku,36,character varying,11,YES,�g��: �Y���g��
+jvd_h1,henkan_hyosu_gokei_tansho,37,character varying,11,YES,�[��: �P�ʕS�~ ALL0:�����O������A�����[���Ȃ��@�X�y�[�X:�o�^�Ȃ�
+jvd_h1,henkan_hyosu_gokei_fukusho,38,character varying,11,YES,�l�C��: �X�y�[�X:�o�^�Ȃ� ''---'':�����O��� ''***'':��������
+jvd_h1,henkan_hyosu_gokei_wakuren,39,character varying,11,YES,<���C�h�[��>: �g�ԏ����@01-02?17-18
+jvd_h1,henkan_hyosu_gokei_umaren,40,character varying,11,YES,�g��: �Y���g��
+jvd_h1,henkan_hyosu_gokei_wide,41,character varying,11,YES,�[��: �P�ʕS�~ ALL0:�����O������A�����[���Ȃ��@�X�y�[�X:�o�^�Ȃ�
+jvd_h1,henkan_hyosu_gokei_umatan,42,character varying,11,YES,�l�C��: �X�y�[�X:�o�^�Ȃ� ''---'':�����O��� ''***'':��������
+jvd_h1,henkan_hyosu_gokei_sanrenpuku,43,character varying,11,YES,<�n�P�[��>: �g�ԏ����@01-02?18-17
+jvd_h6,record_id,1,character varying,2,YES,"���R�[�h���ID: ""H6"" ���Z�b�g���R�[�h�t�H�[�}�b�g����肷��"
+jvd_h6,data_kubun,2,character varying,1,YES,�f�[�^�敪: 2:�O�����ŏI�@4:�m��@5:�m��(���j) 9:���[�X���~�@0:�Y�����R�[�h�폜(�񋟃~�X�Ȃǂ̗��R�ɂ��)
+jvd_h6,data_sakusei_nengappi,3,character varying,8,YES,�f�[�^�쐬�N����: ����4���{�����e2�� yyyymmdd �`��
+jvd_h6,kaisai_nen,4,character varying,4,NO,�J�ÔN: �Y�����[�X�{�s�N ����4�� yyyy�`��
+jvd_h6,kaisai_tsukihi,5,character varying,4,NO,�J�Ì���: �Y�����[�X�{�s���� �e2�� mmdd�`��
+jvd_h6,keibajo_code,6,character varying,2,NO,���n��R�[�h: �Y�����[�X�{�s���n�� <�R�[�h�\ 2001.���n��R�[�h>�Q��
+jvd_h6,kaisai_kai,7,character varying,2,YES,�J�É�[��N��]: �Y�����[�X�{�s�� ���̋��n��ł��̔N�̉���ڂ̊J�Â�������
+jvd_h6,kaisai_nichime,8,character varying,2,YES,�J�Ó���[N����]: �Y�����[�X�{�s���� ���̃��[�X�{�s��ŉ����ڂ̊J�Â�������
+jvd_h6,race_bango,9,character varying,2,NO,���[�X�ԍ�: �Y�����[�X�ԍ�
+jvd_h6,toroku_tosu,10,character varying,2,YES,�o�^����: �o�n�\���\���̓o�^����
+jvd_h6,shusso_tosu,11,character varying,2,YES,�o������: �o�^��������o������Ƌ������O��������O������������
+jvd_h6,hatsubai_flag_sanrentan,12,character varying,1,YES,�����t���O�@3�A�P: 3�A�������̗L�� �i0:�����Ȃ� 1:�����O��� 3:�������� 7:��������j
+jvd_h6,henkan_umaban_joho,13,character varying,18,YES,"�ԊҔn�ԏ��(�n��01?18): �i0:�Ԋ҂Ȃ� 1:�Ԋ҂���j�@�����������ƂȂ�ԊґΏۂƂȂ����n�Ԃ̃G���A�� ""1"" ��ݒ� �i��j5�Ԏ�����̏ꍇ 000010000000000000"
+jvd_h6,hyosu_sanrentan,14,character varying,102816,YES,<3�A�P�[��>: �g�ԏ����@01-02-03?18-17-16
+jvd_h6,hyosu_gokei_sanrentan,15,character varying,11,YES,�g��: �Y���g��
+jvd_h6,henkan_hyosu_gokei_sanrentan,16,character varying,11,YES,�[��: �P�ʕS�~ ALL0:�����O������A�����[���Ȃ��@�X�y�[�X:�o�^�Ȃ�
+jvd_hc,record_id,1,character varying,2,YES,"���R�[�h���ID: ""HC"" ���Z�b�g���R�[�h�t�H�[�}�b�g����肷��"
+jvd_hc,data_kubun,2,character varying,1,YES,�f�[�^�敪: 1:�����l�@0:�Y�����R�[�h�폜(�񋟃~�X�Ȃǂ̗��R�ɂ��)
+jvd_hc,data_sakusei_nengappi,3,character varying,8,YES,�f�[�^�쐬�N����: ����4���{�����e2�� yyyymmdd �`��
+jvd_hc,tracen_kubun,4,character varying,1,NO,�g���Z���敪: 0:���Y�@1:�I��
+jvd_hc,chokyo_nengappi,5,character varying,8,NO,�����N����: ����4���{�����e2�� yyyymmdd �`��
+jvd_hc,chokyo_jikoku,6,character varying,4,NO,��������: �����e2��
+jvd_hc,ketto_toroku_bango,7,character varying,10,NO,�����o�^�ԍ�: ���N(����)4���{�i��1���{����5��
+jvd_hc,time_gokei_4f,8,character varying,4,YES,<4�n����800M>: nan
+jvd_hc,lap_time_4f,9,character varying,3,YES,4�n�����^�C�����v(800M?0M): �P��:999.9�b�@����s�ǎ��́@0000�@���Z�b�g
+jvd_hc,time_gokei_3f,10,character varying,4,YES,���b�v�^�C��(800M?600M): �P��:99.9�b�@����s�ǎ��́@000�@���Z�b�g
+jvd_hc,lap_time_3f,11,character varying,3,YES,<3�n����600M>: nan
+jvd_hc,time_gokei_2f,12,character varying,4,YES,3�n�����^�C�����v(600M?0M): �P��:999.9�b�@����s�ǎ��́@0000�@���Z�b�g
+jvd_hc,lap_time_2f,13,character varying,3,YES,���b�v�^�C��(600M?400M): �P��:99.9�b�@����s�ǎ��́@000�@���Z�b�g
+jvd_hc,lap_time_1f,14,character varying,3,YES,<2�n����400M>: nan
+jvd_hn,record_id,1,character varying,2,YES,"���R�[�h���ID: ""HN"" ���Z�b�g���R�[�h�t�H�[�}�b�g����肷��"
+jvd_hn,data_kubun,2,character varying,1,YES,�f�[�^�敪: 1:�V�K�o�^ 2:�X�V 0:�Y�����R�[�h�폜(�񋟃~�X�Ȃǂ̗��R�ɂ��)
+jvd_hn,data_sakusei_nengappi,3,character varying,8,YES,�f�[�^�쐬�N����: ����4���{�����e2�� yyyymmdd �`��
+jvd_hn,hanshoku_toroku_bango,4,character varying,10,NO,�ɐB�o�^�ԍ�: ����n�ŁA�ɐB�o�^�ԍ�����������ꍇ������
+jvd_hn,yobi_1,5,character varying,8,YES,�\��: nan
+jvd_hn,ketto_toroku_bango,6,character varying,10,YES,�����o�^�ԍ�: �O���̔ɐB�n���̗��R�Ō����o�^�ԍ��������l�̏ꍇ������
+jvd_hn,yobi_2,7,character varying,1,YES,"�\��: ""0""��ݒ�"
+jvd_hn,bamei,8,character varying,36,YES,�n��: �S�p18���� ? ���p36���� �i�S�p�Ɣ��p�����݁j �O���̔ɐB�n�̏ꍇ�́A10.�n�������̓�36�o�C�g��ݒ�B
+jvd_hn,bamei_hankaku_kana,9,character varying,40,YES,�n�����p��: ���p40���� ���{�ꔼ�p�ł�ݒ�(���p�ňȊO�̕����͐ݒ肵�Ȃ�)�@�O���ɐB�n�ɂ��Ă͐ݒ肵�Ȃ��B
+jvd_hn,bamei_eur,10,character varying,80,YES,�n������: �S�p40���� ? ���p80���� (�S�p�Ɣ��p������) �A���t�@�x�b�g���ȊO�̓��ꕶ���ɂ��ẮA�S�p�Őݒ�B
+jvd_hn,seinen,11,character varying,4,YES,���N: ����4��
+jvd_hn,seibetsu_code,12,character varying,1,YES,���ʃR�[�h: <�R�[�h�\ 2202.���ʃR�[�h>�Q��
+jvd_hn,hinshu_code,13,character varying,1,YES,�i��R�[�h: <�R�[�h�\ 2201.�i��R�[�h>�Q��
+jvd_hn,moshoku_code,14,character varying,2,YES,�ѐF�R�[�h: <�R�[�h�\ 2203.�ѐF�R�[�h>�Q��
+jvd_hn,mochikomi_kubun,15,character varying,1,YES,�ɐB�n�����敪: 0:�����Y 1:���� 2:�A�������Y���� 3:�A���@9:���̑�
+jvd_hn,yunyu_nen,16,character varying,4,YES,�A���N: ����4��
+jvd_hn,sanchimei,17,character varying,20,YES,�Y�n��: �S�p10����
+jvd_hn,ketto_joho_01a,18,character varying,10,YES,���n�ɐB�o�^�ԍ�: nan
+jvd_hn,ketto_joho_02a,19,character varying,10,YES,��n�ɐB�o�^�ԍ�: nan
+jvd_hr,record_id,1,character varying,2,YES,"���R�[�h���ID: ""HR"" ���Z�b�g���R�[�h�t�H�[�}�b�g����肷��"
+jvd_hr,data_kubun,2,character varying,1,YES,�f�[�^�敪: 1:���񐬐�(���ߋ��m��)�@2:����(���j) 9:���[�X���~�@0:�Y�����R�[�h�폜(�񋟃~�X�Ȃǂ̗��R�ɂ��)
+jvd_hr,data_sakusei_nengappi,3,character varying,8,YES,�f�[�^�쐬�N����: ����4���{�����e2�� yyyymmdd �`��
+jvd_hr,kaisai_nen,4,character varying,4,NO,�J�ÔN: �Y�����[�X�{�s�N ����4�� yyyy�`��
+jvd_hr,kaisai_tsukihi,5,character varying,4,NO,�J�Ì���: �Y�����[�X�{�s���� �e2�� mmdd�`��
+jvd_hr,keibajo_code,6,character varying,2,NO,���n��R�[�h: �Y�����[�X�{�s���n�� <�R�[�h�\ 2001.���n��R�[�h>�Q��
+jvd_hr,kaisai_kai,7,character varying,2,YES,�J�É�[��N��]: �Y�����[�X�{�s�� ���̋��n��ł��̔N�̉���ڂ̊J�Â�������
+jvd_hr,kaisai_nichime,8,character varying,2,YES,�J�Ó���[N����]: �Y�����[�X�{�s���� ���̃��[�X�{�s��ŉ����ڂ̊J�Â�������
+jvd_hr,race_bango,9,character varying,2,NO,���[�X�ԍ�: �Y�����[�X�ԍ�
+jvd_hr,toroku_tosu,10,character varying,2,YES,�o�^����: �o�n�\���\���̓o�^����
+jvd_hr,shusso_tosu,11,character varying,2,YES,�o������: �o�^��������o������Ƌ������O��������O������������
+jvd_hr,fuseiritsu_flag_tansho,12,character varying,1,YES,�s�����t���O�@�P��: �P���s�����̗L���@�i0:�s�����Ȃ� 1:�s��������j
+jvd_hr,fuseiritsu_flag_fukusho,13,character varying,1,YES,�s�����t���O�@����: �����s�����̗L���@�i0:�s�����Ȃ� 1:�s��������j
+jvd_hr,fuseiritsu_flag_wakuren,14,character varying,1,YES,�s�����t���O�@�g�A: �g�A�s�����̗L���@�i0:�s�����Ȃ� 1:�s��������j
+jvd_hr,fuseiritsu_flag_umaren,15,character varying,1,YES,�s�����t���O�@�n�A: �n�A�s�����̗L���@�i0:�s�����Ȃ� 1:�s��������j
+jvd_hr,fuseiritsu_flag_wide,16,character varying,1,YES,�s�����t���O�@���C�h: ���C�h�s�����̗L���i0:�s�����Ȃ� 1:�s��������j
+jvd_hr,yobi_1,17,character varying,1,YES,�\��: nan
+jvd_hr,fuseiritsu_flag_umatan,18,character varying,1,YES,�s�����t���O�@�n�P: �n�P�s�����̗L���@�i0:�s�����Ȃ� 1:�s��������j
+jvd_hr,fuseiritsu_flag_sanrenpuku,19,character varying,1,YES,�s�����t���O�@3�A��: 3�A���s�����̗L�� �i0:�s�����Ȃ� 1:�s��������j
+jvd_hr,fuseiritsu_flag_sanrentan,20,character varying,1,YES,�s�����t���O�@3�A�P: 3�A�P�s�����̗L�� �i0:�s�����Ȃ� 1:�s��������j
+jvd_hr,tokubarai_flag_tansho,21,character varying,1,YES,�����t���O�@�P��: �P�������̗L���@�i0:�����Ȃ� 1:��������j
+jvd_hr,tokubarai_flag_fukusho,22,character varying,1,YES,�����t���O�@����: ���������̗L���@�i0:�����Ȃ� 1:��������j
+jvd_hr,tokubarai_flag_wakuren,23,character varying,1,YES,�����t���O�@�g�A: �g�A�����̗L���@�i0:�����Ȃ� 1:��������j
+jvd_hr,tokubarai_flag_umaren,24,character varying,1,YES,�����t���O�@�n�A: �n�A�����̗L���@�i0:�����Ȃ� 1:��������j
+jvd_hr,tokubarai_flag_wide,25,character varying,1,YES,�����t���O�@���C�h: ���C�h�����̗L���i0:�����Ȃ� 1:��������j
+jvd_hr,yobi_2,26,character varying,1,YES,�\��: nan
+jvd_hr,tokubarai_flag_umatan,27,character varying,1,YES,�����t���O�@�n�P: �n�P�����̗L���@�i0:�����Ȃ� 1:��������j
+jvd_hr,tokubarai_flag_sanrenpuku,28,character varying,1,YES,�����t���O�@3�A��: 3�A�������̗L�� �i0:�����Ȃ� 1:��������j
+jvd_hr,tokubarai_flag_sanrentan,29,character varying,1,YES,�����t���O�@3�A�P: 3�A�P�����̗L�� �i0:�����Ȃ� 1:��������j
+jvd_hr,henkan_flag_tansho,30,character varying,1,YES,�Ԋ҃t���O�@�P��: �P���Ԋ҂̗L���@�i0:�Ԋ҂Ȃ� 1:�Ԋ҂���j
+jvd_hr,henkan_flag_fukusho,31,character varying,1,YES,�Ԋ҃t���O�@����: �����Ԋ҂̗L���@�i0:�Ԋ҂Ȃ� 1:�Ԋ҂���j
+jvd_hr,henkan_flag_wakuren,32,character varying,1,YES,�Ԋ҃t���O�@�g�A: �g�A�Ԋ҂̗L���@�i0:�Ԋ҂Ȃ� 1:�Ԋ҂���j
+jvd_hr,henkan_flag_umaren,33,character varying,1,YES,�Ԋ҃t���O�@�n�A: �n�A�Ԋ҂̗L���@�i0:�Ԋ҂Ȃ� 1:�Ԋ҂���j
+jvd_hr,henkan_flag_wide,34,character varying,1,YES,�Ԋ҃t���O�@���C�h: ���C�h�Ԋ҂̗L���i0:�Ԋ҂Ȃ� 1:�Ԋ҂���j
+jvd_hr,yobi_3,35,character varying,1,YES,�\��: nan
+jvd_hr,henkan_flag_umatan,36,character varying,1,YES,�Ԋ҃t���O�@�n�P: �n�P�Ԋ҂̗L���@�i0:�Ԋ҂Ȃ� 1:�Ԋ҂���j
+jvd_hr,henkan_flag_sanrenpuku,37,character varying,1,YES,�Ԋ҃t���O�@3�A��: 3�A���Ԋ҂̗L�� �i0:�Ԋ҂Ȃ� 1:�Ԋ҂���j
+jvd_hr,henkan_flag_sanrentan,38,character varying,1,YES,�Ԋ҃t���O�@3�A�P: 3�A�P�Ԋ҂̗L�� �i0:�Ԋ҂Ȃ� 1:�Ԋ҂���j
+jvd_hr,henkan_umaban_joho,39,character varying,28,YES,"�ԊҔn�ԏ��(�n��01?28): �i0:�Ԋ҂Ȃ� 1:�Ԋ҂���j�@�����������ƂȂ�ԊґΏۂƂȂ����n�Ԃ̃G���A�� ""1"" ��ݒ� �i��j5�Ԏ�����̏ꍇ 0000100000000000000000000000"
+jvd_hr,henkan_wakuban_joho,40,character varying,8,YES,"�ԊҘg�ԏ��(�g��1?8): �i0:�Ԋ҂Ȃ� 1:�Ԋ҂���j�@�����������ƂȂ�ԊґΏۂƂȂ����g�Ԃ̃G���A�� ""1"" ��ݒ� �i��j10�����Ă�5�Ԏ�����̏ꍇ�A5�g��5�Ԃ݂̂̂���5�g�͂Ȃ��Ȃ� 00001000"
+jvd_hr,henkan_dowaku_joho,41,character varying,8,YES,"�Ԋғ��g���(�g��1?8): �i0:�Ԋ҂Ȃ� 1:�Ԋ҂���j�@�����������ƂȂ�ԊґΏۂƂȂ����g�Ԃ̃G���A�� ""1"" ��ݒ� �i��j10�����Ă�8�Ԏ�����̏ꍇ�A7�g��7�ԁA8�Ԃ̓o�^�����邽��7�g�͎�����ɂȂ�Ȃ� �@�@�@������7-7�͎�����ɂȂ�̂œ��g�̂ݎ������ƂȂ� 00000010"
+jvd_hr,haraimodoshi_tansho_1a,42,character varying,2,YES,<�P������>: 3�����܂ōl�����J�Ԃ�3��
+jvd_hr,haraimodoshi_tansho_1b,43,character varying,9,YES,�n��: �P���I���n�ԁ@�i00:�����Ȃ��A�����A�s�����j
+jvd_hr,haraimodoshi_tansho_1c,44,character varying,2,YES,���ߋ�: �P�����ߋ��@�i�����A�s�����̋��z������j
+jvd_hr,haraimodoshi_tansho_2a,45,character varying,2,YES,�l�C��: �P���l�C��
+jvd_hr,haraimodoshi_tansho_2b,46,character varying,9,YES,<��������>: 3�����܂ōl�����J�Ԃ�5��
+jvd_hr,haraimodoshi_tansho_2c,47,character varying,2,YES,�n��: �����I���n�ԁ@�i00:�����Ȃ��A�����A�s�����j
+jvd_hr,haraimodoshi_tansho_3a,48,character varying,2,YES,���ߋ�: �������ߋ��@�i�����A�s�����̋��z������j
+jvd_hr,haraimodoshi_tansho_3b,49,character varying,9,YES,�l�C��: �����l�C��
+jvd_hr,haraimodoshi_tansho_3c,50,character varying,2,YES,<�g�A����>: 3�����܂ōl�����J�Ԃ�3��
+jvd_hr,haraimodoshi_fukusho_1a,51,character varying,2,YES,�g��: �g�A�I���n�ԁ@�i00:�����Ȃ��A�����A�s�����j
+jvd_hr,haraimodoshi_fukusho_1b,52,character varying,9,YES,���ߋ�: �g�A���ߋ��@�i�����A�s�����̋��z������j
+jvd_hr,haraimodoshi_fukusho_1c,53,character varying,2,YES,�l�C��: �g�A�l�C��
+jvd_hr,haraimodoshi_fukusho_2a,54,character varying,2,YES,<�n�A����>: 3�����܂ōl�����J�Ԃ�3��
+jvd_hr,haraimodoshi_fukusho_2b,55,character varying,9,YES,�g��: �n�A�I���n�ԑg���@�i0000:�����Ȃ��A�����A�s�����j
+jvd_hr,haraimodoshi_fukusho_2c,56,character varying,2,YES,���ߋ�: �n�A���ߋ��@�i�����A�s�����̋��z������j
+jvd_hr,haraimodoshi_fukusho_3a,57,character varying,2,YES,�l�C��: �n�A�l�C��
+jvd_hr,haraimodoshi_fukusho_3b,58,character varying,9,YES,<���C�h����>: 3�����܂ōl�����J�Ԃ�7��
+jvd_hr,haraimodoshi_fukusho_3c,59,character varying,2,YES,�g��: ���C�h�I���n�ԑg���@�i0000:�����Ȃ��A�����A�s�����j
+jvd_hr,haraimodoshi_fukusho_4a,60,character varying,2,YES,���ߋ�: ���C�h���ߋ��@�i�����A�s�����̋��z������j
+jvd_hr,haraimodoshi_fukusho_4b,61,character varying,9,YES,�l�C��: ���C�h�l�C��
+jvd_hr,haraimodoshi_fukusho_4c,62,character varying,2,YES,<�\��>: nan
+jvd_hr,haraimodoshi_fukusho_5a,63,character varying,2,YES,�\��: nan
+jvd_hr,haraimodoshi_fukusho_5b,64,character varying,9,YES,�\��: nan
+jvd_hr,haraimodoshi_fukusho_5c,65,character varying,2,YES,�\��: nan
+jvd_hr,haraimodoshi_wakuren_1a,66,character varying,2,YES,<�n�P����>: 3�����܂ōl�����J�Ԃ�6��
+jvd_hr,haraimodoshi_wakuren_1b,67,character varying,9,YES,�g��: �n�P�I���n�ԑg���@�i0000:�����Ȃ��A�����A�s�����j
+jvd_hr,haraimodoshi_wakuren_1c,68,character varying,2,YES,���ߋ�: �n�P���ߋ��@�i�����A�s�����̋��z������j
+jvd_hr,haraimodoshi_wakuren_2a,69,character varying,2,YES,�l�C��: �n�P�l�C��
+jvd_hr,haraimodoshi_wakuren_2b,70,character varying,9,YES,<3�A������>: 3�����܂ōl�����J�Ԃ�3��
+jvd_hr,haraimodoshi_wakuren_2c,71,character varying,2,YES,�g��: 3�A���I���n�ԑg���@�i000000:�����Ȃ��A�����A�s�����j
+jvd_hr,haraimodoshi_wakuren_3a,72,character varying,2,YES,���ߋ�: 3�A�����ߋ��@�i�����A�s�����̋��z������j
+jvd_hr,haraimodoshi_wakuren_3b,73,character varying,9,YES,�l�C��: 3�A���l�C��
+jvd_hr,haraimodoshi_wakuren_3c,74,character varying,2,YES,<3�A�P����>: 3�����܂ōl�����J�Ԃ�6��
+jvd_hr,haraimodoshi_umaren_1a,75,character varying,4,YES,�g��: 3�A�P�I���n�ԑg���@�i000000:�����Ȃ��A�����A�s�����j
+jvd_hr,haraimodoshi_umaren_1b,76,character varying,9,YES,���ߋ�: 3�A�P���ߋ��@�i�����A�s�����̋��z������j
+jvd_hr,haraimodoshi_umaren_1c,77,character varying,3,YES,�l�C��: 3�A�P�l�C��
+jvd_hr,haraimodoshi_umaren_2a,78,character varying,4,YES,���R�[�h���: CR/LF
+jvd_hr,haraimodoshi_umaren_2b,79,character varying,9,YES,���ږ�: ����
+jvd_hr,haraimodoshi_umaren_2c,80,character varying,3,YES,�n�A����2
+jvd_hr,haraimodoshi_umaren_3a,81,character varying,4,YES,�n�A����3
+jvd_hr,haraimodoshi_umaren_3b,82,character varying,9,YES,�n�A����3
+jvd_hr,haraimodoshi_umaren_3c,83,character varying,3,YES,�n�A����3
+jvd_hr,haraimodoshi_wide_1a,84,character varying,4,YES,���C�h����1
+jvd_hr,haraimodoshi_wide_1b,85,character varying,9,YES,���C�h����1
+jvd_hr,haraimodoshi_wide_1c,86,character varying,3,YES,���C�h����1
+jvd_hr,haraimodoshi_wide_2a,87,character varying,4,YES,���C�h����2
+jvd_hr,haraimodoshi_wide_2b,88,character varying,9,YES,���C�h����2
+jvd_hr,haraimodoshi_wide_2c,89,character varying,3,YES,���C�h����2
+jvd_hr,haraimodoshi_wide_3a,90,character varying,4,YES,���C�h����3
+jvd_hr,haraimodoshi_wide_3b,91,character varying,9,YES,���C�h����3
+jvd_hr,haraimodoshi_wide_3c,92,character varying,3,YES,���C�h����3
+jvd_hr,haraimodoshi_wide_4a,93,character varying,4,YES,���C�h����4
+jvd_hr,haraimodoshi_wide_4b,94,character varying,9,YES,���C�h����4
+jvd_hr,haraimodoshi_wide_4c,95,character varying,3,YES,���C�h����4
+jvd_hr,haraimodoshi_wide_5a,96,character varying,4,YES,���C�h����5
+jvd_hr,haraimodoshi_wide_5b,97,character varying,9,YES,���C�h����5
+jvd_hr,haraimodoshi_wide_5c,98,character varying,3,YES,���C�h����5
+jvd_hr,haraimodoshi_wide_6a,99,character varying,4,YES,���C�h����6
+jvd_hr,haraimodoshi_wide_6b,100,character varying,9,YES,���C�h����6
+jvd_hr,haraimodoshi_wide_6c,101,character varying,3,YES,���C�h����6
+jvd_hr,haraimodoshi_wide_7a,102,character varying,4,YES,���C�h����7
+jvd_hr,haraimodoshi_wide_7b,103,character varying,9,YES,���C�h����7
+jvd_hr,haraimodoshi_wide_7c,104,character varying,3,YES,���C�h����7
+jvd_hr,yobi_4_1a,105,character varying,4,YES,�\��1
+jvd_hr,yobi_4_1b,106,character varying,9,YES,�\��1
+jvd_hr,yobi_4_1c,107,character varying,3,YES,�\��1
+jvd_hr,yobi_4_2a,108,character varying,4,YES,�\��2
+jvd_hr,yobi_4_2b,109,character varying,9,YES,�\��2
+jvd_hr,yobi_4_2c,110,character varying,3,YES,�\��2
+jvd_hr,yobi_4_3a,111,character varying,4,YES,�\��3
+jvd_hr,yobi_4_3b,112,character varying,9,YES,�\��3
+jvd_hr,yobi_4_3c,113,character varying,3,YES,�\��3
+jvd_hr,haraimodoshi_umatan_1a,114,character varying,4,YES,�n�P����1
+jvd_hr,haraimodoshi_umatan_1b,115,character varying,9,YES,�n�P����1
+jvd_hr,haraimodoshi_umatan_1c,116,character varying,3,YES,�n�P����1
+jvd_hr,haraimodoshi_umatan_2a,117,character varying,4,YES,�n�P����2
+jvd_hr,haraimodoshi_umatan_2b,118,character varying,9,YES,�n�P����2
+jvd_hr,haraimodoshi_umatan_2c,119,character varying,3,YES,�n�P����2
+jvd_hr,haraimodoshi_umatan_3a,120,character varying,4,YES,�n�P����3
+jvd_hr,haraimodoshi_umatan_3b,121,character varying,9,YES,�n�P����3
+jvd_hr,haraimodoshi_umatan_3c,122,character varying,3,YES,�n�P����3
+jvd_hr,haraimodoshi_umatan_4a,123,character varying,4,YES,�n�P����4
+jvd_hr,haraimodoshi_umatan_4b,124,character varying,9,YES,�n�P����4
+jvd_hr,haraimodoshi_umatan_4c,125,character varying,3,YES,�n�P����4
+jvd_hr,haraimodoshi_umatan_5a,126,character varying,4,YES,�n�P����5
+jvd_hr,haraimodoshi_umatan_5b,127,character varying,9,YES,�n�P����5
+jvd_hr,haraimodoshi_umatan_5c,128,character varying,3,YES,�n�P����5
+jvd_hr,haraimodoshi_umatan_6a,129,character varying,4,YES,�n�P����6
+jvd_hr,haraimodoshi_umatan_6b,130,character varying,9,YES,�n�P����6
+jvd_hr,haraimodoshi_umatan_6c,131,character varying,3,YES,�n�P����6
+jvd_hr,haraimodoshi_sanrenpuku_1a,132,character varying,6,YES,3�A������1
+jvd_hr,haraimodoshi_sanrenpuku_1b,133,character varying,9,YES,3�A������1
+jvd_hr,haraimodoshi_sanrenpuku_1c,134,character varying,3,YES,3�A������1
+jvd_hr,haraimodoshi_sanrenpuku_2a,135,character varying,6,YES,3�A������2
+jvd_hr,haraimodoshi_sanrenpuku_2b,136,character varying,9,YES,3�A������2
+jvd_hr,haraimodoshi_sanrenpuku_2c,137,character varying,3,YES,3�A������2
+jvd_hr,haraimodoshi_sanrenpuku_3a,138,character varying,6,YES,3�A������3
+jvd_hr,haraimodoshi_sanrenpuku_3b,139,character varying,9,YES,3�A������3
+jvd_hr,haraimodoshi_sanrenpuku_3c,140,character varying,3,YES,3�A������3
+jvd_hr,haraimodoshi_sanrentan_1a,141,character varying,6,YES,3�A�P����1
+jvd_hr,haraimodoshi_sanrentan_1b,142,character varying,9,YES,3�A�P����1
+jvd_hr,haraimodoshi_sanrentan_1c,143,character varying,4,YES,3�A�P����1
+jvd_hr,haraimodoshi_sanrentan_2a,144,character varying,6,YES,3�A�P����2
+jvd_hr,haraimodoshi_sanrentan_2b,145,character varying,9,YES,3�A�P����2
+jvd_hr,haraimodoshi_sanrentan_2c,146,character varying,4,YES,3�A�P����2
+jvd_hr,haraimodoshi_sanrentan_3a,147,character varying,6,YES,3�A�P����3
+jvd_hr,haraimodoshi_sanrentan_3b,148,character varying,9,YES,3�A�P����3
+jvd_hr,haraimodoshi_sanrentan_3c,149,character varying,4,YES,3�A�P����3
+jvd_hr,haraimodoshi_sanrentan_4a,150,character varying,6,YES,3�A�P����4
+jvd_hr,haraimodoshi_sanrentan_4b,151,character varying,9,YES,3�A�P����4
+jvd_hr,haraimodoshi_sanrentan_4c,152,character varying,4,YES,3�A�P����4
+jvd_hr,haraimodoshi_sanrentan_5a,153,character varying,6,YES,3�A�P����5
+jvd_hr,haraimodoshi_sanrentan_5b,154,character varying,9,YES,3�A�P����5
+jvd_hr,haraimodoshi_sanrentan_5c,155,character varying,4,YES,3�A�P����5
+jvd_hr,haraimodoshi_sanrentan_6a,156,character varying,6,YES,3�A�P����6
+jvd_hr,haraimodoshi_sanrentan_6b,157,character varying,9,YES,3�A�P����6
+jvd_hr,haraimodoshi_sanrentan_6c,158,character varying,4,YES,3�A�P����6
+jvd_hs,record_id,1,character varying,2,YES,���R�[�h���ID
+jvd_hs,data_kubun,2,character varying,1,YES,�f�[�^�敪
+jvd_hs,data_sakusei_nengappi,3,character varying,8,YES,�f�[�^�쐬�N����
+jvd_hs,ketto_toroku_bango,4,character varying,10,NO,�����o�^�ԍ�
+jvd_hs,ketto_joho_01a,5,character varying,10,YES,���n �ɐB�o�^�ԍ�
+jvd_hs,ketto_joho_02a,6,character varying,10,YES,��n �ɐB�o�^�ԍ�
+jvd_hs,seinen,7,character varying,4,YES,���N
+jvd_hs,shusaisha_shijo_code,8,character varying,6,NO,��ÎҁE�s��R�[�h
+jvd_hs,shusaisha_meisho,9,character varying,40,YES,��ÎҖ���
+jvd_hs,shijo_meisho,10,character varying,80,YES,�s��̖���
+jvd_hs,kaisai_kikan_min,11,character varying,8,NO,�s��̊J�Ê���(�J�n��)
+jvd_hs,kaisai_kikan_max,12,character varying,8,YES,�s��̊J�Ê���(�I����)
+jvd_hs,torihikiji_nenrei,13,character varying,1,YES,������̋����n�̔N��
+jvd_hs,torihiki_kakaku,14,character varying,10,YES,������i
+jvd_hy,record_id,1,character varying,2,YES,���R�[�h���ID
+jvd_hy,data_kubun,2,character varying,1,YES,�f�[�^�敪
+jvd_hy,data_sakusei_nengappi,3,character varying,8,YES,�f�[�^�쐬�N����
+jvd_hy,ketto_toroku_bango,4,character varying,10,NO,�����o�^�ԍ�
+jvd_hy,bamei,5,character varying,36,YES,�n��
+jvd_hy,bamei_imi_yurai,6,character varying,64,YES,�n���̈Ӗ��R��
+jvd_jc,record_id,1,character varying,2,YES,"���R�[�h���ID: ""JC""���Z�b�g���R�[�h�t�H�[�}�b�g����肷��"
+jvd_jc,data_kubun,2,character varying,1,YES,�f�[�^�敪: 1:�����l
+jvd_jc,data_sakusei_nengappi,3,character varying,8,YES,�f�[�^�쐬�N����: ����4���{�����e2�� yyyymmdd �`��
+jvd_jc,kaisai_nen,4,character varying,4,NO,�J�ÔN: �Y�����[�X�{�s�N ����4�� yyyy�`��
+jvd_jc,kaisai_tsukihi,5,character varying,4,NO,�J�Ì���: �Y�����[�X�{�s���� �e2�� mmdd�`��
+jvd_jc,keibajo_code,6,character varying,2,NO,���n��R�[�h: �Y�����[�X�{�s���n�� <�R�[�h�\ 2001.���n��R�[�h>�Q��
+jvd_jc,kaisai_kai,7,character varying,2,YES,�J�É�[��N��]: �Y�����[�X�{�s�� ���̋��n��ł��̔N�̉���ڂ̊J�Â�������
+jvd_jc,kaisai_nichime,8,character varying,2,YES,�J�Ó���[N����]: �Y�����[�X�{�s���� ���̃��[�X�{�s��ŉ����ڂ̊J�Â�������
+jvd_jc,race_bango,9,character varying,2,NO,���[�X�ԍ�: �Y�����[�X�ԍ�
+jvd_jc,happyo_tsukihi_jifun,10,character varying,8,NO,���\��������: ���������e2��
+jvd_jc,umaban,11,character varying,2,NO,�n��: �Y���n��01?18
+jvd_jc,bamei,12,character varying,36,YES,�n��: �S�p18�����@���������ʂ͑S�p9�����̂ݐݒ�(9�����𒴂���n����9�����܂łƂ���)
+jvd_jc,futan_juryo,13,character varying,3,YES,<�ύX����>: nan
+jvd_jc,kishu_code,14,character varying,5,YES,���S�d��: �P��0.1kg
+jvd_jc,kishumei,15,character varying,34,YES,�R��R�[�h: �R��}�X�^�փ����N�@�ύX��̋R�肪����̏ꍇ��ALL0��ݒ�
+jvd_jc,kishu_minarai_code,16,character varying,1,YES,"�R�薼: �S�p17�������������ʂ͑S�p8�����̂ݐݒ�(8�����𒴂���R�薼��8�����܂łƂ���) �ύX��̋R�肪����̏ꍇ�� ""����"" ��ݒ�"
+jvd_jc,futan_juryo_henkomae,17,character varying,3,YES,�R�茩�K�R�[�h: <�R�[�h�\ 2303.�R�茩�K�R�[�h>�Q��
+jvd_jc,kishu_code_henkomae,18,character varying,5,YES,<�ύX�O���>: nan
+jvd_jc,kishumei_henkomae,19,character varying,34,YES,���S�d��: �P��0.1kg
+jvd_jc,kishu_minarai_code_henkomae,20,character varying,1,YES,�R��R�[�h: �R��}�X�^�փ����N
+jvd_jg,record_id,1,character varying,2,YES,"���R�[�h���ID: ""JG""���Z�b�g���R�[�h�t�H�[�}�b�g����肷��"
+jvd_jg,data_kubun,2,character varying,1,YES,�f�[�^�敪: 1:�����l�@0:�Y�����R�[�h�폜(�񋟃~�X�Ȃǂ̗��R�ɂ��)
+jvd_jg,data_sakusei_nengappi,3,character varying,8,YES,�f�[�^�쐬�N����: ����4���{�����e2�� yyyymmdd �`��
+jvd_jg,kaisai_nen,4,character varying,4,NO,�J�ÔN: �Y�����[�X�{�s�N ����4�� yyyy�`��
+jvd_jg,kaisai_tsukihi,5,character varying,4,NO,�J�Ì���: �Y�����[�X�{�s���� �e2�� mmdd�`��
+jvd_jg,keibajo_code,6,character varying,2,NO,���n��R�[�h: �Y�����[�X�{�s���n�� <�R�[�h�\ 2001.���n��R�[�h>�Q��
+jvd_jg,kaisai_kai,7,character varying,2,YES,�J�É�[��N��]: �Y�����[�X�{�s�� ���̋��n��ł��̔N�̉���ڂ̊J�Â�������
+jvd_jg,kaisai_nichime,8,character varying,2,YES,�J�Ó���[N����]: �Y�����[�X�{�s���� ���̃��[�X�{�s��ŉ����ڂ̊J�Â�������
+jvd_jg,race_bango,9,character varying,2,NO,���[�X�ԍ�: �Y�����[�X�ԍ�
+jvd_jg,ketto_toroku_bango,10,character varying,10,NO,�����o�^�ԍ�: ���N(����)4���{�i��1��<�R�[�h�\2201.�i��R�[�h>�Q�Ɓ{����5��
+jvd_jg,bamei,11,character varying,36,YES,�n��: �S�p18��
+jvd_jg,shutsuba_tohyo_uketsuke,12,character varying,3,NO,�o�n���[��t����: ����Ɩ����t�ŁA����n����t�i�o�n���[�̒ǉ��A�ē��[�j��������
+jvd_jg,shusso_kubun,13,character varying,1,YES,�o���敪: 1:���[�n 2:���؂ł̏��O�n 4:�ē��[�n 5:�ē��[���O�n  6:�n�Ԃ�t���Ȃ��o������n 9:����n
+jvd_jg,jogai_jotai_kubun,14,character varying,1,YES,���O��ԋ敪: 1:�񒊑I�n  2:�񓖑I�n
+jvd_ks,record_id,1,character varying,2,YES,"���R�[�h���ID: ""KS"" ���Z�b�g���R�[�h�t�H�[�}�b�g����肷��"
+jvd_ks,data_kubun,2,character varying,1,YES,�f�[�^�敪: 1:�V�K�o�^ 2:�X�V 0:�Y�����R�[�h�폜(�񋟃~�X�Ȃǂ̗��R�ɂ��)
+jvd_ks,data_sakusei_nengappi,3,character varying,8,YES,�f�[�^�쐬�N����: ����4���{�����e2�� yyyymmdd �`��
+jvd_ks,kishu_code,4,character varying,5,NO,�R��R�[�h: nan
+jvd_ks,massho_kubun,5,character varying,1,YES,�R�薕���敪: 0:���� 1:����
+jvd_ks,menkyo_kofu_nengappi,6,character varying,8,YES,�R��Ƌ���t�N����: �N4��(����)�{�����e2�� yyyymmdd �`��
+jvd_ks,menkyo_massho_nengappi,7,character varying,8,YES,�R��Ƌ������N����: �N4��(����)�{�����e2�� yyyymmdd �`��
+jvd_ks,seinengappi,8,character varying,8,YES,���N����: �N4��(����)�{�����e2�� yyyymmdd �`��
+jvd_ks,kishumei,9,character varying,34,YES,�R�薼: �S�p17�����@���{�S�p��1�����{���@�O���l�̏ꍇ�͘A��17����
+jvd_ks,yobi_1,10,character varying,34,YES,�\��: nan
+jvd_ks,kishumei_hankaku_kana,11,character varying,30,YES,�R�薼���p��: ���p30�����@��15�����{��15�����@�O���l�̏ꍇ�͘A��30����
+jvd_ks,kishumei_ryakusho,12,character varying,8,YES,�R�薼����: �S�p4����
+jvd_ks,kishumei_eur,13,character varying,80,YES,�R�薼����: ���p80�����@���{���p��1�����{���@�t���l�[���ŋL��
+jvd_ks,seibetsu_kubun,14,character varying,1,YES,���ʋ敪: 1:�j���@2:����
+jvd_ks,kijo_shikaku_code,15,character varying,1,YES,�R�掑�i�R�[�h: <�R�[�h�\ 2302.�R�掑�i�R�[�h>�Q��
+jvd_ks,kishu_minarai_code,16,character varying,1,YES,�R�茩�K�R�[�h: <�R�[�h�\ 2303.�R�茩�K�R�[�h>�Q��
+jvd_ks,tozai_shozoku_code,17,character varying,1,YES,�R�蓌�������R�[�h: <�R�[�h�\ 2301.���������R�[�h>�Q��
+jvd_ks,shotai_chiikimei,18,character varying,20,YES,���Ғn�於: �S�p10����
+jvd_ks,chokyoshi_code,19,character varying,5,YES,���������t�R�[�h: �R��̏����X�ɂ̒����t�R�[�h�A�t���[�R��̏ꍇ��ALL0��ݒ�
+jvd_ks,chokyoshimei_ryakusho,20,character varying,8,YES,���������t������: �S�p4����
+jvd_ks,hatsukijo_joho_1,21,character varying,67,YES,<���R����>: ���n���R��E��Q���R��̏��ɐݒ�
+jvd_ks,hatsukijo_joho_2,22,character varying,67,YES,�N��������R: ���[�X�ڍׂ̃L�[���
+jvd_ks,hatsushori_joho_1,23,character varying,64,YES,�o������: �o�^��������o������Ƌ������O��������O������������
+jvd_ks,hatsushori_joho_2,24,character varying,64,YES,�����o�^�ԍ�: ���N(����)4���{�i��1��<�R�[�h�\2201.�i��R�[�h>�Q�Ɓ{����5��
+jvd_ks,jushoshori_joho_1,25,character varying,163,YES,�n��: �S�p18����
+jvd_ks,jushoshori_joho_2,26,character varying,163,YES,�m�蒅��: nan
+jvd_ks,jushoshori_joho_3,27,character varying,163,YES,�ُ�敪�R�[�h: <�R�[�h�\ 2101.�ُ�敪�R�[�h>�Q��
+jvd_ks,seiseki_joho_1,28,character varying,1052,YES,<���������>: ���n���R��E��Q���R��̏��ɐݒ�
+jvd_ks,seiseki_joho_2,29,character varying,1052,YES,�N��������R: ���[�X�ڍׂ̃L�[���
+jvd_ks,seiseki_joho_3,30,character varying,1052,YES,�o������: �o�^��������o������Ƌ������O��������O������������
+jvd_o1,record_id,1,character varying,2,YES,"���R�[�h���ID: ""O1""(�I�[��C�`) ���Z�b�g���R�[�h�t�H�[�}�b�g����肷��"
+jvd_o1,data_kubun,2,character varying,1,YES,�f�[�^�敪: 1:���ԁ@2:�O�����ŏI�@3:�ŏI�@4:�m��@5:�m��(���j) 9:���[�X���~�@0:�Y�����R�[�h�폜(�񋟃~�X�Ȃǂ̗��R�ɂ��)
+jvd_o1,data_sakusei_nengappi,3,character varying,8,YES,�f�[�^�쐬�N����: ����4���{�����e2�� yyyymmdd �`��
+jvd_o1,kaisai_nen,4,character varying,4,NO,�J�ÔN: �Y�����[�X�{�s�N ����4�� yyyy�`��
+jvd_o1,kaisai_tsukihi,5,character varying,4,NO,�J�Ì���: �Y�����[�X�{�s���� �e2�� mmdd�`��
+jvd_o1,keibajo_code,6,character varying,2,NO,���n��R�[�h: �Y�����[�X�{�s���n�� <�R�[�h�\ 2001.���n��R�[�h>�Q��
+jvd_o1,kaisai_kai,7,character varying,2,YES,�J�É�[��N��]: �Y�����[�X�{�s�� ���̋��n��ł��̔N�̉���ڂ̊J�Â�������
+jvd_o1,kaisai_nichime,8,character varying,2,YES,�J�Ó���[N����]: �Y�����[�X�{�s���� ���̃��[�X�{�s��ŉ����ڂ̊J�Â�������
+jvd_o1,race_bango,9,character varying,2,NO,���[�X�ԍ�: �Y�����[�X�ԍ�
+jvd_o1,happyo_tsukihi_jifun,10,character varying,8,YES,���\��������: ���������e2�� ���ԃI�b�Y�̂ݐݒ� ���n��I�b�Y���g�p����ꍇ�̂݃L�[�Ƃ��Đݒ�
+jvd_o1,toroku_tosu,11,character varying,2,YES,�o�^����: �o�n�\���\���̓o�^����
+jvd_o1,shusso_tosu,12,character varying,2,YES,�o������: �o�^��������o������Ƌ������O��������O������������
+jvd_o1,hatsubai_flag_tansho,13,character varying,1,YES,�����t���O�@�P��: �P�������̗L���@�i0:�����Ȃ� 1:�����O��� 3:�������� 7:��������j
+jvd_o1,hatsubai_flag_fukusho,14,character varying,1,YES,�����t���O�@����: ���������̗L���@�i0:�����Ȃ� 1:�����O��� 3:�������� 7:��������j
+jvd_o1,hatsubai_flag_wakuren,15,character varying,1,YES,�����t���O�@�g�A: �g�A�����̗L���@�i0:�����Ȃ� 1:�����O��� 3:�������� 7:��������j
+jvd_o1,fukusho_chakubarai_key,16,character varying,1,YES,���������L�[: �����̒����L�[�@�i0:���������Ȃ� 2:2���܂ŕ��� 3:3���܂ŕ����j
+jvd_o1,odds_tansho,17,character varying,224,YES,<�P���I�b�Y>: 28�����Ă܂ōl�����J�Ԃ�28��@�n�ԏ���01?28
+jvd_o1,odds_fukusho,18,character varying,336,YES,�n��: �Y���n��
+jvd_o1,odds_wakuren,19,character varying,324,YES,"�I�b�Y: 999.9�{�Őݒ� ""9999"":999.9�{�ȏ�@""0000"":�����[�@""----"":�����O����@""****"":���������@""    "":�o�^�Ȃ�(sp)"
+jvd_o1,hyosu_gokei_tansho,20,character varying,11,YES,�l�C��: �X�y�[�X:�o�^�Ȃ� ''--'':�����O��� ''**'':��������  �����[�̎��͔�������Ă���g�����̍ő�l��ݒ�
+jvd_o1,hyosu_gokei_fukusho,21,character varying,11,YES,<�����I�b�Y>: 28�����Ă܂ōl�����J�Ԃ�28��@�n�ԏ���01?28
+jvd_o1,hyosu_gokei_wakuren,22,character varying,11,YES,�n��: �Y���n��
+jvd_o2,record_id,1,character varying,2,YES,"���R�[�h���ID: ""O2""(�I�[��j) ���Z�b�g���R�[�h�t�H�[�}�b�g����肷��"
+jvd_o2,data_kubun,2,character varying,1,YES,�f�[�^�敪: 1:���ԁ@2:�O�����ŏI�@3:�ŏI�@4:�m��@5:�m��(���j) 9:���[�X���~�@0:�Y�����R�[�h�폜(�񋟃~�X�Ȃǂ̗��R�ɂ��)
+jvd_o2,data_sakusei_nengappi,3,character varying,8,YES,�f�[�^�쐬�N����: ����4���{�����e2�� yyyymmdd �`��
+jvd_o2,kaisai_nen,4,character varying,4,NO,�J�ÔN: �Y�����[�X�{�s�N ����4�� yyyy�`��
+jvd_o2,kaisai_tsukihi,5,character varying,4,NO,�J�Ì���: �Y�����[�X�{�s���� �e2�� mmdd�`��
+jvd_o2,keibajo_code,6,character varying,2,NO,���n��R�[�h: �Y�����[�X�{�s���n�� <�R�[�h�\ 2001.���n��R�[�h>�Q��
+jvd_o2,kaisai_kai,7,character varying,2,YES,�J�É�[��N��]: �Y�����[�X�{�s�� ���̋��n��ł��̔N�̉���ڂ̊J�Â�������
+jvd_o2,kaisai_nichime,8,character varying,2,YES,�J�Ó���[N����]: �Y�����[�X�{�s���� ���̃��[�X�{�s��ŉ����ڂ̊J�Â�������
+jvd_o2,race_bango,9,character varying,2,NO,���[�X�ԍ�: �Y�����[�X�ԍ�
+jvd_o2,happyo_tsukihi_jifun,10,character varying,8,YES,���\��������: ���������e2�� ���ԃI�b�Y�̂ݐݒ� ���n��I�b�Y���g�p����ꍇ�̂݃L�[�Ƃ��Đݒ�
+jvd_o2,toroku_tosu,11,character varying,2,YES,�o�^����: �o�n�\���\���̓o�^����
+jvd_o2,shusso_tosu,12,character varying,2,YES,�o������: �o�^��������o������Ƌ������O��������O������������
+jvd_o2,hatsubai_flag_umaren,13,character varying,1,YES,�����t���O�@�n�A: �n�A�����̗L���@�i0:�����Ȃ� 1:�����O��� 3:�������� 7:��������j
+jvd_o2,odds_umaren,14,character varying,1989,YES,<�n�A�I�b�Y>: �g�ԏ����@01-02?17-18
+jvd_o2,hyosu_gokei_umaren,15,character varying,11,YES,�g��: �Y���g��
+jvd_o3,record_id,1,character varying,2,YES,"���R�[�h���ID: ""O3""(�I�[��T��) ���Z�b�g���R�[�h�t�H�[�}�b�g����肷��"
+jvd_o3,data_kubun,2,character varying,1,YES,�f�[�^�敪: 1:���ԁ@2:�O�����ŏI�@3:�ŏI�@4:�m��@5:�m��(���j) 9:���[�X���~�@0:�Y�����R�[�h�폜(�񋟃~�X�Ȃǂ̗��R�ɂ��)
+jvd_o3,data_sakusei_nengappi,3,character varying,8,YES,�f�[�^�쐬�N����: ����4���{�����e2�� yyyymmdd �`��
+jvd_o3,kaisai_nen,4,character varying,4,NO,�J�ÔN: �Y�����[�X�{�s�N ����4�� yyyy�`��
+jvd_o3,kaisai_tsukihi,5,character varying,4,NO,�J�Ì���: �Y�����[�X�{�s���� �e2�� mmdd�`��
+jvd_o3,keibajo_code,6,character varying,2,NO,���n��R�[�h: �Y�����[�X�{�s���n�� <�R�[�h�\ 2001.���n��R�[�h>�Q��
+jvd_o3,kaisai_kai,7,character varying,2,YES,�J�É�[��N��]: �Y�����[�X�{�s�� ���̋��n��ł��̔N�̉���ڂ̊J�Â�������
+jvd_o3,kaisai_nichime,8,character varying,2,YES,�J�Ó���[N����]: �Y�����[�X�{�s���� ���̃��[�X�{�s��ŉ����ڂ̊J�Â�������
+jvd_o3,race_bango,9,character varying,2,NO,���[�X�ԍ�: �Y�����[�X�ԍ�
+jvd_o3,happyo_tsukihi_jifun,10,character varying,8,YES,���\��������: ���������e2�� ���ԃI�b�Y�̂ݐݒ�
+jvd_o3,toroku_tosu,11,character varying,2,YES,�o�^����: �o�n�\���\���̓o�^����
+jvd_o3,shusso_tosu,12,character varying,2,YES,�o������: �o�^��������o������Ƌ������O��������O������������
+jvd_o3,hatsubai_flag_wide,13,character varying,1,YES,�����t���O�@���C�h: ���C�h�����̗L���@�i0:�����Ȃ� 1:�����O��� 3:�������� 7:��������j
+jvd_o3,odds_wide,14,character varying,2601,YES,<���C�h�I�b�Y>: �g�ԏ����@01-02?17-18
+jvd_o3,hyosu_gokei_wide,15,character varying,11,YES,�g��: �Y���g��
+jvd_o4,record_id,1,character varying,2,YES,"���R�[�h���ID: ""O4""(�I�[�����) ���Z�b�g���R�[�h�t�H�[�}�b�g����肷��"
+jvd_o4,data_kubun,2,character varying,1,YES,�f�[�^�敪: 1:���ԁ@2:�O�����ŏI�@3:�ŏI�@4:�m��@5:�m��(���j) 9:���[�X���~�@0:�Y�����R�[�h�폜(�񋟃~�X�Ȃǂ̗��R�ɂ��)
+jvd_o4,data_sakusei_nengappi,3,character varying,8,YES,�f�[�^�쐬�N����: ����4���{�����e2�� yyyymmdd �`��
+jvd_o4,kaisai_nen,4,character varying,4,NO,�J�ÔN: �Y�����[�X�{�s�N ����4�� yyyy�`��
+jvd_o4,kaisai_tsukihi,5,character varying,4,NO,�J�Ì���: �Y�����[�X�{�s���� �e2�� mmdd�`��
+jvd_o4,keibajo_code,6,character varying,2,NO,���n��R�[�h: �Y�����[�X�{�s���n�� <�R�[�h�\ 2001.���n��R�[�h>�Q��
+jvd_o4,kaisai_kai,7,character varying,2,YES,�J�É�[��N��]: �Y�����[�X�{�s�� ���̋��n��ł��̔N�̉���ڂ̊J�Â�������
+jvd_o4,kaisai_nichime,8,character varying,2,YES,�J�Ó���[N����]: �Y�����[�X�{�s���� ���̃��[�X�{�s��ŉ����ڂ̊J�Â�������
+jvd_o4,race_bango,9,character varying,2,NO,���[�X�ԍ�: �Y�����[�X�ԍ�
+jvd_o4,happyo_tsukihi_jifun,10,character varying,8,YES,���\��������: ���������e2�� ���ԃI�b�Y�̂ݐݒ�
+jvd_o4,toroku_tosu,11,character varying,2,YES,�o�^����: �o�n�\���\���̓o�^����
+jvd_o4,shusso_tosu,12,character varying,2,YES,�o������: �o�^��������o������Ƌ������O��������O������������
+jvd_o4,hatsubai_flag_umatan,13,character varying,1,YES,�����t���O�@�n�P: �n�P�����̗L���@�i0:�����Ȃ� 1:�����O��� 3:�������� 7:��������j
+jvd_o4,odds_umatan,14,character varying,3978,YES,<�n�P�I�b�Y>: �g�ԏ����@01-02?18-17
+jvd_o4,hyosu_gokei_umatan,15,character varying,11,YES,�g��: �Y���g��
+jvd_o5,record_id,1,character varying,2,YES,"���R�[�h���ID: ""O5""(�I�[��S) ���Z�b�g���R�[�h�t�H�[�}�b�g����肷��"
+jvd_o5,data_kubun,2,character varying,1,YES,�f�[�^�敪: 1:���ԁ@2:�O�����ŏI�@3:�ŏI�@4:�m��@5:�m��(���j) 9:���[�X���~�@0:�Y�����R�[�h�폜(�񋟃~�X�Ȃǂ̗��R�ɂ��)
+jvd_o5,data_sakusei_nengappi,3,character varying,8,YES,�f�[�^�쐬�N����: ����4���{�����e2�� yyyymmdd �`��
+jvd_o5,kaisai_nen,4,character varying,4,NO,�J�ÔN: �Y�����[�X�{�s�N ����4�� yyyy�`��
+jvd_o5,kaisai_tsukihi,5,character varying,4,NO,�J�Ì���: �Y�����[�X�{�s���� �e2�� mmdd�`��
+jvd_o5,keibajo_code,6,character varying,2,NO,���n��R�[�h: �Y�����[�X�{�s���n�� <�R�[�h�\ 2001.���n��R�[�h>�Q��
+jvd_o5,kaisai_kai,7,character varying,2,YES,�J�É�[��N��]: �Y�����[�X�{�s�� ���̋��n��ł��̔N�̉���ڂ̊J�Â�������
+jvd_o5,kaisai_nichime,8,character varying,2,YES,�J�Ó���[N����]: �Y�����[�X�{�s���� ���̃��[�X�{�s��ŉ����ڂ̊J�Â�������
+jvd_o5,race_bango,9,character varying,2,NO,���[�X�ԍ�: �Y�����[�X�ԍ�
+jvd_o5,happyo_tsukihi_jifun,10,character varying,8,YES,���\��������: ���������e2�� ���ԃI�b�Y�̂ݐݒ�
+jvd_o5,toroku_tosu,11,character varying,2,YES,�o�^����: �o�n�\���\���̓o�^����
+jvd_o5,shusso_tosu,12,character varying,2,YES,�o������: �o�^��������o������Ƌ������O��������O������������
+jvd_o5,hatsubai_flag_sanrenpuku,13,character varying,1,YES,�����t���O�@3�A��: 3�A�������̗L���@�i0:�����Ȃ� 1:�����O��� 3:�������� 7:��������j
+jvd_o5,odds_sanrenpuku,14,character varying,12240,YES,<3�A���I�b�Y>: �g�ԏ����@01-02-03?16-17-18
+jvd_o5,hyosu_gokei_sanrenpuku,15,character varying,11,YES,�g��: �Y���g��
+jvd_o6,record_id,1,character varying,2,YES,"���R�[�h���ID: ""O6""(�I�[����N) ���Z�b�g���R�[�h�t�H�[�}�b�g����肷��"
+jvd_o6,data_kubun,2,character varying,1,YES,�f�[�^�敪: 1:���ԁ@2:�O�����ŏI�@3:�ŏI�@4:�m��@5:�m��(���j) 9:���[�X���~�@0:�Y�����R�[�h�폜(�񋟃~�X�Ȃǂ̗��R�ɂ��)
+jvd_o6,data_sakusei_nengappi,3,character varying,8,YES,�f�[�^�쐬�N����: ����4���{�����e2�� yyyymmdd �`��
+jvd_o6,kaisai_nen,4,character varying,4,NO,�J�ÔN: �Y�����[�X�{�s�N ����4�� yyyy�`��
+jvd_o6,kaisai_tsukihi,5,character varying,4,NO,�J�Ì���: �Y�����[�X�{�s���� �e2�� mmdd�`��
+jvd_o6,keibajo_code,6,character varying,2,NO,���n��R�[�h: �Y�����[�X�{�s���n�� <�R�[�h�\ 2001.���n��R�[�h>�Q��
+jvd_o6,kaisai_kai,7,character varying,2,YES,�J�É�[��N��]: �Y�����[�X�{�s�� ���̋��n��ł��̔N�̉���ڂ̊J�Â�������
+jvd_o6,kaisai_nichime,8,character varying,2,YES,�J�Ó���[N����]: �Y�����[�X�{�s���� ���̃��[�X�{�s��ŉ����ڂ̊J�Â�������
+jvd_o6,race_bango,9,character varying,2,NO,���[�X�ԍ�: �Y�����[�X�ԍ�
+jvd_o6,happyo_tsukihi_jifun,10,character varying,8,YES,���\��������: ���������e2�� ���ԃI�b�Y�̂ݐݒ�
+jvd_o6,toroku_tosu,11,character varying,2,YES,�o�^����: �o�n�\���\���̓o�^����
+jvd_o6,shusso_tosu,12,character varying,2,YES,�o������: �o�^��������o������Ƌ������O��������O������������
+jvd_o6,hatsubai_flag_sanrentan,13,character varying,1,YES,�����t���O�@3�A�P: 3�A�P�����̗L���@�i0:�����Ȃ� 1:�����O��� 3:�������� 7:��������j
+jvd_o6,odds_sanrentan,14,character varying,83232,YES,<3�A�P�I�b�Y>: �g�ԏ����@01-02-03?18-17-16
+jvd_o6,hyosu_gokei_sanrentan,15,character varying,11,YES,�g��: �Y���g��
+jvd_ra,record_id,1,character varying,2,YES,"���R�[�h���ID: ""RA"" ���Z�b�g���R�[�h�t�H�[�}�b�g����肷��"
+jvd_ra,data_kubun,2,character varying,1,YES,�f�[�^�敪: 1:�o���n���\(�ؗj)�@2:�o�n�\(�॓y�j)�@3:���񐬐�(3���܂Ŋm��) 4:���񐬐�(5���܂Ŋm��) 5:���񐬐�(�S�n�����m��) 6:���񐬐�(�S�n����+�R�[�i�ʉߏ�)�@7:����(���j) A:�n�����n�@B�F�C�O���ۃ��[�X 9:���[�X���~�@0:�Y�����R�[�h�폜(�񋟃~�X�Ȃǂ̗��R�ɂ��)
+jvd_ra,data_sakusei_nengappi,3,character varying,8,YES,�f�[�^�쐬�N����: ����4���{�����e2�� yyyymmdd �`��
+jvd_ra,kaisai_nen,4,character varying,4,NO,�J�ÔN: �Y�����[�X�{�s�N ����4�� yyyy�`��
+jvd_ra,kaisai_tsukihi,5,character varying,4,NO,�J�Ì���: �Y�����[�X�{�s���� �e2�� mmdd�`��
+jvd_ra,keibajo_code,6,character varying,2,NO,���n��R�[�h: �Y�����[�X�{�s���n�� <�R�[�h�\ 2001.���n��R�[�h>�Q��
+jvd_ra,kaisai_kai,7,character varying,2,YES,�J�É�[��N��]: �Y�����[�X�{�s�� ���̋��n��ł��̔N�̉���ڂ̊J�Â�������
+jvd_ra,kaisai_nichime,8,character varying,2,YES,�J�Ó���[N����]: �Y�����[�X�{�s���� ���̃��[�X�{�s��ŉ����ڂ̊J�Â�������
+jvd_ra,race_bango,9,character varying,2,NO,���[�X�ԍ�: �Y�����[�X�ԍ� �܂��A�C�O���ۃ��[�X�ȂǂŃ��[�X�ԍ���񂪂Ȃ��ꍇ�͔C�ӂɘA�Ԃ�ݒ�
+jvd_ra,yobi_code,10,character varying,1,YES,�j���R�[�h: �Y�����[�X�{�s�j�� <�R�[�h�\ 2002.�j���R�[�h>�Q��
+jvd_ra,tokubetsu_kyoso_bango,11,character varying,4,YES,���ʋ����ԍ�: �d�܃��[�X�̂ݐݒ� �����I�ɂ͉ߋ��̓��ꃌ�[�X�ƈ�v����ԍ�(������O�L��)
+jvd_ra,kyosomei_hondai,12,character varying,60,YES,�������{��: �S�p30�����@���[�X���̖{��
+jvd_ra,kyosomei_fukudai,13,character varying,60,YES,����������: �S�p30�����@���[�X���̕���i�X�|���T�[����L�O���Ȃǁj
+jvd_ra,kyosomei_kakkonai,14,character varying,60,YES,�������J�b�R��: �S�p30�����@���[�X�̏�����g���C�A���Ώۃ��[�X���A���[�X���ʏ̂Ȃ�
+jvd_ra,kyosomei_hondai_eur,15,character varying,120,YES,�������{�艢��: ���p120����
+jvd_ra,kyosomei_fukudai_eur,16,character varying,120,YES,���������艢��: ���p120����
+jvd_ra,kyosomei_kakkonai_eur,17,character varying,120,YES,�������J�b�R������: ���p120����
+jvd_ra,kyosomei_ryakusho_10,18,character varying,20,YES,����������10����: �S�p10����
+jvd_ra,kyosomei_ryakusho_6,19,character varying,12,YES,����������6����: �S�p6����
+jvd_ra,kyosomei_ryakusho_3,20,character varying,6,YES,����������3����: �S�p3����
+jvd_ra,kyosomei_kubun,21,character varying,1,YES,�������敪: �d�܉�[��N��]��{�襕��襃J�b�R���̂����ǂ�ɐݒ肷�ׂ��������� �i0:�����l 1:�{�� 2:���� 3:�J�b�R���j�d�܂̂ݐݒ�
+jvd_ra,jusho_kaiji,22,character varying,3,YES,�d�܉�[��N��]: ���̃��[�X�̏d�܂Ƃ��Ă̒ʎZ�񐔂�����
+jvd_ra,grade_code,23,character varying,1,YES,�O���[�h�R�[�h: <�R�[�h�\ 2003.�O���[�h�R�[�h>�Q�� �����ۃO���[�h�\�L(G) �܂��� ���̑��̏d�ܕ\�L�iJpn�j�̔��ʕ��@�ɂ��ẮA���L�������Q��
+jvd_ra,grade_code_henkomae,24,character varying,1,YES,�ύX�O�O���[�h�R�[�h: �Ȃ�炩�̗��R�ɂ��ύX���ꂽ�ꍇ�̂ݕύX�O�̒l��ݒ�
+jvd_ra,kyoso_shubetsu_code,25,character varying,2,YES,������ʃR�[�h: <�R�[�h�\ 2005.������ʃR�[�h>�Q��
+jvd_ra,kyoso_kigo_code,26,character varying,3,YES,�����L���R�[�h: <�R�[�h�\ 2006.�����L���R�[�h>�Q��
+jvd_ra,juryo_shubetsu_code,27,character varying,1,YES,�d�ʎ�ʃR�[�h: <�R�[�h�\ 2008.�d�ʎ�ʃR�[�h>�Q��
+jvd_ra,kyoso_joken_code_2sai,28,character varying,3,YES,���������R�[�h 2�Ώ���: 2�Δn�̋������� �@�@<�R�[�h�\ 2007.���������R�[�h>�Q�Ɓ@�@���L�������Q��
+jvd_ra,kyoso_joken_code_3sai,29,character varying,3,YES,���������R�[�h 3�Ώ���: 3�Δn�̋������� �@�@<�R�[�h�\ 2007.���������R�[�h>�Q�Ɓ@�@���L�������Q��
+jvd_ra,kyoso_joken_code_4sai,30,character varying,3,YES,���������R�[�h 4�Ώ���: 4�Δn�̋������� �@�@<�R�[�h�\ 2007.���������R�[�h>�Q�Ɓ@�@���L�������Q��
+jvd_ra,kyoso_joken_code_5sai_ijo,31,character varying,3,YES,���������R�[�h 5�Έȏ����: 5�Έȏ�n�̋������� <�R�[�h�\ 2007.���������R�[�h>�Q�Ɓ@�@���L�������Q��
+jvd_ra,kyoso_joken_code,32,character varying,3,YES,���������R�[�h �Ŏ�N����: �o���\�ȍł��n��Ⴂ�n�ɑ΂������ <�R�[�h�\ 2007.���������R�[�h>�Q�Ɓ@���L�������Q��
+jvd_ra,kyoso_joken_meisho,33,character varying,60,YES,������������: �S�p30�����@�n�����n�̏ꍇ�̂ݐݒ�
+jvd_ra,kyori,34,character varying,4,YES,����: �P�ʁF���[�g��
+jvd_ra,kyori_henkomae,35,character varying,4,YES,�ύX�O����: �Ȃ�炩�̗��R�ɂ��ύX���ꂽ�ꍇ�̂ݕύX�O�̒l��ݒ�
+jvd_ra,track_code,36,character varying,2,YES,�g���b�N�R�[�h: <�R�[�h�\ 2009.�g���b�N�R�[�h>�Q��
+jvd_ra,track_code_henkomae,37,character varying,2,YES,�ύX�O�g���b�N�R�[�h: �Ȃ�炩�̗��R�ɂ��ύX���ꂽ�ꍇ�̂ݕύX�O�̒l��ݒ�
+jvd_ra,course_kubun,38,character varying,2,YES,�R�[�X�敪
+jvd_ra,course_kubun_henkomae,39,character varying,2,YES,�ύX�O�R�[�X�敪
+jvd_ra,honshokin,40,character varying,56,YES,�{�܋�
+jvd_ra,honshokin_henkomae,41,character varying,40,YES,�ύX�O�{�܋�
+jvd_ra,fukashokin,42,character varying,40,YES,�t���܋�
+jvd_ra,fukashokin_henkomae,43,character varying,24,YES,�ύX�O�t���܋�
+jvd_ra,hasso_jikoku,44,character varying,4,YES,��������
+jvd_ra,hasso_jikoku_henkomae,45,character varying,4,YES,�ύX�O��������
+jvd_ra,toroku_tosu,46,character varying,2,YES,�o�^����
+jvd_ra,shusso_tosu,47,character varying,2,YES,�o������
+jvd_ra,nyusen_tosu,48,character varying,2,YES,��������
+jvd_ra,tenko_code,49,character varying,1,YES,�V��R�[�h
+jvd_ra,babajotai_code_shiba,50,character varying,1,YES,�Ŕn���ԃR�[�h
+jvd_ra,babajotai_code_dirt,51,character varying,1,YES,�_�[�g�n���ԃR�[�h
+jvd_ra,lap_time,52,character varying,75,YES,���b�v�^�C��
+jvd_ra,shogai_mile_time,53,character varying,4,YES,��Q�}�C���^�C��
+jvd_ra,zenhan_3f,54,character varying,3,YES,�O3�n����
+jvd_ra,zenhan_4f,55,character varying,3,YES,�O4�n����
+jvd_ra,kohan_3f,56,character varying,3,YES,��3�n����
+jvd_ra,kohan_4f,57,character varying,3,YES,��4�n����
+jvd_ra,corner_tsuka_juni_1,58,character varying,72,YES,�R�[�i�[�ʉߏ���1
+jvd_ra,corner_tsuka_juni_2,59,character varying,72,YES,�R�[�i�[�ʉߏ���2
+jvd_ra,corner_tsuka_juni_3,60,character varying,72,YES,�R�[�i�[�ʉߏ���3
+jvd_ra,corner_tsuka_juni_4,61,character varying,72,YES,�R�[�i�[�ʉߏ���4
+jvd_ra,record_koshin_kubun,62,character varying,1,YES,���R�[�h�X�V�敪
+jvd_rc,record_id,1,character varying,2,YES,"���R�[�h���ID: ""RC"" ���Z�b�g���R�[�h�t�H�[�}�b�g����肷��"
+jvd_rc,data_kubun,2,character varying,1,YES,�f�[�^�敪: 1:�����l�@0:�Y�����R�[�h�폜(�񋟃~�X�Ȃǂ̗��R�ɂ��)
+jvd_rc,data_sakusei_nengappi,3,character varying,8,YES,�f�[�^�쐬�N����: ����4���{�����e2�� yyyymmdd �`��
+jvd_rc,record_shikibetsu_kubun,4,character varying,1,NO,���R�[�h���ʋ敪: 1:�R�[�X���R�[�h 2:�f?J���R�[�h
+jvd_rc,kaisai_nen,5,character varying,4,NO,�J�ÔN: �Y�����[�X�{�s�N ����4�� yyyy�`��
+jvd_rc,kaisai_tsukihi,6,character varying,4,NO,�J�Ì���: �Y�����[�X�{�s���� �e2�� mmdd�`��
+jvd_rc,keibajo_code,7,character varying,2,NO,���n��R�[�h: �Y�����[�X�{�s���n�� <�R�[�h�\ 2001.���n��R�[�h>�Q��
+jvd_rc,kaisai_kai,8,character varying,2,YES,�J�É�[��N��]: �Y�����[�X�{�s�� ���̋��n��ł��̔N�̉���ڂ̊J�Â�������
+jvd_rc,kaisai_nichime,9,character varying,2,YES,�J�Ó���[N����]: �Y�����[�X�{�s���� ���̃��[�X�{�s��ŉ����ڂ̊J�Â�������
+jvd_rc,race_bango,10,character varying,2,NO,���[�X�ԍ�: �Y�����[�X�ԍ�
+jvd_rc,tokubetsu_kyoso_bango,11,character varying,4,NO,���ʋ����ԍ�: �f?J���R�[�h�݂̂̃L�[
+jvd_rc,kyosomei_hondai,12,character varying,60,YES,�������{��: �S�p30����
+jvd_rc,grade_code,13,character varying,1,YES,�O���[�h�R�[�h: <�R�[�h�\ 2003.�O���[�h�R�[�h>�Q��
+jvd_rc,kyoso_shubetsu_code,14,character varying,2,NO,������ʃR�[�h: <�R�[�h�\ 2005.������ʃR�[�h>�Q��
+jvd_rc,kyori,15,character varying,4,NO,����: �P��:���[�g��
+jvd_rc,track_code,16,character varying,2,NO,�g���b�N�R�[�h: <�R�[�h�\ 2009.�g���b�N�R�[�h>�Q��
+jvd_rc,record_kubun,17,character varying,1,YES,���R�[�h�敪: 1:��^�C���@2:���R�[�h�^�C���@3:�Q�l�^�C���@4:���l�^�C��
+jvd_rc,record_time,18,character varying,4,YES,���R�[�h�^�C��: 9��99�b9
+jvd_rc,tenko_code,19,character varying,1,YES,�V��R�[�h: <�R�[�h�\ 2011.�V��R�[�h>�Q��
+jvd_rc,babajotai_code_shiba,20,character varying,1,YES,�Ŕn���ԃR�[�h: <�R�[�h�\ 2010.�n���ԃR�[�h>�Q��
+jvd_rc,babajotai_code_dirt,21,character varying,1,YES,�_�[�g�n���ԃR�[�h: <�R�[�h�\ 2010.�n���ԃR�[�h>�Q��
+jvd_rc,record_hojiuma_joho_1,22,character varying,130,YES,<���R�[�h�ێ��n���>: �������l�����J�Ԃ�3��
+jvd_rc,record_hojiuma_joho_2,23,character varying,130,YES,�����o�^�ԍ�: ���N(����)4���{�i��1���{����5��
+jvd_rc,record_hojiuma_joho_3,24,character varying,130,YES,�n��: �S�p18����
+jvd_se,record_id,1,character varying,2,YES,"���R�[�h���ID: ""SE"" ���Z�b�g���R�[�h�t�H�[�}�b�g����肷��"
+jvd_se,data_kubun,2,character varying,1,YES,�f�[�^�敪: 1:�o���n���\(�ؗj)�@2:�o�n�\(�॓y�j)�@3:���񐬐�(3���܂Ŋm��) 4:���񐬐�(5���܂Ŋm��) 5:���񐬐�(�S�n�����m��) 6:���񐬐�(�S�n����+�R�[�i�ʉߏ�)�@7:����(���j) A:�n�����n�@B�F�C�O���ۃ��[�X 9:���[�X���~�@0:�Y�����R�[�h�폜(�񋟃~�X�Ȃǂ̗��R�ɂ��)
+jvd_se,data_sakusei_nengappi,3,character varying,8,YES,�f�[�^�쐬�N����: ����4���{�����e2�� yyyymmdd �`��
+jvd_se,kaisai_nen,4,character varying,4,NO,�J�ÔN: �Y�����[�X�{�s�N ����4�� yyyy�`��
+jvd_se,kaisai_tsukihi,5,character varying,4,NO,�J�Ì���: �Y�����[�X�{�s���� �e2�� mmdd�`��
+jvd_se,keibajo_code,6,character varying,2,NO,���n��R�[�h: �Y�����[�X�{�s���n�� <�R�[�h�\ 2001.���n��R�[�h>�Q��
+jvd_se,kaisai_kai,7,character varying,2,YES,�J�É�[��N��]: �Y�����[�X�{�s�� ���̋��n��ł��̔N�̉���ڂ̊J�Â�������
+jvd_se,kaisai_nichime,8,character varying,2,YES,�J�Ó���[N����]: �Y�����[�X�{�s���� ���̃��[�X�{�s��ŉ����ڂ̊J�Â�������
+jvd_se,race_bango,9,character varying,2,NO,���[�X�ԍ�: �Y�����[�X�ԍ�
+jvd_se,wakuban,10,character varying,1,YES,�g��: nan
+jvd_se,umaban,11,character varying,2,NO,�n��: ����̃��[�X�y�ъC�O���[�X�ɂ��ẮA���L�������Q��
+jvd_se,ketto_toroku_bango,12,character varying,10,NO,�����o�^�ԍ�: ���N(����)4���{�i��1��<�R�[�h�\2201.�i��R�[�h>�Q�Ɓ{����5��
+jvd_se,bamei,13,character varying,36,YES,�n��: �ʏ�S�p18�����B�C�O���[�X�ɂ�����O���n�̏ꍇ�̂ݑS�p�Ɣ��p������
+jvd_se,umakigo_code,14,character varying,2,YES,�n�L���R�[�h: <�R�[�h�\ 2204.�n�L���R�[�h>�Q��
+jvd_se,seibetsu_code,15,character varying,1,YES,���ʃR�[�h: <�R�[�h�\ 2202.���ʃR�[�h>�Q��
+jvd_se,hinshu_code,16,character varying,1,YES,�i��R�[�h: <�R�[�h�\ 2201.�i��R�[�h>�Q��
+jvd_se,moshoku_code,17,character varying,2,YES,�ѐF�R�[�h: <�R�[�h�\ 2203.�ѐF�R�[�h>�Q��
+jvd_se,barei,18,character varying,2,YES,�n��: �o�������̔n�� �i���j2000�N�ȑO�͐����N�\�L 2001�N�ȍ~�͖��N��\�L
+jvd_se,tozai_shozoku_code,19,character varying,1,YES,���������R�[�h: <�R�[�h�\ 2301.���������R�[�h>�Q��
+jvd_se,chokyoshi_code,20,character varying,5,YES,�����t�R�[�h: �����t�}�X�^�փ����N
+jvd_se,chokyoshimei_ryakusho,21,character varying,8,YES,�����t������: �S�p4����
+jvd_se,banushi_code,22,character varying,6,YES,�n��R�[�h: �n��}�X�^�փ����N
+jvd_se,banushimei,23,character varying,64,YES,�n�喼(�@�l�i��): �S�p32���� ? ���p64���� �i�S�p�Ɣ��p�����݁j ������ЁA�L����ЂȂǂ̖@�l�i�����������񂪓��������͖����ɂ���ꍇ�ɂ�����폜�������̂� �ݒ�B�܂��A�O���n��̏ꍇ�́A�n��}�X�^��8.�n�喼�����̓�64�o�C�g��ݒ�
+jvd_se,fukushoku_hyoji,24,character varying,60,YES,"���F�W��: �S�p30�����@�n�喈�Ɏw�肳���R��̏������̐F�E�͗l������ (���[�V���O�v���O�����ɋL�ڂ���Ă�����́j (��)""���F�C�ԎR�`��{�ցC���F���@�@�@"""
+jvd_se,yobi_1,25,character varying,60,YES,�\��: nan
+jvd_se,futan_juryo,26,character varying,3,YES,���S�d��: �P��0.1kg
+jvd_se,futan_juryo_henkomae,27,character varying,3,YES,�ύX�O���S�d��: �Ȃ�炩�̗��R�ɂ��ύX���ꂽ�ꍇ�̂ݕύX�O�̒l��ݒ�
+jvd_se,blinker_shiyo_kubun,28,character varying,1,YES,�u�����J�[�g�p�敪: 0:���g�p 1:�g�p
+jvd_se,yobi_2,29,character varying,1,YES,�\��: nan
+jvd_se,kishu_code,30,character varying,5,YES,�R��R�[�h: �R��}�X�^�փ����N
+jvd_se,kishu_code_henkomae,31,character varying,5,YES,�ύX�O�R��R�[�h: �Ȃ�炩�̗��R�ɂ��ύX���ꂽ�ꍇ�̂ݕύX�O�̒l��ݒ�
+jvd_se,kishumei_ryakusho,32,character varying,8,YES,�R�薼����: �S�p4����
+jvd_se,kishumei_ryakusho_henkomae,33,character varying,8,YES,�ύX�O�R�薼����: �Ȃ�炩�̗��R�ɂ��ύX���ꂽ�ꍇ�̂ݕύX�O�̒l��ݒ�
+jvd_se,kishu_minarai_code,34,character varying,1,YES,�R�茩�K�R�[�h: <�R�[�h�\ 2303.�R�茩�K�R�[�h>�Q��
+jvd_se,kishu_minarai_code_henkomae,35,character varying,1,YES,�ύX�O�R�茩�K�R�[�h: �Ȃ�炩�̗��R�ɂ��ύX���ꂽ�ꍇ�̂ݕύX�O�̒l��ݒ�
+jvd_se,bataiju,36,character varying,3,YES,�n�̏d: �P��:kg�@002Kg?998Kg�܂ł��L���l 999:�����v�ʕs�\�@000:�o�����
+jvd_se,zogen_fugo,37,character varying,1,YES,��������: +:���� -:���� �X�y�[�X:���̑�
+jvd_se,zogen_sa,38,character varying,3,YES,"������: �P��:kg�@001Kg?998Kg�܂ł��L���l 999:�v�ʕs�\�@000:�O���Ȃ��@�X�y�[�X:���o���A�������o������̏ꍇ���X�y�[�X��ݒ�B �n���n�ɂ��Ă͏��o�����v�ʕs�\�̏ꍇ�ł�""999""��ݒ�B"
+jvd_se,ijo_kubun_code,39,character varying,1,YES,�ُ�敪�R�[�h: <�R�[�h�\ 2101.�ُ�敪�R�[�h>�Q��
+jvd_se,nyusen_juni,40,character varying,2,YES,��������: ���i�A�~���m��O�̏���
+jvd_se,kakutei_chakujun,41,character varying,2,YES,�m�蒅��: ���i�A�~�����͓������ʂƈقȂ�
+jvd_se,dochaku_kubun,42,character varying,1,YES,�����敪: 0:�����n�Ȃ��@1:�����n����
+jvd_se,dochaku_tosu,43,character varying,1,YES,��������: 0:�����l�@1:���g�ȊO�ɓ���1���@2:���g�ȊO�ɓ���2��
+jvd_se,soha_time,44,character varying,4,YES,���j�^�C��: 9��99�b9�Őݒ�
+jvd_se,chakusa_code_1,45,character varying,3,YES,�����R�[�h: �O�n�Ƃ̒����@<�R�[�h�\ 2102.�����R�[�h>�Q��
+jvd_se,chakusa_code_2,46,character varying,3,YES,#NAME?
+jvd_se,chakusa_code_3,47,character varying,3,YES,#NAME?
+jvd_se,corner_1,48,character varying,2,YES,1�R�[�i�[�ł̏���: nan
+jvd_se,corner_2,49,character varying,2,YES,2�R�[�i�[�ł̏���: nan
+jvd_se,corner_3,50,character varying,2,YES,3�R�[�i�[�ł̏���: nan
+jvd_se,corner_4,51,character varying,2,YES,4�R�[�i�[�ł̏���: nan
+jvd_se,tansho_odds,52,character varying,4,YES,�P���I�b�Y: 999.9�{�Őݒ�@�o����������͏����l��ݒ�
+jvd_se,tansho_ninkijun,53,character varying,2,YES,�P���l�C��: �o����������͏����l��ݒ�
+jvd_se,kakutoku_honshokin,54,character varying,8,YES,�l���{�܋�: �P��:�S�~�@�Y�����[�X�Ŋl�������{�܋�
+jvd_se,kakutoku_fukashokin,55,character varying,8,YES,�l���t���܋�: �P��:�S�~�@�Y�����[�X�Ŋl�������t���܋�
+jvd_se,yobi_3,56,character varying,3,YES,�\��: nan
+jvd_se,yobi_4,57,character varying,3,YES,�\��: nan
+jvd_se,kohan_4f,58,character varying,3,YES,"��4�n�����^�C��: �P��:99.9�b �o�������������O��������O��������~��^�C���I�[�o�[�̏ꍇ�� ""999"" ��ݒ� ��{�I�ɂ͌�3�n�����̂ݐݒ�(��4�n�����͏����l) �������A�ߋ����̃f�[�^�͌�4�n�������ݒ肳��Ă�����̂�����(���̏ꍇ�͌�3�n�����������l) ��Q���[�X�̏ꍇ�͌�3�n�����ɊY���n�̓��Y���[�X�ł�..."
+jvd_se,kohan_3f,59,character varying,3,YES,��3�n�����^�C��: nan
+jvd_se,aiteuma_joho_1,60,character varying,46,YES,<1���n(����n)���>: �������l�����ČJ�Ԃ�3�� ���g��1���̏ꍇ��2���n��ݒ�
+jvd_se,aiteuma_joho_2,61,character varying,46,YES,�����o�^�ԍ�: ���N(����)4���{�i��1��<�R�[�h�\2201.�i��R�[�h>�Q�Ɓ{����5��
+jvd_se,aiteuma_joho_3,62,character varying,46,YES,�n��: �ʏ�S�p18�����B�C�O���[�X�ɂ�����O���n�̏ꍇ�̂ݑS�p�Ɣ��p�����݁B
+jvd_se,time_sa,63,character varying,4,YES,"�^�C����: 1���n�Ƃ̃^�C������ݒ�i���g��1���̏ꍇ��2���n��ݒ�) ����(+�܂���-)+99�b9�@������1��:-�A2���ȉ�:+ �o�������������O��������O��������~�̏ꍇ�� ""9999"" ��ݒ�"
+jvd_se,record_koshin_kubun,64,character varying,1,YES,���R�[�h�X�V�敪: 0:�����l�@1:��^�C���ƂȂ������[�X�@2:�R�[�X���R�[�h���X�V�������[�X
+jvd_se,mining_kubun,65,character varying,1,YES,�}�C�j���O�敪: 1:�O�� 2:���� 3:���O�@�������A�m�萬�ѓo�^����3:���O�̂ݐݒ�
+jvd_se,yoso_soha_time,66,character varying,5,YES,�}�C�j���O�\�z���j�^�C��: 9��99�b99�Őݒ�
+jvd_se,yoso_gosa_plus,67,character varying,4,YES,�}�C�j���O�\�z�덷(�M���x)�{: 99�b99�Őݒ� �\�z�^�C���́{�덷��ݒ�(�{�����̌덷�B�\�z���j�^�C���ɑ΂��đ����Ȃ�����B�\�z���j�^�C������}�C�i�X����B)
+jvd_se,yoso_gosa_minus,68,character varying,4,YES,�}�C�j���O�\�z�덷(�M���x)?: 99�b99�Őݒ� �\�z�^�C����?�덷��ݒ�(?�����̌덷�B�\�z���j�^�C���ɑ΂��Ēx���Ȃ�����B�\�z���j�^�C���Ƀv���X����B)
+jvd_se,yoso_juni,69,character varying,2,YES,�}�C�j���O�\�z����: 01?18�ʂ�ݒ�
+jvd_se,kyakushitsu_hantei,70,character varying,1,YES,���񃌁[�X�r������: 1:���@2:��@3:���@4:�ǁ@0:�����l
+jvd_sk,record_id,1,character varying,2,YES,"���R�[�h���ID: ""SK"" ���Z�b�g���R�[�h�t�H�[�}�b�g����肷��"
+jvd_sk,data_kubun,2,character varying,1,YES,�f�[�^�敪: 1:�V�K�o�^ 2:�X�V 0:�Y�����R�[�h�폜(�񋟃~�X�Ȃǂ̗��R�ɂ��)
+jvd_sk,data_sakusei_nengappi,3,character varying,8,YES,�f�[�^�쐬�N����: ����4���{�����e2�� yyyymmdd �`��
+jvd_sk,ketto_toroku_bango,4,character varying,10,NO,�����o�^�ԍ�: ���N(����)4���{�i��1���{����5��
+jvd_sk,seinengappi,5,character varying,8,YES,���N����: �N4��(����)�{�����e2�� yyyymmdd �`��
+jvd_sk,seibetsu_code,6,character varying,1,YES,���ʃR�[�h: <�R�[�h�\ 2202.���ʃR�[�h>�Q��
+jvd_sk,hinshu_code,7,character varying,1,YES,�i��R�[�h: <�R�[�h�\ 2201.�i��R�[�h>�Q��
+jvd_sk,moshoku_code,8,character varying,2,YES,�ѐF�R�[�h: <�R�[�h�\ 2203.�ѐF�R�[�h>�Q��
+jvd_sk,mochikomi_kubun,9,character varying,1,YES,�Y����敪: 0:�����Y 1:���� 2:�A�������Y���� 3:�A��
+jvd_sk,yunyu_nen,10,character varying,4,YES,�A���N: ����4��
+jvd_sk,seisansha_code,11,character varying,8,YES,���Y�҃R�[�h: ���Y�҃}�X�^�Ƀ����N
+jvd_sk,sanchimei,12,character varying,20,YES,�Y�n��: �S�p10����
+jvd_sk,ketto_joho_01a,13,character varying,10,YES,3�㌌�� �ɐB�o�^�ԍ�: ����꥕�������꥕ꕃ���꥕�����������꥕��ꕃ�����꥕ꕃ����ꕃ�꥕�ꕃ�����̏��ɐݒ�
+jvd_sk,ketto_joho_02a,14,character varying,10,YES,���R�[�h���: CR/LF
+jvd_sk,ketto_joho_03a,15,character varying,10,YES,���ږ�: ����
+jvd_sk,ketto_joho_04a,16,character varying,10,YES,3�㌌�����4
+jvd_sk,ketto_joho_05a,17,character varying,10,YES,3�㌌�����5
+jvd_sk,ketto_joho_06a,18,character varying,10,YES,3�㌌�����6
+jvd_sk,ketto_joho_07a,19,character varying,10,YES,3�㌌�����7
+jvd_sk,ketto_joho_08a,20,character varying,10,YES,3�㌌�����8
+jvd_sk,ketto_joho_09a,21,character varying,10,YES,3�㌌�����9
+jvd_sk,ketto_joho_10a,22,character varying,10,YES,3�㌌�����10
+jvd_sk,ketto_joho_11a,23,character varying,10,YES,3�㌌�����11
+jvd_sk,ketto_joho_12a,24,character varying,10,YES,3�㌌�����12
+jvd_sk,ketto_joho_13a,25,character varying,10,YES,3�㌌�����13
+jvd_sk,ketto_joho_14a,26,character varying,10,YES,3�㌌�����14
+jvd_tc,record_id,1,character varying,2,YES,"���R�[�h���ID: ""TC"" ���Z�b�g���R�[�h�t�H�[�}�b�g����肷��"
+jvd_tc,data_kubun,2,character varying,1,YES,�f�[�^�敪: 1:�����l
+jvd_tc,data_sakusei_nengappi,3,character varying,8,YES,�f�[�^�쐬�N����: ����4���{�����e2�� yyyymmdd �`��
+jvd_tc,kaisai_nen,4,character varying,4,NO,�J�ÔN: �Y�����[�X�{�s�N ����4�� yyyy�`��
+jvd_tc,kaisai_tsukihi,5,character varying,4,NO,�J�Ì���: �Y�����[�X�{�s���� �e2�� mmdd�`��
+jvd_tc,keibajo_code,6,character varying,2,NO,���n��R�[�h: �Y�����[�X�{�s���n�� <�R�[�h�\ 2001.���n��R�[�h>�Q��
+jvd_tc,kaisai_kai,7,character varying,2,YES,�J�É�[��N��]: �Y�����[�X�{�s�� ���̋��n��ł��̔N�̉���ڂ̊J�Â�������
+jvd_tc,kaisai_nichime,8,character varying,2,YES,�J�Ó���[N����]: �Y�����[�X�{�s���� ���̃��[�X�{�s��ŉ����ڂ̊J�Â�������
+jvd_tc,race_bango,9,character varying,2,NO,���[�X�ԍ�: �Y�����[�X�ԍ�
+jvd_tc,happyo_tsukihi_jifun,10,character varying,8,YES,���\��������: ���������e2��
+jvd_tc,hasso_jikoku,11,character varying,4,YES,<�ύX����>: nan
+jvd_tc,hasso_jikoku_henkomae,12,character varying,4,YES,�ύX�� ��������: �����e2�� hhmm�`��
+jvd_tk,record_id,1,character varying,2,YES,"���R�[�h���ID: ""TK"" ���Z�b�g���R�[�h�t�H�[�}�b�g����肷��"
+jvd_tk,data_kubun,2,character varying,1,YES,�f�[�^�敪: 1:�n���f���\�O(�ʏ���j) 2:�n���f���\��(�ʏ팎�j)  0:�Y�����R�[�h�폜(�񋟃~�X�Ȃǂ̗��R�ɂ��)
+jvd_tk,data_sakusei_nengappi,3,character varying,8,YES,�f�[�^�쐬�N����: ����4���{�����e2�� yyyymmdd �`��
+jvd_tk,kaisai_nen,4,character varying,4,NO,�J�ÔN: �Y�����[�X�{�s�N ����4�� yyyy�`��
+jvd_tk,kaisai_tsukihi,5,character varying,4,NO,�J�Ì���: �Y�����[�X�{�s���� �e2�� mmdd�`��
+jvd_tk,keibajo_code,6,character varying,2,NO,���n��R�[�h: �Y�����[�X�{�s���n�� <�R�[�h�\ 2001.���n��R�[�h>�Q��
+jvd_tk,kaisai_kai,7,character varying,2,YES,�J�É�[��N��]: �Y�����[�X�{�s�� ���̋��n��ł��̔N�̉���ڂ̊J�Â�������
+jvd_tk,kaisai_nichime,8,character varying,2,YES,�J�Ó���[N����]: �Y�����[�X�{�s���� ���̃��[�X�{�s��ŉ����ڂ̊J�Â�������
+jvd_tk,race_bango,9,character varying,2,NO,���[�X�ԍ�: �Y�����[�X�ԍ�
+jvd_tk,yobi_code,10,character varying,1,YES,�j���R�[�h: �Y�����[�X�{�s�j�� <�R�[�h�\ 2002.�j���R�[�h>�Q��
+jvd_tk,tokubetsu_kyoso_bango,11,character varying,4,YES,���ʋ����ԍ�: �d�܃��[�X�̂ݐݒ� �����I�ɂ͉ߋ��̓��ꃌ�[�X�ƈ�v����ԍ�(������O�L��)
+jvd_tk,kyosomei_hondai,12,character varying,60,YES,�������{��: �S�p30�����@���[�X���̖{��
+jvd_tk,kyosomei_fukudai,13,character varying,60,YES,����������: �S�p30�����@���[�X���̕���i�X�|���T�[����L�O���Ȃǁj
+jvd_tk,kyosomei_kakkonai,14,character varying,60,YES,�������J�b�R��: �S�p30�����@���[�X�̏�����g���C�A���Ώۃ��[�X���A���[�X���ʏ̂Ȃ�
+jvd_tk,kyosomei_hondai_eur,15,character varying,120,YES,�������{�艢��: ���p120����
+jvd_tk,kyosomei_fukudai_eur,16,character varying,120,YES,���������艢��: ���p120����
+jvd_tk,kyosomei_kakkonai_eur,17,character varying,120,YES,�������J�b�R������: ���p120����
+jvd_tk,kyosomei_ryakusho_10,18,character varying,20,YES,����������10����: �S�p10����
+jvd_tk,kyosomei_ryakusho_6,19,character varying,12,YES,����������6����: �S�p6����
+jvd_tk,kyosomei_ryakusho_3,20,character varying,6,YES,����������3����: �S�p3����
+jvd_tk,kyosomei_kubun,21,character varying,1,YES,�������敪: �d�܉�[��N��]��{�襕��襃J�b�R���̂����ǂ�ɐݒ肷�ׂ��������� �i0:�����l 1:�{�� 2:���� 3:�J�b�R���j�d�܂̂ݐݒ�
+jvd_tk,jusho_kaiji,22,character varying,3,YES,�d�܉�[��N��]: ���̃��[�X�̏d�܂Ƃ��Ă̒ʎZ�񐔂�����
+jvd_tk,grade_code,23,character varying,1,YES,�O���[�h�R�[�h: <�R�[�h�\ 2003.�O���[�h�R�[�h>�Q�� �����ۃO���[�h�\�L(G) �܂��� ���̑��̏d�ܕ\�L�iJpn�j�̔��ʕ��@�ɂ��ẮA���L�������Q��
+jvd_tk,kyoso_shubetsu_code,24,character varying,2,YES,������ʃR�[�h: <�R�[�h�\ 2005.������ʃR�[�h>�Q��
+jvd_tk,kyoso_kigo_code,25,character varying,3,YES,�����L���R�[�h: <�R�[�h�\ 2006.�����L���R�[�h>�Q��
+jvd_tk,juryo_shubetsu_code,26,character varying,1,YES,�d�ʎ�ʃR�[�h: <�R�[�h�\ 2008.�d�ʎ�ʃR�[�h>�Q��
+jvd_tk,kyoso_joken_code_2sai,27,character varying,3,YES,���������R�[�h 2�Ώ���: 2�Δn�̋������� �@�@<�R�[�h�\ 2007.���������R�[�h>�Q�Ɓ@�@���L�������Q��
+jvd_tk,kyoso_joken_code_3sai,28,character varying,3,YES,���������R�[�h 3�Ώ���: 3�Δn�̋������� �@�@<�R�[�h�\ 2007.���������R�[�h>�Q�Ɓ@�@���L�������Q��
+jvd_tk,kyoso_joken_code_4sai,29,character varying,3,YES,���������R�[�h 4�Ώ���: 4�Δn�̋������� �@�@<�R�[�h�\ 2007.���������R�[�h>�Q�Ɓ@�@���L�������Q��
+jvd_tk,kyoso_joken_code_5sai_ijo,30,character varying,3,YES,���������R�[�h 5�Έȏ����: 5�Έȏ�n�̋������� <�R�[�h�\ 2007.���������R�[�h>�Q�Ɓ@�@�ď͓̂��L�������Q��
+jvd_tk,kyoso_joken_code,31,character varying,3,YES,���������R�[�h �Ŏ�N����: �o���\�ȍł��n��Ⴂ�n�ɑ΂������ <�R�[�h�\ 2007.���������R�[�h>�Q�Ɓ@���L�������Q��
+jvd_tk,kyori,32,character varying,4,YES,����: �P��:���[�g��
+jvd_tk,track_code,33,character varying,2,YES,�g���b�N�R�[�h: <�R�[�h�\ 2009.�g���b�N�R�[�h>�Q��
+jvd_tk,course_kubun,34,character varying,2,YES,�R�[�X�敪
+jvd_tk,handicap_happyobi,35,character varying,8,YES,�n���f���\��
+jvd_tk,toroku_tosu,36,character varying,3,YES,�o�^����
+jvd_tk,torokuba_joho_001,37,character varying,70,YES,�o�^�n�����1
+jvd_tk,torokuba_joho_002,38,character varying,70,YES,�o�^�n�����2
+jvd_tk,torokuba_joho_003,39,character varying,70,YES,�o�^�n�����3
+jvd_tk,torokuba_joho_004,40,character varying,70,YES,�o�^�n�����4
+jvd_tk,torokuba_joho_005,41,character varying,70,YES,�o�^�n�����5
+jvd_tk,torokuba_joho_006,42,character varying,70,YES,�o�^�n�����6
+jvd_tk,torokuba_joho_007,43,character varying,70,YES,�o�^�n�����7
+jvd_tk,torokuba_joho_008,44,character varying,70,YES,�o�^�n�����8
+jvd_tk,torokuba_joho_009,45,character varying,70,YES,�o�^�n�����9
+jvd_tk,torokuba_joho_010,46,character varying,70,YES,�o�^�n�����10
+jvd_tk,torokuba_joho_011,47,character varying,70,YES,�o�^�n�����11
+jvd_tk,torokuba_joho_012,48,character varying,70,YES,�o�^�n�����12
+jvd_tk,torokuba_joho_013,49,character varying,70,YES,�o�^�n�����13
+jvd_tk,torokuba_joho_014,50,character varying,70,YES,�o�^�n�����14
+jvd_tk,torokuba_joho_015,51,character varying,70,YES,�o�^�n�����15
+jvd_tk,torokuba_joho_016,52,character varying,70,YES,�o�^�n�����16
+jvd_tk,torokuba_joho_017,53,character varying,70,YES,�o�^�n�����17
+jvd_tk,torokuba_joho_018,54,character varying,70,YES,�o�^�n�����18
+jvd_tk,torokuba_joho_019,55,character varying,70,YES,�o�^�n�����19
+jvd_tk,torokuba_joho_020,56,character varying,70,YES,�o�^�n�����20
+jvd_tk,torokuba_joho_021,57,character varying,70,YES,�o�^�n�����21
+jvd_tk,torokuba_joho_022,58,character varying,70,YES,�o�^�n�����22
+jvd_tk,torokuba_joho_023,59,character varying,70,YES,�o�^�n�����23
+jvd_tk,torokuba_joho_024,60,character varying,70,YES,�o�^�n�����24
+jvd_tk,torokuba_joho_025,61,character varying,70,YES,�o�^�n�����25
+jvd_tk,torokuba_joho_026,62,character varying,70,YES,�o�^�n�����26
+jvd_tk,torokuba_joho_027,63,character varying,70,YES,�o�^�n�����27
+jvd_tk,torokuba_joho_028,64,character varying,70,YES,�o�^�n�����28
+jvd_tk,torokuba_joho_029,65,character varying,70,YES,�o�^�n�����29
+jvd_tk,torokuba_joho_030,66,character varying,70,YES,�o�^�n�����30
+jvd_tk,torokuba_joho_031,67,character varying,70,YES,�o�^�n�����31
+jvd_tk,torokuba_joho_032,68,character varying,70,YES,�o�^�n�����32
+jvd_tk,torokuba_joho_033,69,character varying,70,YES,�o�^�n�����33
+jvd_tk,torokuba_joho_034,70,character varying,70,YES,�o�^�n�����34
+jvd_tk,torokuba_joho_035,71,character varying,70,YES,�o�^�n�����35
+jvd_tk,torokuba_joho_036,72,character varying,70,YES,�o�^�n�����36
+jvd_tk,torokuba_joho_037,73,character varying,70,YES,�o�^�n�����37
+jvd_tk,torokuba_joho_038,74,character varying,70,YES,�o�^�n�����38
+jvd_tk,torokuba_joho_039,75,character varying,70,YES,�o�^�n�����39
+jvd_tk,torokuba_joho_040,76,character varying,70,YES,�o�^�n�����40
+jvd_tk,torokuba_joho_041,77,character varying,70,YES,�o�^�n�����41
+jvd_tk,torokuba_joho_042,78,character varying,70,YES,�o�^�n�����42
+jvd_tk,torokuba_joho_043,79,character varying,70,YES,�o�^�n�����43
+jvd_tk,torokuba_joho_044,80,character varying,70,YES,�o�^�n�����44
+jvd_tk,torokuba_joho_045,81,character varying,70,YES,�o�^�n�����45
+jvd_tk,torokuba_joho_046,82,character varying,70,YES,�o�^�n�����46
+jvd_tk,torokuba_joho_047,83,character varying,70,YES,�o�^�n�����47
+jvd_tk,torokuba_joho_048,84,character varying,70,YES,�o�^�n�����48
+jvd_tk,torokuba_joho_049,85,character varying,70,YES,�o�^�n�����49
+jvd_tk,torokuba_joho_050,86,character varying,70,YES,�o�^�n�����50
+jvd_tk,torokuba_joho_051,87,character varying,70,YES,�o�^�n�����51
+jvd_tk,torokuba_joho_052,88,character varying,70,YES,�o�^�n�����52
+jvd_tk,torokuba_joho_053,89,character varying,70,YES,�o�^�n�����53
+jvd_tk,torokuba_joho_054,90,character varying,70,YES,�o�^�n�����54
+jvd_tk,torokuba_joho_055,91,character varying,70,YES,�o�^�n�����55
+jvd_tk,torokuba_joho_056,92,character varying,70,YES,�o�^�n�����56
+jvd_tk,torokuba_joho_057,93,character varying,70,YES,�o�^�n�����57
+jvd_tk,torokuba_joho_058,94,character varying,70,YES,�o�^�n�����58
+jvd_tk,torokuba_joho_059,95,character varying,70,YES,�o�^�n�����59
+jvd_tk,torokuba_joho_060,96,character varying,70,YES,�o�^�n�����60
+jvd_tk,torokuba_joho_061,97,character varying,70,YES,�o�^�n�����61
+jvd_tk,torokuba_joho_062,98,character varying,70,YES,�o�^�n�����62
+jvd_tk,torokuba_joho_063,99,character varying,70,YES,�o�^�n�����63
+jvd_tk,torokuba_joho_064,100,character varying,70,YES,�o�^�n�����64
+jvd_tk,torokuba_joho_065,101,character varying,70,YES,�o�^�n�����65
+jvd_tk,torokuba_joho_066,102,character varying,70,YES,�o�^�n�����66
+jvd_tk,torokuba_joho_067,103,character varying,70,YES,�o�^�n�����67
+jvd_tk,torokuba_joho_068,104,character varying,70,YES,�o�^�n�����68
+jvd_tk,torokuba_joho_069,105,character varying,70,YES,�o�^�n�����69
+jvd_tk,torokuba_joho_070,106,character varying,70,YES,�o�^�n�����70
+jvd_tk,torokuba_joho_071,107,character varying,70,YES,�o�^�n�����71
+jvd_tk,torokuba_joho_072,108,character varying,70,YES,�o�^�n�����72
+jvd_tk,torokuba_joho_073,109,character varying,70,YES,�o�^�n�����73
+jvd_tk,torokuba_joho_074,110,character varying,70,YES,�o�^�n�����74
+jvd_tk,torokuba_joho_075,111,character varying,70,YES,�o�^�n�����75
+jvd_tk,torokuba_joho_076,112,character varying,70,YES,�o�^�n�����76
+jvd_tk,torokuba_joho_077,113,character varying,70,YES,�o�^�n�����77
+jvd_tk,torokuba_joho_078,114,character varying,70,YES,�o�^�n�����78
+jvd_tk,torokuba_joho_079,115,character varying,70,YES,�o�^�n�����79
+jvd_tk,torokuba_joho_080,116,character varying,70,YES,�o�^�n�����80
+jvd_tk,torokuba_joho_081,117,character varying,70,YES,�o�^�n�����81
+jvd_tk,torokuba_joho_082,118,character varying,70,YES,�o�^�n�����82
+jvd_tk,torokuba_joho_083,119,character varying,70,YES,�o�^�n�����83
+jvd_tk,torokuba_joho_084,120,character varying,70,YES,�o�^�n�����84
+jvd_tk,torokuba_joho_085,121,character varying,70,YES,�o�^�n�����85
+jvd_tk,torokuba_joho_086,122,character varying,70,YES,�o�^�n�����86
+jvd_tk,torokuba_joho_087,123,character varying,70,YES,�o�^�n�����87
+jvd_tk,torokuba_joho_088,124,character varying,70,YES,�o�^�n�����88
+jvd_tk,torokuba_joho_089,125,character varying,70,YES,�o�^�n�����89
+jvd_tk,torokuba_joho_090,126,character varying,70,YES,�o�^�n�����90
+jvd_tk,torokuba_joho_091,127,character varying,70,YES,�o�^�n�����91
+jvd_tk,torokuba_joho_092,128,character varying,70,YES,�o�^�n�����92
+jvd_tk,torokuba_joho_093,129,character varying,70,YES,�o�^�n�����93
+jvd_tk,torokuba_joho_094,130,character varying,70,YES,�o�^�n�����94
+jvd_tk,torokuba_joho_095,131,character varying,70,YES,�o�^�n�����95
+jvd_tk,torokuba_joho_096,132,character varying,70,YES,�o�^�n�����96
+jvd_tk,torokuba_joho_097,133,character varying,70,YES,�o�^�n�����97
+jvd_tk,torokuba_joho_098,134,character varying,70,YES,�o�^�n�����98
+jvd_tk,torokuba_joho_099,135,character varying,70,YES,�o�^�n�����99
+jvd_tk,torokuba_joho_100,136,character varying,70,YES,�o�^�n�����100
+jvd_tk,torokuba_joho_101,137,character varying,70,YES,�o�^�n�����101
+jvd_tk,torokuba_joho_102,138,character varying,70,YES,�o�^�n�����102
+jvd_tk,torokuba_joho_103,139,character varying,70,YES,�o�^�n�����103
+jvd_tk,torokuba_joho_104,140,character varying,70,YES,�o�^�n�����104
+jvd_tk,torokuba_joho_105,141,character varying,70,YES,�o�^�n�����105
+jvd_tk,torokuba_joho_106,142,character varying,70,YES,�o�^�n�����106
+jvd_tk,torokuba_joho_107,143,character varying,70,YES,�o�^�n�����107
+jvd_tk,torokuba_joho_108,144,character varying,70,YES,�o�^�n�����108
+jvd_tk,torokuba_joho_109,145,character varying,70,YES,�o�^�n�����109
+jvd_tk,torokuba_joho_110,146,character varying,70,YES,�o�^�n�����110
+jvd_tk,torokuba_joho_111,147,character varying,70,YES,�o�^�n�����111
+jvd_tk,torokuba_joho_112,148,character varying,70,YES,�o�^�n�����112
+jvd_tk,torokuba_joho_113,149,character varying,70,YES,�o�^�n�����113
+jvd_tk,torokuba_joho_114,150,character varying,70,YES,�o�^�n�����114
+jvd_tk,torokuba_joho_115,151,character varying,70,YES,�o�^�n�����115
+jvd_tk,torokuba_joho_116,152,character varying,70,YES,�o�^�n�����116
+jvd_tk,torokuba_joho_117,153,character varying,70,YES,�o�^�n�����117
+jvd_tk,torokuba_joho_118,154,character varying,70,YES,�o�^�n�����118
+jvd_tk,torokuba_joho_119,155,character varying,70,YES,�o�^�n�����119
+jvd_tk,torokuba_joho_120,156,character varying,70,YES,�o�^�n�����120
+jvd_tk,torokuba_joho_121,157,character varying,70,YES,�o�^�n�����121
+jvd_tk,torokuba_joho_122,158,character varying,70,YES,�o�^�n�����122
+jvd_tk,torokuba_joho_123,159,character varying,70,YES,�o�^�n�����123
+jvd_tk,torokuba_joho_124,160,character varying,70,YES,�o�^�n�����124
+jvd_tk,torokuba_joho_125,161,character varying,70,YES,�o�^�n�����125
+jvd_tk,torokuba_joho_126,162,character varying,70,YES,�o�^�n�����126
+jvd_tk,torokuba_joho_127,163,character varying,70,YES,�o�^�n�����127
+jvd_tk,torokuba_joho_128,164,character varying,70,YES,�o�^�n�����128
+jvd_tk,torokuba_joho_129,165,character varying,70,YES,�o�^�n�����129
+jvd_tk,torokuba_joho_130,166,character varying,70,YES,�o�^�n�����130
+jvd_tk,torokuba_joho_131,167,character varying,70,YES,�o�^�n�����131
+jvd_tk,torokuba_joho_132,168,character varying,70,YES,�o�^�n�����132
+jvd_tk,torokuba_joho_133,169,character varying,70,YES,�o�^�n�����133
+jvd_tk,torokuba_joho_134,170,character varying,70,YES,�o�^�n�����134
+jvd_tk,torokuba_joho_135,171,character varying,70,YES,�o�^�n�����135
+jvd_tk,torokuba_joho_136,172,character varying,70,YES,�o�^�n�����136
+jvd_tk,torokuba_joho_137,173,character varying,70,YES,�o�^�n�����137
+jvd_tk,torokuba_joho_138,174,character varying,70,YES,�o�^�n�����138
+jvd_tk,torokuba_joho_139,175,character varying,70,YES,�o�^�n�����139
+jvd_tk,torokuba_joho_140,176,character varying,70,YES,�o�^�n�����140
+jvd_tk,torokuba_joho_141,177,character varying,70,YES,�o�^�n�����141
+jvd_tk,torokuba_joho_142,178,character varying,70,YES,�o�^�n�����142
+jvd_tk,torokuba_joho_143,179,character varying,70,YES,�o�^�n�����143
+jvd_tk,torokuba_joho_144,180,character varying,70,YES,�o�^�n�����144
+jvd_tk,torokuba_joho_145,181,character varying,70,YES,�o�^�n�����145
+jvd_tk,torokuba_joho_146,182,character varying,70,YES,�o�^�n�����146
+jvd_tk,torokuba_joho_147,183,character varying,70,YES,�o�^�n�����147
+jvd_tk,torokuba_joho_148,184,character varying,70,YES,�o�^�n�����148
+jvd_tk,torokuba_joho_149,185,character varying,70,YES,�o�^�n�����149
+jvd_tk,torokuba_joho_150,186,character varying,70,YES,�o�^�n�����150
+jvd_tk,torokuba_joho_151,187,character varying,70,YES,�o�^�n�����151
+jvd_tk,torokuba_joho_152,188,character varying,70,YES,�o�^�n�����152
+jvd_tk,torokuba_joho_153,189,character varying,70,YES,�o�^�n�����153
+jvd_tk,torokuba_joho_154,190,character varying,70,YES,�o�^�n�����154
+jvd_tk,torokuba_joho_155,191,character varying,70,YES,�o�^�n�����155
+jvd_tk,torokuba_joho_156,192,character varying,70,YES,�o�^�n�����156
+jvd_tk,torokuba_joho_157,193,character varying,70,YES,�o�^�n�����157
+jvd_tk,torokuba_joho_158,194,character varying,70,YES,�o�^�n�����158
+jvd_tk,torokuba_joho_159,195,character varying,70,YES,�o�^�n�����159
+jvd_tk,torokuba_joho_160,196,character varying,70,YES,�o�^�n�����160
+jvd_tk,torokuba_joho_161,197,character varying,70,YES,�o�^�n�����161
+jvd_tk,torokuba_joho_162,198,character varying,70,YES,�o�^�n�����162
+jvd_tk,torokuba_joho_163,199,character varying,70,YES,�o�^�n�����163
+jvd_tk,torokuba_joho_164,200,character varying,70,YES,�o�^�n�����164
+jvd_tk,torokuba_joho_165,201,character varying,70,YES,�o�^�n�����165
+jvd_tk,torokuba_joho_166,202,character varying,70,YES,�o�^�n�����166
+jvd_tk,torokuba_joho_167,203,character varying,70,YES,�o�^�n�����167
+jvd_tk,torokuba_joho_168,204,character varying,70,YES,�o�^�n�����168
+jvd_tk,torokuba_joho_169,205,character varying,70,YES,�o�^�n�����169
+jvd_tk,torokuba_joho_170,206,character varying,70,YES,�o�^�n�����170
+jvd_tk,torokuba_joho_171,207,character varying,70,YES,�o�^�n�����171
+jvd_tk,torokuba_joho_172,208,character varying,70,YES,�o�^�n�����172
+jvd_tk,torokuba_joho_173,209,character varying,70,YES,�o�^�n�����173
+jvd_tk,torokuba_joho_174,210,character varying,70,YES,�o�^�n�����174
+jvd_tk,torokuba_joho_175,211,character varying,70,YES,�o�^�n�����175
+jvd_tk,torokuba_joho_176,212,character varying,70,YES,�o�^�n�����176
+jvd_tk,torokuba_joho_177,213,character varying,70,YES,�o�^�n�����177
+jvd_tk,torokuba_joho_178,214,character varying,70,YES,�o�^�n�����178
+jvd_tk,torokuba_joho_179,215,character varying,70,YES,�o�^�n�����179
+jvd_tk,torokuba_joho_180,216,character varying,70,YES,�o�^�n�����180
+jvd_tk,torokuba_joho_181,217,character varying,70,YES,�o�^�n�����181
+jvd_tk,torokuba_joho_182,218,character varying,70,YES,�o�^�n�����182
+jvd_tk,torokuba_joho_183,219,character varying,70,YES,�o�^�n�����183
+jvd_tk,torokuba_joho_184,220,character varying,70,YES,�o�^�n�����184
+jvd_tk,torokuba_joho_185,221,character varying,70,YES,�o�^�n�����185
+jvd_tk,torokuba_joho_186,222,character varying,70,YES,�o�^�n�����186
+jvd_tk,torokuba_joho_187,223,character varying,70,YES,�o�^�n�����187
+jvd_tk,torokuba_joho_188,224,character varying,70,YES,�o�^�n�����188
+jvd_tk,torokuba_joho_189,225,character varying,70,YES,�o�^�n�����189
+jvd_tk,torokuba_joho_190,226,character varying,70,YES,�o�^�n�����190
+jvd_tk,torokuba_joho_191,227,character varying,70,YES,�o�^�n�����191
+jvd_tk,torokuba_joho_192,228,character varying,70,YES,�o�^�n�����192
+jvd_tk,torokuba_joho_193,229,character varying,70,YES,�o�^�n�����193
+jvd_tk,torokuba_joho_194,230,character varying,70,YES,�o�^�n�����194
+jvd_tk,torokuba_joho_195,231,character varying,70,YES,�o�^�n�����195
+jvd_tk,torokuba_joho_196,232,character varying,70,YES,�o�^�n�����196
+jvd_tk,torokuba_joho_197,233,character varying,70,YES,�o�^�n�����197
+jvd_tk,torokuba_joho_198,234,character varying,70,YES,�o�^�n�����198
+jvd_tk,torokuba_joho_199,235,character varying,70,YES,�o�^�n�����199
+jvd_tk,torokuba_joho_200,236,character varying,70,YES,�o�^�n�����200
+jvd_tk,torokuba_joho_201,237,character varying,70,YES,�o�^�n�����201
+jvd_tk,torokuba_joho_202,238,character varying,70,YES,�o�^�n�����202
+jvd_tk,torokuba_joho_203,239,character varying,70,YES,�o�^�n�����203
+jvd_tk,torokuba_joho_204,240,character varying,70,YES,�o�^�n�����204
+jvd_tk,torokuba_joho_205,241,character varying,70,YES,�o�^�n�����205
+jvd_tk,torokuba_joho_206,242,character varying,70,YES,�o�^�n�����206
+jvd_tk,torokuba_joho_207,243,character varying,70,YES,�o�^�n�����207
+jvd_tk,torokuba_joho_208,244,character varying,70,YES,�o�^�n�����208
+jvd_tk,torokuba_joho_209,245,character varying,70,YES,�o�^�n�����209
+jvd_tk,torokuba_joho_210,246,character varying,70,YES,�o�^�n�����210
+jvd_tk,torokuba_joho_211,247,character varying,70,YES,�o�^�n�����211
+jvd_tk,torokuba_joho_212,248,character varying,70,YES,�o�^�n�����212
+jvd_tk,torokuba_joho_213,249,character varying,70,YES,�o�^�n�����213
+jvd_tk,torokuba_joho_214,250,character varying,70,YES,�o�^�n�����214
+jvd_tk,torokuba_joho_215,251,character varying,70,YES,�o�^�n�����215
+jvd_tk,torokuba_joho_216,252,character varying,70,YES,�o�^�n�����216
+jvd_tk,torokuba_joho_217,253,character varying,70,YES,�o�^�n�����217
+jvd_tk,torokuba_joho_218,254,character varying,70,YES,�o�^�n�����218
+jvd_tk,torokuba_joho_219,255,character varying,70,YES,�o�^�n�����219
+jvd_tk,torokuba_joho_220,256,character varying,70,YES,�o�^�n�����220
+jvd_tk,torokuba_joho_221,257,character varying,70,YES,�o�^�n�����221
+jvd_tk,torokuba_joho_222,258,character varying,70,YES,�o�^�n�����222
+jvd_tk,torokuba_joho_223,259,character varying,70,YES,�o�^�n�����223
+jvd_tk,torokuba_joho_224,260,character varying,70,YES,�o�^�n�����224
+jvd_tk,torokuba_joho_225,261,character varying,70,YES,�o�^�n�����225
+jvd_tk,torokuba_joho_226,262,character varying,70,YES,�o�^�n�����226
+jvd_tk,torokuba_joho_227,263,character varying,70,YES,�o�^�n�����227
+jvd_tk,torokuba_joho_228,264,character varying,70,YES,�o�^�n�����228
+jvd_tk,torokuba_joho_229,265,character varying,70,YES,�o�^�n�����229
+jvd_tk,torokuba_joho_230,266,character varying,70,YES,�o�^�n�����230
+jvd_tk,torokuba_joho_231,267,character varying,70,YES,�o�^�n�����231
+jvd_tk,torokuba_joho_232,268,character varying,70,YES,�o�^�n�����232
+jvd_tk,torokuba_joho_233,269,character varying,70,YES,�o�^�n�����233
+jvd_tk,torokuba_joho_234,270,character varying,70,YES,�o�^�n�����234
+jvd_tk,torokuba_joho_235,271,character varying,70,YES,�o�^�n�����235
+jvd_tk,torokuba_joho_236,272,character varying,70,YES,�o�^�n�����236
+jvd_tk,torokuba_joho_237,273,character varying,70,YES,�o�^�n�����237
+jvd_tk,torokuba_joho_238,274,character varying,70,YES,�o�^�n�����238
+jvd_tk,torokuba_joho_239,275,character varying,70,YES,�o�^�n�����239
+jvd_tk,torokuba_joho_240,276,character varying,70,YES,�o�^�n�����240
+jvd_tk,torokuba_joho_241,277,character varying,70,YES,�o�^�n�����241
+jvd_tk,torokuba_joho_242,278,character varying,70,YES,�o�^�n�����242
+jvd_tk,torokuba_joho_243,279,character varying,70,YES,�o�^�n�����243
+jvd_tk,torokuba_joho_244,280,character varying,70,YES,�o�^�n�����244
+jvd_tk,torokuba_joho_245,281,character varying,70,YES,�o�^�n�����245
+jvd_tk,torokuba_joho_246,282,character varying,70,YES,�o�^�n�����246
+jvd_tk,torokuba_joho_247,283,character varying,70,YES,�o�^�n�����247
+jvd_tk,torokuba_joho_248,284,character varying,70,YES,�o�^�n�����248
+jvd_tk,torokuba_joho_249,285,character varying,70,YES,�o�^�n�����249
+jvd_tk,torokuba_joho_250,286,character varying,70,YES,�o�^�n�����250
+jvd_tk,torokuba_joho_251,287,character varying,70,YES,�o�^�n�����251
+jvd_tk,torokuba_joho_252,288,character varying,70,YES,�o�^�n�����252
+jvd_tk,torokuba_joho_253,289,character varying,70,YES,�o�^�n�����253
+jvd_tk,torokuba_joho_254,290,character varying,70,YES,�o�^�n�����254
+jvd_tk,torokuba_joho_255,291,character varying,70,YES,�o�^�n�����255
+jvd_tk,torokuba_joho_256,292,character varying,70,YES,�o�^�n�����256
+jvd_tk,torokuba_joho_257,293,character varying,70,YES,�o�^�n�����257
+jvd_tk,torokuba_joho_258,294,character varying,70,YES,�o�^�n�����258
+jvd_tk,torokuba_joho_259,295,character varying,70,YES,�o�^�n�����259
+jvd_tk,torokuba_joho_260,296,character varying,70,YES,�o�^�n�����260
+jvd_tk,torokuba_joho_261,297,character varying,70,YES,�o�^�n�����261
+jvd_tk,torokuba_joho_262,298,character varying,70,YES,�o�^�n�����262
+jvd_tk,torokuba_joho_263,299,character varying,70,YES,�o�^�n�����263
+jvd_tk,torokuba_joho_264,300,character varying,70,YES,�o�^�n�����264
+jvd_tk,torokuba_joho_265,301,character varying,70,YES,�o�^�n�����265
+jvd_tk,torokuba_joho_266,302,character varying,70,YES,�o�^�n�����266
+jvd_tk,torokuba_joho_267,303,character varying,70,YES,�o�^�n�����267
+jvd_tk,torokuba_joho_268,304,character varying,70,YES,�o�^�n�����268
+jvd_tk,torokuba_joho_269,305,character varying,70,YES,�o�^�n�����269
+jvd_tk,torokuba_joho_270,306,character varying,70,YES,�o�^�n�����270
+jvd_tk,torokuba_joho_271,307,character varying,70,YES,�o�^�n�����271
+jvd_tk,torokuba_joho_272,308,character varying,70,YES,�o�^�n�����272
+jvd_tk,torokuba_joho_273,309,character varying,70,YES,�o�^�n�����273
+jvd_tk,torokuba_joho_274,310,character varying,70,YES,�o�^�n�����274
+jvd_tk,torokuba_joho_275,311,character varying,70,YES,�o�^�n�����275
+jvd_tk,torokuba_joho_276,312,character varying,70,YES,�o�^�n�����276
+jvd_tk,torokuba_joho_277,313,character varying,70,YES,�o�^�n�����277
+jvd_tk,torokuba_joho_278,314,character varying,70,YES,�o�^�n�����278
+jvd_tk,torokuba_joho_279,315,character varying,70,YES,�o�^�n�����279
+jvd_tk,torokuba_joho_280,316,character varying,70,YES,�o�^�n�����280
+jvd_tk,torokuba_joho_281,317,character varying,70,YES,�o�^�n�����281
+jvd_tk,torokuba_joho_282,318,character varying,70,YES,�o�^�n�����282
+jvd_tk,torokuba_joho_283,319,character varying,70,YES,�o�^�n�����283
+jvd_tk,torokuba_joho_284,320,character varying,70,YES,�o�^�n�����284
+jvd_tk,torokuba_joho_285,321,character varying,70,YES,�o�^�n�����285
+jvd_tk,torokuba_joho_286,322,character varying,70,YES,�o�^�n�����286
+jvd_tk,torokuba_joho_287,323,character varying,70,YES,�o�^�n�����287
+jvd_tk,torokuba_joho_288,324,character varying,70,YES,�o�^�n�����288
+jvd_tk,torokuba_joho_289,325,character varying,70,YES,�o�^�n�����289
+jvd_tk,torokuba_joho_290,326,character varying,70,YES,�o�^�n�����290
+jvd_tk,torokuba_joho_291,327,character varying,70,YES,�o�^�n�����291
+jvd_tk,torokuba_joho_292,328,character varying,70,YES,�o�^�n�����292
+jvd_tk,torokuba_joho_293,329,character varying,70,YES,�o�^�n�����293
+jvd_tk,torokuba_joho_294,330,character varying,70,YES,�o�^�n�����294
+jvd_tk,torokuba_joho_295,331,character varying,70,YES,�o�^�n�����295
+jvd_tk,torokuba_joho_296,332,character varying,70,YES,�o�^�n�����296
+jvd_tk,torokuba_joho_297,333,character varying,70,YES,�o�^�n�����297
+jvd_tk,torokuba_joho_298,334,character varying,70,YES,�o�^�n�����298
+jvd_tk,torokuba_joho_299,335,character varying,70,YES,�o�^�n�����299
+jvd_tk,torokuba_joho_300,336,character varying,70,YES,�o�^�n�����300
+jvd_tm,record_id,1,character varying,2,YES,"���R�[�h���ID: ""TM""���Z�b�g���R�[�h�t�H�[�}�b�g����肷��"
+jvd_tm,data_kubun,2,character varying,1,YES,�f�[�^�敪: 1:�O���\�z(�o�n���\��)�@2:�����\�z(�V��n�ꔭ�\��)�@3:���O�\�z(�n�̏d���\��) 7:����(���j)�@0:�Y�����R�[�h�폜(�񋟃~�X�Ȃǂ̗��R�ɂ��) ��1 7:����(���j)�͒~�όn�f�[�^�̂ݐݒ肳��܂��B     �~�όn�f�[�^�ɂ�7:����(���j)�񋟌������n�f�[�^�ɂ�3:���O�\�z(�n�̏d��...
+jvd_tm,data_sakusei_nengappi,3,character varying,8,YES,�f�[�^�쐬�N����: ����4���{�����e2�� yyyymmdd �`��
+jvd_tm,kaisai_nen,4,character varying,4,NO,�J�ÔN: �Y�����[�X�{�s�N ����4�� yyyy�`��
+jvd_tm,kaisai_tsukihi,5,character varying,4,NO,�J�Ì���: �Y�����[�X�{�s���� �e2�� mmdd�`��
+jvd_tm,keibajo_code,6,character varying,2,NO,���n��R�[�h: �Y�����[�X�{�s���n�� <�R�[�h�\ 2001.���n��R�[�h>�Q��
+jvd_tm,kaisai_kai,7,character varying,2,YES,�J�É�[��N��]: �Y�����[�X�{�s�� ���̋��n��ł��̔N�̉���ڂ̊J�Â�������
+jvd_tm,kaisai_nichime,8,character varying,2,YES,�J�Ó���[N����]: �Y�����[�X�{�s���� ���̃��[�X�{�s��ŉ����ڂ̊J�Â�������
+jvd_tm,race_bango,9,character varying,2,NO,���[�X�ԍ�: �Y�����[�X�ԍ�
+jvd_tm,data_sakusei_jifun,10,character varying,4,YES,�f�[�^�쐬����: �����e2��
+jvd_tm,mining_yoso_01,11,character varying,6,YES,<�}�C�j���O�\�z>: nan
+jvd_tm,mining_yoso_02,12,character varying,6,YES,�n��: �Y���n��01?18
+jvd_tm,mining_yoso_03,13,character varying,6,YES,�\���X�R�A: 000.0?100.0�Őݒ� �E����1�o�C�g�ڂ������_���ʂƂ���
+jvd_tm,mining_yoso_04,14,character varying,6,YES,���R�[�h���: CR/LF
+jvd_tm,mining_yoso_05,15,character varying,6,YES,���ږ�: ����
+jvd_tm,mining_yoso_06,16,character varying,6,YES,�}�C�j���O�\�z6
+jvd_tm,mining_yoso_07,17,character varying,6,YES,�}�C�j���O�\�z7
+jvd_tm,mining_yoso_08,18,character varying,6,YES,�}�C�j���O�\�z8
+jvd_tm,mining_yoso_09,19,character varying,6,YES,�}�C�j���O�\�z9
+jvd_tm,mining_yoso_10,20,character varying,6,YES,�}�C�j���O�\�z10
+jvd_tm,mining_yoso_11,21,character varying,6,YES,�}�C�j���O�\�z11
+jvd_tm,mining_yoso_12,22,character varying,6,YES,�}�C�j���O�\�z12
+jvd_tm,mining_yoso_13,23,character varying,6,YES,�}�C�j���O�\�z13
+jvd_tm,mining_yoso_14,24,character varying,6,YES,�}�C�j���O�\�z14
+jvd_tm,mining_yoso_15,25,character varying,6,YES,�}�C�j���O�\�z15
+jvd_tm,mining_yoso_16,26,character varying,6,YES,�}�C�j���O�\�z16
+jvd_tm,mining_yoso_17,27,character varying,6,YES,�}�C�j���O�\�z17
+jvd_tm,mining_yoso_18,28,character varying,6,YES,�}�C�j���O�\�z18
+jvd_um,record_id,1,character varying,2,YES,"���R�[�h���ID: ""UM"" ���Z�b�g���R�[�h�t�H�[�}�b�g����肷��"
+jvd_um,data_kubun,2,character varying,1,YES,�f�[�^�敪: 1:�V�K�n���o�^ 2:�n���ύX 3:�ēo�^(������̍ēo�^) 4:���̑��X�V 9:���� 0:�Y�����R�[�h�폜(�񋟃~�X�Ȃǂ̗��R�ɂ��)
+jvd_um,data_sakusei_nengappi,3,character varying,8,YES,�f�[�^�쐬�N����: ����4���{�����e2�� yyyymmdd �`��
+jvd_um,ketto_toroku_bango,4,character varying,10,NO,�����o�^�ԍ�: ���N(����)4���{�i��1��<�R�[�h�\2201.�i��R�[�h>�Q�Ɓ{����5��
+jvd_um,massho_kubun,5,character varying,1,YES,�����n�����敪: 0:���� 1:����
+jvd_um,toroku_nengappi,6,character varying,8,YES,�����n�o�^�N����: �N4��(����)�{�����e2�� yyyymmdd �`��
+jvd_um,massho_nengappi,7,character varying,8,YES,�����n�����N����: �N4��(����)�{�����e2�� yyyymmdd �`��
+jvd_um,seinengappi,8,character varying,8,YES,���N����: �N4��(����)�{�����e2�� yyyymmdd �`��
+jvd_um,bamei,9,character varying,36,YES,�n��: �S�p18����
+jvd_um,bamei_hankaku_kana,10,character varying,36,YES,�n�����p��: ���p36����
+jvd_um,bamei_eur,11,character varying,60,YES,�n������: ���p60����
+jvd_um,zaikyu_flag,12,character varying,1,YES,JRA�{�ݍ݂��イ�t���O: 0:JRA�{�݂ɍ݂��イ���Ă��Ȃ��B 1:JRA�{�݂݂̍��イ���Ă���B JRA�{�݂Ƃ͋��n�ꂨ��уg���Z���Ȃǂ��w���B�@(����18�N6��6���ȍ~�ݒ�)
+jvd_um,yobi_1,13,character varying,19,YES,�\��: �\��
+jvd_um,umakigo_code,14,character varying,2,YES,�n�L���R�[�h: <�R�[�h�\ 2204.�n�L���R�[�h>�Q��
+jvd_um,seibetsu_code,15,character varying,1,YES,���ʃR�[�h: <�R�[�h�\ 2202.���ʃR�[�h>�Q��
+jvd_um,hinshu_code,16,character varying,1,YES,�i��R�[�h: <�R�[�h�\ 2201.�i��R�[�h>�Q��
+jvd_um,moshoku_code,17,character varying,2,YES,�ѐF�R�[�h: <�R�[�h�\ 2203.�ѐF�R�[�h>�Q��
+jvd_um,ketto_joho_01a,18,character varying,10,YES,<3�㌌�����>: ����꥕�������꥕ꕃ���꥕�����������꥕��ꕃ�����꥕ꕃ����ꕃ�꥕�ꕃ�����̏��ɐݒ�
+jvd_um,ketto_joho_01b,19,character varying,36,YES,�ɐB�o�^�ԍ�: �ɐB�n�}�X�^�Ƀ����N
+jvd_um,ketto_joho_02a,20,character varying,10,YES,�n��: �S�p18���� ? ���p36���� �i�S�p�Ɣ��p�����݁j �O���̔ɐB�n�̏ꍇ�́A16.�ɐB�n�}�X�^��10.�n�������̓�36�o�C�g��ݒ�B
+jvd_um,ketto_joho_02b,21,character varying,36,YES,���������R�[�h: <�R�[�h�\ 2301.���������R�[�h>�Q��
+jvd_um,ketto_joho_03a,22,character varying,10,YES,�����t�R�[�h: �����t�}�X�^�փ����N
+jvd_um,ketto_joho_03b,23,character varying,36,YES,�����t������: �S�p4����
+jvd_um,ketto_joho_04a,24,character varying,10,YES,���Ғn�於: �S�p10����
+jvd_um,ketto_joho_04b,25,character varying,36,YES,���Y�҃R�[�h: ���Y�҃}�X�^�փ����N
+jvd_um,ketto_joho_05a,26,character varying,10,YES,���Y�Җ�(�@�l�i��): �S�p36���� ? ���p72���� �i�S�p�Ɣ��p�����݁j ������ЁA�L����ЂȂǂ̖@�l�i�����������񂪓��������͖����ɂ���ꍇ�ɂ�����폜�������̂�ݒ�B�܂��A�O�����Y�҂̏ꍇ�́A���Y�҃}�X�^��8.���Y�Җ������̓�70�o�C�g��ݒ�B
+jvd_um,ketto_joho_05b,27,character varying,36,YES,�Y�n��: �S�p10�����@�܂��́@���p20�����@(�ݒ�l���p���̏ꍇ�͔��p�Őݒ�j
+jvd_um,ketto_joho_06a,28,character varying,10,YES,�n��R�[�h: �n��}�X�^�փ����N
+jvd_um,ketto_joho_06b,29,character varying,36,YES,�n�喼(�@�l�i��): �S�p32���� ? ���p64���� �i�S�p�Ɣ��p�����݁j ������ЁA�L����ЂȂǂ̖@�l�i�����������񂪓��������͖����ɂ���ꍇ�ɂ�����폜�������̂�ݒ�B�܂��A�O���n��̏ꍇ�́A�n��}�X�^��8.�n�喼�����̓�64�o�C�g��ݒ�B
+jvd_um,ketto_joho_07a,30,character varying,10,YES,���n�{�܋��݌v: �P�ʁF�S�~�@�i�����̕��n�{�܋��̍��v�j
+jvd_um,ketto_joho_07b,31,character varying,36,YES,��Q�{�܋��݌v: �P�ʁF�S�~�@�i�����̏�Q�{�܋��̍��v�j
+jvd_um,ketto_joho_08a,32,character varying,10,YES,���n�t���܋��݌v: �P�ʁF�S�~�@�i�����̕��n�t���܋��̍��v�j
+jvd_um,ketto_joho_08b,33,character varying,36,YES,��Q�t���܋��݌v: �P�ʁF�S�~�@�i�����̏�Q�t���܋��̍��v�j
+jvd_um,ketto_joho_09a,34,character varying,10,YES,���n�����܋��݌v: �P�ʁF�S�~�@�i�����{�����ȊO�̕��n�ݐώ����܋��j
+jvd_um,ketto_joho_09b,35,character varying,36,YES,��Q�����܋��݌v: �P�ʁF�S�~�@�i�����{�����ȊO�̏�Q�ݐώ����܋��j
+jvd_um,ketto_joho_10a,36,character varying,10,YES,��������: 1��?5���y�ђ��O(6���ȉ�)�̉񐔁i�����{�n���{�C�O)
+jvd_um,ketto_joho_10b,37,character varying,36,YES,�������v����: 1��?5���y�ђ��O(6���ȉ�)�̉񐔁i�����̂�)
+jvd_um,ketto_joho_11a,38,character varying,10,YES,<�n��ʒ���>: nan
+jvd_um,ketto_joho_11b,39,character varying,36,YES,�Œ��E����: �ŁE�����R�[�X�ł�1��?5���y�ђ��O(6���ȉ�)�̉񐔁i�����̂�)
+jvd_um,ketto_joho_12a,40,character varying,10,YES,�ŉE�E����: �ŁE�E���R�[�X�ł�1��?5���y�ђ��O(6���ȉ�)�̉񐔁i�����̂�)
+jvd_um,ketto_joho_12b,41,character varying,36,YES,�ō��E����: �ŁE�����R�[�X�ł�1��?5���y�ђ��O(6���ȉ�)�̉񐔁i�����̂�)
+jvd_um,ketto_joho_13a,42,character varying,10,YES,�_���E����: �_�[�g�E�����R�[�X�ł�1��?5���y�ђ��O(6���ȉ�)�̉񐔁i�����̂�)
+jvd_um,ketto_joho_13b,43,character varying,36,YES,�_�E�E����: �_�[�g�E�E���R�[�X�ł�1��?5���y�ђ��O(6���ȉ�)�̉񐔁i�����̂�)
+jvd_um,ketto_joho_14a,44,character varying,10,YES,�_���E����: �_�[�g�E�����R�[�X�ł�1��?5���y�ђ��O(6���ȉ�)�̉񐔁i�����̂�)
+jvd_um,ketto_joho_14b,45,character varying,36,YES,��Q�E����: ��Q���[�X�ł�1��?5���y�ђ��O(6���ȉ�)�̉񐔁i�����̂�)
+jvd_um,tozai_shozoku_code,46,character varying,1,YES,<�n���ԕʒ���>: nan
+jvd_um,chokyoshi_code,47,character varying,5,YES,�ŗǁE����: �ŁE�ǔn��ł�1��?5���y�ђ��O(6���ȉ�)�̉񐔁i�����̂�)
+jvd_um,chokyoshimei_ryakusho,48,character varying,8,YES,���c�E����: �ŁE�c�d�n��ł�1��?5���y�ђ��O(6���ȉ�)�̉񐔁i�����̂�)
+jvd_um,shotai_chiikimei,49,character varying,20,YES,�ŏd�E����: �ŁE�d�n��ł�1��?5���y�ђ��O(6���ȉ�)�̉񐔁i�����̂�)
+jvd_um,seisansha_code,50,character varying,8,YES,�ŕs�E����: �ŁE�s�ǔn��ł�1��?5���y�ђ��O(6���ȉ�)�̉񐔁i�����̂�)
+jvd_um,seisanshamei,51,character varying,72,YES,�_�ǁE����: �_�[�g�E�ǔn��ł�1��?5���y�ђ��O(6���ȉ�)�̉񐔁i�����̂�)
+jvd_um,sanchimei,52,character varying,20,YES,�_�c�E����: �_�[�g�E�c�d�n��ł�1��?5���y�ђ��O(6���ȉ�)�̉񐔁i�����̂�)
+jvd_um,banushi_code,53,character varying,6,YES,�_�d�E����: �_�[�g�E�d�n��ł�1��?5���y�ђ��O(6���ȉ�)�̉񐔁i�����̂�)
+jvd_um,banushimei,54,character varying,64,YES,�_�s�E����: �_�[�g�E�s�ǔn��ł�1��?5���y�ђ��O(6���ȉ�)�̉񐔁i�����̂�)
+jvd_um,heichi_honshokin_ruikei,55,character varying,9,YES,��ǁE����: ��Q���[�X�E�ǔn��ł�1��?5���y�ђ��O(6���ȉ�)�̉񐔁i�����̂�)
+jvd_um,shogai_honshokin_ruikei,56,character varying,9,YES,���c�E����: ��Q���[�X�E�c�d�n��ł�1��?5���y�ђ��O(6���ȉ�)�̉񐔁i�����̂�)
+jvd_um,heichi_fukashokin_ruikei,57,character varying,9,YES,��d�E����: ��Q���[�X�E�d�n��ł�1��?5���y�ђ��O(6���ȉ�)�̉񐔁i�����̂�)
+jvd_um,shogai_fukashokin_ruikei,58,character varying,9,YES,��s�E����: ��Q���[�X�E�s�ǔn��ł�1��?5���y�ђ��O(6���ȉ�)�̉񐔁i�����̂�)
+jvd_um,heichi_shutokushokin_ruikei,59,character varying,9,YES,<�����ʒ���>: nan
+jvd_um,shogai_shutokushokin_ruikei,60,character varying,9,YES,��16���E����: �ť1600M�ȉ��ł�1��?5���y�ђ��O(6���ȉ�)�̉񐔁i�����̂�)
+jvd_um,sogo,61,character varying,18,YES,��22���E����: �ť1601�l�ȏ�2200M�ȉ��ł�1��?5���y�ђ��O(6���ȉ�)�̉񐔁i�����̂�)
+jvd_um,chuo_gokei,62,character varying,18,YES,��22���E����: �ť2201M�ȏ�ł�1��?5���y�ђ��O(6���ȉ�)�̉񐔁i�����̂�)
+jvd_um,shiba_choku,63,character varying,18,YES,�_16���E����: �_�[�g�1600M�ȉ��ł�1��?5���y�ђ��O(6���ȉ�)�̉񐔁i�����̂�)
+jvd_um,shiba_migi,64,character varying,18,YES,�_22���E����: �_�[�g�1601�l�ȏ�2200M�ȉ��ł�1��?5���y�ђ��O(6���ȉ�)�̉񐔁i�����̂�)
+jvd_um,shiba_hidari,65,character varying,18,YES,�_22���E����: �_�[�g�2201M�ȏ�ł�1��?5���y�ђ��O(6���ȉ�)�̉񐔁i�����̂�)
+jvd_um,dirt_choku,66,character varying,18,YES,�r���X��: �����񐔁A��s�񐔁A�����񐔁A�Ǎ��񐔂�ݒ� �ߋ��o�����[�X�̋r���𔻒肵�J�E���g��������(�������[�X�̂�)
+jvd_um,dirt_migi,67,character varying,18,YES,�o�^���[�X��: JRA-VAN�ɓo�^����Ă��鐬�у��[�X��
+jvd_um,dirt_hidari,68,character varying,18,YES,���R�[�h���: CR/LF
+jvd_um,shogai,69,character varying,18,YES,���ږ�: ����
+jvd_um,shiba_ryo,70,character varying,18,YES,�ŗǁE����
+jvd_um,shiba_yayaomo,71,character varying,18,YES,���c�E����
+jvd_um,shiba_omo,72,character varying,18,YES,�ŏd�E����
+jvd_um,shiba_furyo,73,character varying,18,YES,�ŕs�E����
+jvd_um,dirt_ryo,74,character varying,18,YES,�_�ǁE����
+jvd_um,dirt_yayaomo,75,character varying,18,YES,�_�c�E����
+jvd_um,dirt_omo,76,character varying,18,YES,�_�d�E����
+jvd_um,dirt_furyo,77,character varying,18,YES,�_�s�E����
+jvd_um,shogai_ryo,78,character varying,18,YES,��ǁE����
+jvd_um,shogai_yayaomo,79,character varying,18,YES,���c�E����
+jvd_um,shogai_omo,80,character varying,18,YES,��d�E����
+jvd_um,shogai_furyo,81,character varying,18,YES,��s�E����
+jvd_um,shiba_short,82,character varying,18,YES,��16���E����
+jvd_um,shiba_middle,83,character varying,18,YES,��22���E����
+jvd_um,shiba_long,84,character varying,18,YES,��22���E����
+jvd_um,dirt_short,85,character varying,18,YES,�_16���E����
+jvd_um,dirt_middle,86,character varying,18,YES,�_22���E����
+jvd_um,dirt_long,87,character varying,18,YES,�_22���E����
+jvd_um,kyakushitsu_keiko,88,character varying,12,YES,�r���X��
+jvd_um,toroku_race_su,89,character varying,3,YES,�o�^���[�X��
+jvd_wc,record_id,1,character varying,2,YES,���R�[�h���ID
+jvd_wc,data_kubun,2,character varying,1,YES,�f�[�^�敪
+jvd_wc,data_sakusei_nengappi,3,character varying,8,YES,�f�[�^�쐬�N����
+jvd_wc,tracen_kubun,4,character varying,1,NO,�g���Z���敪
+jvd_wc,chokyo_nengappi,5,character varying,8,NO,�����N����
+jvd_wc,chokyo_jikoku,6,character varying,4,NO,��������
+jvd_wc,ketto_toroku_bango,7,character varying,10,NO,�����o�^�ԍ�
+jvd_wc,course,8,character varying,1,YES,�R�[�X
+jvd_wc,babamawari,9,character varying,1,YES,�n�����
+jvd_wc,yobi_1,10,character varying,1,YES,�\��
+jvd_wc,time_gokei_10f,11,character varying,4,YES,10�n�����^�C�����v(2000M?0M)
+jvd_wc,lap_time_10f,12,character varying,3,YES,���b�v�^�C��(2000M?1800M)
+jvd_wc,time_gokei_9f,13,character varying,4,YES,9�n�����^�C�����v(1800M?0M)
+jvd_wc,lap_time_9f,14,character varying,3,YES,���b�v�^�C��(1800M?1600M)
+jvd_wc,time_gokei_8f,15,character varying,4,YES,8�����^�C�����v(1600M?0M)
+jvd_wc,lap_time_8f,16,character varying,3,YES,���b�v�^�C��(1600M?1400M)
+jvd_wc,time_gokei_7f,17,character varying,4,YES,7�n�����^�C�����v(1400M?0M)
+jvd_wc,lap_time_7f,18,character varying,3,YES,���b�v�^�C��(1400M?1200M)
+jvd_wc,time_gokei_6f,19,character varying,4,YES,6�n�����^�C�����v(1200M?0M)
+jvd_wc,lap_time_6f,20,character varying,3,YES,���b�v�^�C��(1200M?1000M)
+jvd_wc,time_gokei_5f,21,character varying,4,YES,5�n�����^�C�����v(1000M?0M)
+jvd_wc,lap_time_5f,22,character varying,3,YES,���b�v�^�C��(1000M?800M)
+jvd_wc,time_gokei_4f,23,character varying,4,YES,4�n�����^�C�����v(800M?0M)
+jvd_wc,lap_time_4f,24,character varying,3,YES,���b�v�^�C��(800M?600M)
+jvd_wc,time_gokei_3f,25,character varying,4,YES,3�n�����^�C�����v(600M?0M)
+jvd_wc,lap_time_3f,26,character varying,3,YES,���b�v�^�C��(600M?400M)
+jvd_wc,time_gokei_2f,27,character varying,4,YES,2�n�����^�C�����v(400M?0M)
+jvd_wc,lap_time_2f,28,character varying,3,YES,���b�v�^�C��(400M?200M)
+jvd_wc,lap_time_1f,29,character varying,3,YES,���b�v�^�C��(200M?0M)
+jvd_we,record_id,1,character varying,2,YES,"���R�[�h���ID: ""WE"" ���Z�b�g���R�[�h�t�H�[�}�b�g����肷��"
+jvd_we,data_kubun,2,character varying,1,YES,�f�[�^�敪: 1:�����l
+jvd_we,data_sakusei_nengappi,3,character varying,8,YES,�f�[�^�쐬�N����: ����4���{�����e2�� yyyymmdd �`��
+jvd_we,kaisai_nen,4,character varying,4,NO,�J�ÔN: �Y�����[�X�{�s�N ����4�� yyyy�`��
+jvd_we,kaisai_tsukihi,5,character varying,4,NO,�J�Ì���: �Y�����[�X�{�s���� �e2�� mmdd�`��
+jvd_we,keibajo_code,6,character varying,2,NO,���n��R�[�h: �Y�����[�X�{�s���n�� <�R�[�h�\ 2001.���n��R�[�h>�Q��
+jvd_we,kaisai_kai,7,character varying,2,YES,�J�É�[��N��]: �Y�����[�X�{�s�� ���̋��n��ł��̔N�̉���ڂ̊J�Â�������
+jvd_we,kaisai_nichime,8,character varying,2,YES,�J�Ó���[N����]: �Y�����[�X�{�s���� ���̃��[�X�{�s��ŉ����ڂ̊J�Â�������
+jvd_we,happyo_tsukihi_jifun,9,character varying,8,NO,���\��������: ���������e2��
+jvd_we,henko_shikibetsu,10,character varying,1,NO,�ύX����: 1:�V��n�ꏉ����ԁ@2:�V��ύX�@3:�n���ԕύX 1:������Ԃ̎��͓V��E�n��Ƃ��ɗL���l��ݒ�B 2:�V��ύX�̎��͓V��(�ύX��E�ύX�O)�̂ݗL���l��ݒ�B(�n��͏����l) 3:�n���ԕύX�̎��͔n��(�ύX��E�ύX�O)�̂ݗL���l��ݒ�B(�V��͏����l)
+jvd_we,tenko_code,11,character varying,1,YES,<���ݏ�ԏ��>: ���݂̓V��n��̏�Ԃ�ݒ�
+jvd_we,babajotai_code_shiba,12,character varying,1,YES,�V����: <�R�[�h�\ 2011.�V��R�[�h>�Q��
+jvd_we,babajotai_code_dirt,13,character varying,1,YES,�n���ԁE��: <�R�[�h�\ 2010.�n���ԃR�[�h>�Q��
+jvd_we,tenko_code_henkomae,14,character varying,1,YES,�n���ԁE�_�[�g: <�R�[�h�\ 2010.�n���ԃR�[�h>�Q��
+jvd_we,babajotai_code_shiba_henkomae,15,character varying,1,YES,<�ύX�O��ԏ��>: �ύX�O���O�̓V��n���Ԃ�ݒ�
+jvd_we,babajotai_code_dirt_henkomae,16,character varying,1,YES,�V����: <�R�[�h�\ 2011.�V��R�[�h>�Q��
+jvd_wf,record_id,1,character varying,2,YES,"���R�[�h���ID: ""WF"" ���Z�b�g���R�[�h�t�H�[�}�b�g����肷��"
+jvd_wf,data_kubun,2,character varying,1,YES,�f�[�^�敪: 1:�d�����ڍה��\���@2:�d�����Ώ�1���[�X�ڊm�莞 3:�d�������ߔ��\���@7:����(���j)�@9:�d�������~�� 0:�Y�����R�[�h�폜(�񋟃~�X�Ȃǂ̗��R�ɂ��) ��1 7:����(���j)�͒~�όn�f�[�^�̂ݐݒ肳��܂��B     �~�όn�f�[�^�ɂ�7:����(���j)�񋟌������n�f�[�^�ɂ�3:�d�������ߔ��\...
+jvd_wf,data_sakusei_nengappi,3,character varying,8,YES,�f�[�^�쐬�N����: ����4���{�����e2�� yyyymmdd �`��
+jvd_wf,kaisai_nen,4,character varying,4,NO,�J�ÔN: �Y�����[�X�{�s�N ����4�� yyyy�`��
+jvd_wf,kaisai_tsukihi,5,character varying,4,NO,�J�Ì���: �Y�����[�X�{�s���� �e2�� mmdd�`��
+jvd_wf,yobi_1,6,character varying,2,YES,�\��: nan
+jvd_wf,race_joho_1,7,character varying,8,YES,<�d�����Ώۃ��[�X���>: �d�����Ώۃ��[�X��ݒ�
+jvd_wf,race_joho_2,8,character varying,8,YES,���n��R�[�h: �Y�����[�X�{�s���n�� <�R�[�h�\ 2001.���n��R�[�h>�Q��
+jvd_wf,race_joho_3,9,character varying,8,YES,�J�É�[��N��]: �Y�����[�X�{�s�� ���̋��n��ł��̔N�̉���ڂ̊J�Â�������
+jvd_wf,race_joho_4,10,character varying,8,YES,�J�Ó���[N����]: �Y�����[�X�{�s���� ���̃��[�X�{�s��ŉ����ڂ̊J�Â�������
+jvd_wf,race_joho_5,11,character varying,8,YES,���[�X�ԍ�: �Y�����[�X�ԍ�
+jvd_wf,yobi_2,12,character varying,6,YES,�\��: nan
+jvd_wf,win5_hyosu_gokei,13,character varying,11,YES,�d���������[��: �d�����̔����[��
+jvd_wf,yuko_hyosu_1,14,character varying,11,YES,<�L���[�����>: nan
+jvd_wf,yuko_hyosu_2,15,character varying,11,YES,�L���[��: �d�����Ώۃ��[�X�m�莞�A�I���\���̂���c��̕[���̐������� 7.<�d�����Ώۃ��[�X���>�Ɠ������Őݒ� (7.<�d�����Ώۃ��[�X���>��3�Ԗ�(�J��3���)�̃��[�X���m�肵���ꍇ�A 10.<�L���[�����>��3�Ԗ�(�J��3���)�̉ӏ��ɒl��ݒ�)
+jvd_wf,yuko_hyosu_3,16,character varying,11,YES,�Ԋ҃t���O: 0�F�ԊҖ��@1�F�ԊҗL
+jvd_wf,yuko_hyosu_4,17,character varying,11,YES,�s�����t���O: 0�F�s�������@1�F�s�����L
+jvd_wf,yuko_hyosu_5,18,character varying,11,YES,�I�����t���O: 0�F�I���L�@1�F�I����
+jvd_wf,henkan_flag,19,character varying,1,YES,�L�����[�I�[�o�[���z����: �P�� �~ �J�Ó������J�n���́A�d�����̃L�����[�I�[�o�[���z������
+jvd_wf,fuseiritsu_flag,20,character varying,1,YES,�L�����[�I�[�o�[���z�c��: �P�� �~ �d�����̎���ւ̃L�����[�I�[�o�[���z������
+jvd_wf,tekichu_nashi_flag,21,character varying,1,YES,<�d�������ߏ��>: nan
+jvd_wf,carry_over,22,character varying,15,YES,�g��: �d�����I���n�ԑg���@�i�I�����̏ꍇ���d�����I���n�ԑg����ݒ�j
+jvd_wf,carry_over_zandaka,23,character varying,15,YES,�d�������ߋ�: �d�������ߋ��@�i�I�����̏ꍇ000000000��ݒ�j
+jvd_wf,haraimodoshi_win5_001,24,character varying,29,YES,�I���[��: �d�����I���[���@�i�I�����̏ꍇ0000000000��ݒ�j
+jvd_wf,haraimodoshi_win5_002,25,character varying,29,YES,���R�[�h���: CR/LF
+jvd_wf,haraimodoshi_win5_003,26,character varying,29,YES,���ږ�: ����
+jvd_wf,haraimodoshi_win5_004,27,character varying,29,YES,�d�������ߏ��4
+jvd_wf,haraimodoshi_win5_005,28,character varying,29,YES,�d�������ߏ��5
+jvd_wf,haraimodoshi_win5_006,29,character varying,29,YES,�d�������ߏ��6
+jvd_wf,haraimodoshi_win5_007,30,character varying,29,YES,�d�������ߏ��7
+jvd_wf,haraimodoshi_win5_008,31,character varying,29,YES,�d�������ߏ��8
+jvd_wf,haraimodoshi_win5_009,32,character varying,29,YES,�d�������ߏ��9
+jvd_wf,haraimodoshi_win5_010,33,character varying,29,YES,�d�������ߏ��10
+jvd_wf,haraimodoshi_win5_011,34,character varying,29,YES,�d�������ߏ��11
+jvd_wf,haraimodoshi_win5_012,35,character varying,29,YES,�d�������ߏ��12
+jvd_wf,haraimodoshi_win5_013,36,character varying,29,YES,�d�������ߏ��13
+jvd_wf,haraimodoshi_win5_014,37,character varying,29,YES,�d�������ߏ��14
+jvd_wf,haraimodoshi_win5_015,38,character varying,29,YES,�d�������ߏ��15
+jvd_wf,haraimodoshi_win5_016,39,character varying,29,YES,�d�������ߏ��16
+jvd_wf,haraimodoshi_win5_017,40,character varying,29,YES,�d�������ߏ��17
+jvd_wf,haraimodoshi_win5_018,41,character varying,29,YES,�d�������ߏ��18
+jvd_wf,haraimodoshi_win5_019,42,character varying,29,YES,�d�������ߏ��19
+jvd_wf,haraimodoshi_win5_020,43,character varying,29,YES,�d�������ߏ��20
+jvd_wf,haraimodoshi_win5_021,44,character varying,29,YES,�d�������ߏ��21
+jvd_wf,haraimodoshi_win5_022,45,character varying,29,YES,�d�������ߏ��22
+jvd_wf,haraimodoshi_win5_023,46,character varying,29,YES,�d�������ߏ��23
+jvd_wf,haraimodoshi_win5_024,47,character varying,29,YES,�d�������ߏ��24
+jvd_wf,haraimodoshi_win5_025,48,character varying,29,YES,�d�������ߏ��25
+jvd_wf,haraimodoshi_win5_026,49,character varying,29,YES,�d�������ߏ��26
+jvd_wf,haraimodoshi_win5_027,50,character varying,29,YES,�d�������ߏ��27
+jvd_wf,haraimodoshi_win5_028,51,character varying,29,YES,�d�������ߏ��28
+jvd_wf,haraimodoshi_win5_029,52,character varying,29,YES,�d�������ߏ��29
+jvd_wf,haraimodoshi_win5_030,53,character varying,29,YES,�d�������ߏ��30
+jvd_wf,haraimodoshi_win5_031,54,character varying,29,YES,�d�������ߏ��31
+jvd_wf,haraimodoshi_win5_032,55,character varying,29,YES,�d�������ߏ��32
+jvd_wf,haraimodoshi_win5_033,56,character varying,29,YES,�d�������ߏ��33
+jvd_wf,haraimodoshi_win5_034,57,character varying,29,YES,�d�������ߏ��34
+jvd_wf,haraimodoshi_win5_035,58,character varying,29,YES,�d�������ߏ��35
+jvd_wf,haraimodoshi_win5_036,59,character varying,29,YES,�d�������ߏ��36
+jvd_wf,haraimodoshi_win5_037,60,character varying,29,YES,�d�������ߏ��37
+jvd_wf,haraimodoshi_win5_038,61,character varying,29,YES,�d�������ߏ��38
+jvd_wf,haraimodoshi_win5_039,62,character varying,29,YES,�d�������ߏ��39
+jvd_wf,haraimodoshi_win5_040,63,character varying,29,YES,�d�������ߏ��40
+jvd_wf,haraimodoshi_win5_041,64,character varying,29,YES,�d�������ߏ��41
+jvd_wf,haraimodoshi_win5_042,65,character varying,29,YES,�d�������ߏ��42
+jvd_wf,haraimodoshi_win5_043,66,character varying,29,YES,�d�������ߏ��43
+jvd_wf,haraimodoshi_win5_044,67,character varying,29,YES,�d�������ߏ��44
+jvd_wf,haraimodoshi_win5_045,68,character varying,29,YES,�d�������ߏ��45
+jvd_wf,haraimodoshi_win5_046,69,character varying,29,YES,�d�������ߏ��46
+jvd_wf,haraimodoshi_win5_047,70,character varying,29,YES,�d�������ߏ��47
+jvd_wf,haraimodoshi_win5_048,71,character varying,29,YES,�d�������ߏ��48
+jvd_wf,haraimodoshi_win5_049,72,character varying,29,YES,�d�������ߏ��49
+jvd_wf,haraimodoshi_win5_050,73,character varying,29,YES,�d�������ߏ��50
+jvd_wf,haraimodoshi_win5_051,74,character varying,29,YES,�d�������ߏ��51
+jvd_wf,haraimodoshi_win5_052,75,character varying,29,YES,�d�������ߏ��52
+jvd_wf,haraimodoshi_win5_053,76,character varying,29,YES,�d�������ߏ��53
+jvd_wf,haraimodoshi_win5_054,77,character varying,29,YES,�d�������ߏ��54
+jvd_wf,haraimodoshi_win5_055,78,character varying,29,YES,�d�������ߏ��55
+jvd_wf,haraimodoshi_win5_056,79,character varying,29,YES,�d�������ߏ��56
+jvd_wf,haraimodoshi_win5_057,80,character varying,29,YES,�d�������ߏ��57
+jvd_wf,haraimodoshi_win5_058,81,character varying,29,YES,�d�������ߏ��58
+jvd_wf,haraimodoshi_win5_059,82,character varying,29,YES,�d�������ߏ��59
+jvd_wf,haraimodoshi_win5_060,83,character varying,29,YES,�d�������ߏ��60
+jvd_wf,haraimodoshi_win5_061,84,character varying,29,YES,�d�������ߏ��61
+jvd_wf,haraimodoshi_win5_062,85,character varying,29,YES,�d�������ߏ��62
+jvd_wf,haraimodoshi_win5_063,86,character varying,29,YES,�d�������ߏ��63
+jvd_wf,haraimodoshi_win5_064,87,character varying,29,YES,�d�������ߏ��64
+jvd_wf,haraimodoshi_win5_065,88,character varying,29,YES,�d�������ߏ��65
+jvd_wf,haraimodoshi_win5_066,89,character varying,29,YES,�d�������ߏ��66
+jvd_wf,haraimodoshi_win5_067,90,character varying,29,YES,�d�������ߏ��67
+jvd_wf,haraimodoshi_win5_068,91,character varying,29,YES,�d�������ߏ��68
+jvd_wf,haraimodoshi_win5_069,92,character varying,29,YES,�d�������ߏ��69
+jvd_wf,haraimodoshi_win5_070,93,character varying,29,YES,�d�������ߏ��70
+jvd_wf,haraimodoshi_win5_071,94,character varying,29,YES,�d�������ߏ��71
+jvd_wf,haraimodoshi_win5_072,95,character varying,29,YES,�d�������ߏ��72
+jvd_wf,haraimodoshi_win5_073,96,character varying,29,YES,�d�������ߏ��73
+jvd_wf,haraimodoshi_win5_074,97,character varying,29,YES,�d�������ߏ��74
+jvd_wf,haraimodoshi_win5_075,98,character varying,29,YES,�d�������ߏ��75
+jvd_wf,haraimodoshi_win5_076,99,character varying,29,YES,�d�������ߏ��76
+jvd_wf,haraimodoshi_win5_077,100,character varying,29,YES,�d�������ߏ��77
+jvd_wf,haraimodoshi_win5_078,101,character varying,29,YES,�d�������ߏ��78
+jvd_wf,haraimodoshi_win5_079,102,character varying,29,YES,�d�������ߏ��79
+jvd_wf,haraimodoshi_win5_080,103,character varying,29,YES,�d�������ߏ��80
+jvd_wf,haraimodoshi_win5_081,104,character varying,29,YES,�d�������ߏ��81
+jvd_wf,haraimodoshi_win5_082,105,character varying,29,YES,�d�������ߏ��82
+jvd_wf,haraimodoshi_win5_083,106,character varying,29,YES,�d�������ߏ��83
+jvd_wf,haraimodoshi_win5_084,107,character varying,29,YES,�d�������ߏ��84
+jvd_wf,haraimodoshi_win5_085,108,character varying,29,YES,�d�������ߏ��85
+jvd_wf,haraimodoshi_win5_086,109,character varying,29,YES,�d�������ߏ��86
+jvd_wf,haraimodoshi_win5_087,110,character varying,29,YES,�d�������ߏ��87
+jvd_wf,haraimodoshi_win5_088,111,character varying,29,YES,�d�������ߏ��88
+jvd_wf,haraimodoshi_win5_089,112,character varying,29,YES,�d�������ߏ��89
+jvd_wf,haraimodoshi_win5_090,113,character varying,29,YES,�d�������ߏ��90
+jvd_wf,haraimodoshi_win5_091,114,character varying,29,YES,�d�������ߏ��91
+jvd_wf,haraimodoshi_win5_092,115,character varying,29,YES,�d�������ߏ��92
+jvd_wf,haraimodoshi_win5_093,116,character varying,29,YES,�d�������ߏ��93
+jvd_wf,haraimodoshi_win5_094,117,character varying,29,YES,�d�������ߏ��94
+jvd_wf,haraimodoshi_win5_095,118,character varying,29,YES,�d�������ߏ��95
+jvd_wf,haraimodoshi_win5_096,119,character varying,29,YES,�d�������ߏ��96
+jvd_wf,haraimodoshi_win5_097,120,character varying,29,YES,�d�������ߏ��97
+jvd_wf,haraimodoshi_win5_098,121,character varying,29,YES,�d�������ߏ��98
+jvd_wf,haraimodoshi_win5_099,122,character varying,29,YES,�d�������ߏ��99
+jvd_wf,haraimodoshi_win5_100,123,character varying,29,YES,�d�������ߏ��100
+jvd_wf,haraimodoshi_win5_101,124,character varying,29,YES,�d�������ߏ��101
+jvd_wf,haraimodoshi_win5_102,125,character varying,29,YES,�d�������ߏ��102
+jvd_wf,haraimodoshi_win5_103,126,character varying,29,YES,�d�������ߏ��103
+jvd_wf,haraimodoshi_win5_104,127,character varying,29,YES,�d�������ߏ��104
+jvd_wf,haraimodoshi_win5_105,128,character varying,29,YES,�d�������ߏ��105
+jvd_wf,haraimodoshi_win5_106,129,character varying,29,YES,�d�������ߏ��106
+jvd_wf,haraimodoshi_win5_107,130,character varying,29,YES,�d�������ߏ��107
+jvd_wf,haraimodoshi_win5_108,131,character varying,29,YES,�d�������ߏ��108
+jvd_wf,haraimodoshi_win5_109,132,character varying,29,YES,�d�������ߏ��109
+jvd_wf,haraimodoshi_win5_110,133,character varying,29,YES,�d�������ߏ��110
+jvd_wf,haraimodoshi_win5_111,134,character varying,29,YES,�d�������ߏ��111
+jvd_wf,haraimodoshi_win5_112,135,character varying,29,YES,�d�������ߏ��112
+jvd_wf,haraimodoshi_win5_113,136,character varying,29,YES,�d�������ߏ��113
+jvd_wf,haraimodoshi_win5_114,137,character varying,29,YES,�d�������ߏ��114
+jvd_wf,haraimodoshi_win5_115,138,character varying,29,YES,�d�������ߏ��115
+jvd_wf,haraimodoshi_win5_116,139,character varying,29,YES,�d�������ߏ��116
+jvd_wf,haraimodoshi_win5_117,140,character varying,29,YES,�d�������ߏ��117
+jvd_wf,haraimodoshi_win5_118,141,character varying,29,YES,�d�������ߏ��118
+jvd_wf,haraimodoshi_win5_119,142,character varying,29,YES,�d�������ߏ��119
+jvd_wf,haraimodoshi_win5_120,143,character varying,29,YES,�d�������ߏ��120
+jvd_wf,haraimodoshi_win5_121,144,character varying,29,YES,�d�������ߏ��121
+jvd_wf,haraimodoshi_win5_122,145,character varying,29,YES,�d�������ߏ��122
+jvd_wf,haraimodoshi_win5_123,146,character varying,29,YES,�d�������ߏ��123
+jvd_wf,haraimodoshi_win5_124,147,character varying,29,YES,�d�������ߏ��124
+jvd_wf,haraimodoshi_win5_125,148,character varying,29,YES,�d�������ߏ��125
+jvd_wf,haraimodoshi_win5_126,149,character varying,29,YES,�d�������ߏ��126
+jvd_wf,haraimodoshi_win5_127,150,character varying,29,YES,�d�������ߏ��127
+jvd_wf,haraimodoshi_win5_128,151,character varying,29,YES,�d�������ߏ��128
+jvd_wf,haraimodoshi_win5_129,152,character varying,29,YES,�d�������ߏ��129
+jvd_wf,haraimodoshi_win5_130,153,character varying,29,YES,�d�������ߏ��130
+jvd_wf,haraimodoshi_win5_131,154,character varying,29,YES,�d�������ߏ��131
+jvd_wf,haraimodoshi_win5_132,155,character varying,29,YES,�d�������ߏ��132
+jvd_wf,haraimodoshi_win5_133,156,character varying,29,YES,�d�������ߏ��133
+jvd_wf,haraimodoshi_win5_134,157,character varying,29,YES,�d�������ߏ��134
+jvd_wf,haraimodoshi_win5_135,158,character varying,29,YES,�d�������ߏ��135
+jvd_wf,haraimodoshi_win5_136,159,character varying,29,YES,�d�������ߏ��136
+jvd_wf,haraimodoshi_win5_137,160,character varying,29,YES,�d�������ߏ��137
+jvd_wf,haraimodoshi_win5_138,161,character varying,29,YES,�d�������ߏ��138
+jvd_wf,haraimodoshi_win5_139,162,character varying,29,YES,�d�������ߏ��139
+jvd_wf,haraimodoshi_win5_140,163,character varying,29,YES,�d�������ߏ��140
+jvd_wf,haraimodoshi_win5_141,164,character varying,29,YES,�d�������ߏ��141
+jvd_wf,haraimodoshi_win5_142,165,character varying,29,YES,�d�������ߏ��142
+jvd_wf,haraimodoshi_win5_143,166,character varying,29,YES,�d�������ߏ��143
+jvd_wf,haraimodoshi_win5_144,167,character varying,29,YES,�d�������ߏ��144
+jvd_wf,haraimodoshi_win5_145,168,character varying,29,YES,�d�������ߏ��145
+jvd_wf,haraimodoshi_win5_146,169,character varying,29,YES,�d�������ߏ��146
+jvd_wf,haraimodoshi_win5_147,170,character varying,29,YES,�d�������ߏ��147
+jvd_wf,haraimodoshi_win5_148,171,character varying,29,YES,�d�������ߏ��148
+jvd_wf,haraimodoshi_win5_149,172,character varying,29,YES,�d�������ߏ��149
+jvd_wf,haraimodoshi_win5_150,173,character varying,29,YES,�d�������ߏ��150
+jvd_wf,haraimodoshi_win5_151,174,character varying,29,YES,�d�������ߏ��151
+jvd_wf,haraimodoshi_win5_152,175,character varying,29,YES,�d�������ߏ��152
+jvd_wf,haraimodoshi_win5_153,176,character varying,29,YES,�d�������ߏ��153
+jvd_wf,haraimodoshi_win5_154,177,character varying,29,YES,�d�������ߏ��154
+jvd_wf,haraimodoshi_win5_155,178,character varying,29,YES,�d�������ߏ��155
+jvd_wf,haraimodoshi_win5_156,179,character varying,29,YES,�d�������ߏ��156
+jvd_wf,haraimodoshi_win5_157,180,character varying,29,YES,�d�������ߏ��157
+jvd_wf,haraimodoshi_win5_158,181,character varying,29,YES,�d�������ߏ��158
+jvd_wf,haraimodoshi_win5_159,182,character varying,29,YES,�d�������ߏ��159
+jvd_wf,haraimodoshi_win5_160,183,character varying,29,YES,�d�������ߏ��160
+jvd_wf,haraimodoshi_win5_161,184,character varying,29,YES,�d�������ߏ��161
+jvd_wf,haraimodoshi_win5_162,185,character varying,29,YES,�d�������ߏ��162
+jvd_wf,haraimodoshi_win5_163,186,character varying,29,YES,�d�������ߏ��163
+jvd_wf,haraimodoshi_win5_164,187,character varying,29,YES,�d�������ߏ��164
+jvd_wf,haraimodoshi_win5_165,188,character varying,29,YES,�d�������ߏ��165
+jvd_wf,haraimodoshi_win5_166,189,character varying,29,YES,�d�������ߏ��166
+jvd_wf,haraimodoshi_win5_167,190,character varying,29,YES,�d�������ߏ��167
+jvd_wf,haraimodoshi_win5_168,191,character varying,29,YES,�d�������ߏ��168
+jvd_wf,haraimodoshi_win5_169,192,character varying,29,YES,�d�������ߏ��169
+jvd_wf,haraimodoshi_win5_170,193,character varying,29,YES,�d�������ߏ��170
+jvd_wf,haraimodoshi_win5_171,194,character varying,29,YES,�d�������ߏ��171
+jvd_wf,haraimodoshi_win5_172,195,character varying,29,YES,�d�������ߏ��172
+jvd_wf,haraimodoshi_win5_173,196,character varying,29,YES,�d�������ߏ��173
+jvd_wf,haraimodoshi_win5_174,197,character varying,29,YES,�d�������ߏ��174
+jvd_wf,haraimodoshi_win5_175,198,character varying,29,YES,�d�������ߏ��175
+jvd_wf,haraimodoshi_win5_176,199,character varying,29,YES,�d�������ߏ��176
+jvd_wf,haraimodoshi_win5_177,200,character varying,29,YES,�d�������ߏ��177
+jvd_wf,haraimodoshi_win5_178,201,character varying,29,YES,�d�������ߏ��178
+jvd_wf,haraimodoshi_win5_179,202,character varying,29,YES,�d�������ߏ��179
+jvd_wf,haraimodoshi_win5_180,203,character varying,29,YES,�d�������ߏ��180
+jvd_wf,haraimodoshi_win5_181,204,character varying,29,YES,�d�������ߏ��181
+jvd_wf,haraimodoshi_win5_182,205,character varying,29,YES,�d�������ߏ��182
+jvd_wf,haraimodoshi_win5_183,206,character varying,29,YES,�d�������ߏ��183
+jvd_wf,haraimodoshi_win5_184,207,character varying,29,YES,�d�������ߏ��184
+jvd_wf,haraimodoshi_win5_185,208,character varying,29,YES,�d�������ߏ��185
+jvd_wf,haraimodoshi_win5_186,209,character varying,29,YES,�d�������ߏ��186
+jvd_wf,haraimodoshi_win5_187,210,character varying,29,YES,�d�������ߏ��187
+jvd_wf,haraimodoshi_win5_188,211,character varying,29,YES,�d�������ߏ��188
+jvd_wf,haraimodoshi_win5_189,212,character varying,29,YES,�d�������ߏ��189
+jvd_wf,haraimodoshi_win5_190,213,character varying,29,YES,�d�������ߏ��190
+jvd_wf,haraimodoshi_win5_191,214,character varying,29,YES,�d�������ߏ��191
+jvd_wf,haraimodoshi_win5_192,215,character varying,29,YES,�d�������ߏ��192
+jvd_wf,haraimodoshi_win5_193,216,character varying,29,YES,�d�������ߏ��193
+jvd_wf,haraimodoshi_win5_194,217,character varying,29,YES,�d�������ߏ��194
+jvd_wf,haraimodoshi_win5_195,218,character varying,29,YES,�d�������ߏ��195
+jvd_wf,haraimodoshi_win5_196,219,character varying,29,YES,�d�������ߏ��196
+jvd_wf,haraimodoshi_win5_197,220,character varying,29,YES,�d�������ߏ��197
+jvd_wf,haraimodoshi_win5_198,221,character varying,29,YES,�d�������ߏ��198
+jvd_wf,haraimodoshi_win5_199,222,character varying,29,YES,�d�������ߏ��199
+jvd_wf,haraimodoshi_win5_200,223,character varying,29,YES,�d�������ߏ��200
+jvd_wf,haraimodoshi_win5_201,224,character varying,29,YES,�d�������ߏ��201
+jvd_wf,haraimodoshi_win5_202,225,character varying,29,YES,�d�������ߏ��202
+jvd_wf,haraimodoshi_win5_203,226,character varying,29,YES,�d�������ߏ��203
+jvd_wf,haraimodoshi_win5_204,227,character varying,29,YES,�d�������ߏ��204
+jvd_wf,haraimodoshi_win5_205,228,character varying,29,YES,�d�������ߏ��205
+jvd_wf,haraimodoshi_win5_206,229,character varying,29,YES,�d�������ߏ��206
+jvd_wf,haraimodoshi_win5_207,230,character varying,29,YES,�d�������ߏ��207
+jvd_wf,haraimodoshi_win5_208,231,character varying,29,YES,�d�������ߏ��208
+jvd_wf,haraimodoshi_win5_209,232,character varying,29,YES,�d�������ߏ��209
+jvd_wf,haraimodoshi_win5_210,233,character varying,29,YES,�d�������ߏ��210
+jvd_wf,haraimodoshi_win5_211,234,character varying,29,YES,�d�������ߏ��211
+jvd_wf,haraimodoshi_win5_212,235,character varying,29,YES,�d�������ߏ��212
+jvd_wf,haraimodoshi_win5_213,236,character varying,29,YES,�d�������ߏ��213
+jvd_wf,haraimodoshi_win5_214,237,character varying,29,YES,�d�������ߏ��214
+jvd_wf,haraimodoshi_win5_215,238,character varying,29,YES,�d�������ߏ��215
+jvd_wf,haraimodoshi_win5_216,239,character varying,29,YES,�d�������ߏ��216
+jvd_wf,haraimodoshi_win5_217,240,character varying,29,YES,�d�������ߏ��217
+jvd_wf,haraimodoshi_win5_218,241,character varying,29,YES,�d�������ߏ��218
+jvd_wf,haraimodoshi_win5_219,242,character varying,29,YES,�d�������ߏ��219
+jvd_wf,haraimodoshi_win5_220,243,character varying,29,YES,�d�������ߏ��220
+jvd_wf,haraimodoshi_win5_221,244,character varying,29,YES,�d�������ߏ��221
+jvd_wf,haraimodoshi_win5_222,245,character varying,29,YES,�d�������ߏ��222
+jvd_wf,haraimodoshi_win5_223,246,character varying,29,YES,�d�������ߏ��223
+jvd_wf,haraimodoshi_win5_224,247,character varying,29,YES,�d�������ߏ��224
+jvd_wf,haraimodoshi_win5_225,248,character varying,29,YES,�d�������ߏ��225
+jvd_wf,haraimodoshi_win5_226,249,character varying,29,YES,�d�������ߏ��226
+jvd_wf,haraimodoshi_win5_227,250,character varying,29,YES,�d�������ߏ��227
+jvd_wf,haraimodoshi_win5_228,251,character varying,29,YES,�d�������ߏ��228
+jvd_wf,haraimodoshi_win5_229,252,character varying,29,YES,�d�������ߏ��229
+jvd_wf,haraimodoshi_win5_230,253,character varying,29,YES,�d�������ߏ��230
+jvd_wf,haraimodoshi_win5_231,254,character varying,29,YES,�d�������ߏ��231
+jvd_wf,haraimodoshi_win5_232,255,character varying,29,YES,�d�������ߏ��232
+jvd_wf,haraimodoshi_win5_233,256,character varying,29,YES,�d�������ߏ��233
+jvd_wf,haraimodoshi_win5_234,257,character varying,29,YES,�d�������ߏ��234
+jvd_wf,haraimodoshi_win5_235,258,character varying,29,YES,�d�������ߏ��235
+jvd_wf,haraimodoshi_win5_236,259,character varying,29,YES,�d�������ߏ��236
+jvd_wf,haraimodoshi_win5_237,260,character varying,29,YES,�d�������ߏ��237
+jvd_wf,haraimodoshi_win5_238,261,character varying,29,YES,�d�������ߏ��238
+jvd_wf,haraimodoshi_win5_239,262,character varying,29,YES,�d�������ߏ��239
+jvd_wf,haraimodoshi_win5_240,263,character varying,29,YES,�d�������ߏ��240
+jvd_wf,haraimodoshi_win5_241,264,character varying,29,YES,�d�������ߏ��241
+jvd_wf,haraimodoshi_win5_242,265,character varying,29,YES,�d�������ߏ��242
+jvd_wf,haraimodoshi_win5_243,266,character varying,29,YES,�d�������ߏ��243
+jvd_wh,record_id,1,character varying,2,YES,"���R�[�h���ID: ""WH"" ���Z�b�g���R�[�h�t�H�[�}�b�g����肷��"
+jvd_wh,data_kubun,2,character varying,1,YES,�f�[�^�敪: 1:�����l
+jvd_wh,data_sakusei_nengappi,3,character varying,8,YES,�f�[�^�쐬�N����: ����4���{�����e2�� yyyymmdd �`��
+jvd_wh,kaisai_nen,4,character varying,4,NO,�J�ÔN: �Y�����[�X�{�s�N ����4�� yyyy�`��
+jvd_wh,kaisai_tsukihi,5,character varying,4,NO,�J�Ì���: �Y�����[�X�{�s���� �e2�� mmdd�`��
+jvd_wh,keibajo_code,6,character varying,2,NO,���n��R�[�h: �Y�����[�X�{�s���n�� <�R�[�h�\ 2001.���n��R�[�h>�Q��
+jvd_wh,kaisai_kai,7,character varying,2,YES,�J�É�[��N��]: �Y�����[�X�{�s�� ���̋��n��ł��̔N�̉���ڂ̊J�Â�������
+jvd_wh,kaisai_nichime,8,character varying,2,YES,�J�Ó���[N����]: �Y�����[�X�{�s���� ���̃��[�X�{�s��ŉ����ڂ̊J�Â�������
+jvd_wh,race_bango,9,character varying,2,NO,���[�X�ԍ�: �Y�����[�X�ԍ�
+jvd_wh,happyo_tsukihi_jifun,10,character varying,8,YES,���\��������: ���������e2��
+jvd_wh,bataiju_joho_01,11,character varying,45,YES,<�n�̏d���>: nan
+jvd_wh,bataiju_joho_02,12,character varying,45,YES,�n��: 01?18��ݒ�
+jvd_wh,bataiju_joho_03,13,character varying,45,YES,�n��: �S�p18�����@���������ʂ͑S�p9�����̂ݐݒ�(9�����𒴂���n����9�����܂łƂ���)
+jvd_wh,bataiju_joho_04,14,character varying,45,YES,�n�̏d: �P��:kg�@002Kg?998Kg�܂ł��L���l 999:�����v�ʕs�\�@000:�o�����
+jvd_wh,bataiju_joho_05,15,character varying,45,YES,��������: +:���� -:���� �X�y�[�X:���̑�
+jvd_wh,bataiju_joho_06,16,character varying,45,YES,������: �P��:kg�@001Kg?998Kg�܂ł��L���l 999:�v�ʕs�\�@000:�O���Ȃ��@�X�y�[�X:���o���A�o�����
+jvd_wh,bataiju_joho_07,17,character varying,45,YES,���R�[�h���: CR/LF
+jvd_wh,bataiju_joho_08,18,character varying,45,YES,���ږ�: ����
+jvd_wh,bataiju_joho_09,19,character varying,45,YES,�n�̏d���9
+jvd_wh,bataiju_joho_10,20,character varying,45,YES,�n�̏d���10
+jvd_wh,bataiju_joho_11,21,character varying,45,YES,�n�̏d���11
+jvd_wh,bataiju_joho_12,22,character varying,45,YES,�n�̏d���12
+jvd_wh,bataiju_joho_13,23,character varying,45,YES,�n�̏d���13
+jvd_wh,bataiju_joho_14,24,character varying,45,YES,�n�̏d���14
+jvd_wh,bataiju_joho_15,25,character varying,45,YES,�n�̏d���15
+jvd_wh,bataiju_joho_16,26,character varying,45,YES,�n�̏d���16
+jvd_wh,bataiju_joho_17,27,character varying,45,YES,�n�̏d���17
+jvd_wh,bataiju_joho_18,28,character varying,45,YES,�n�̏d���18
+jvd_ys,record_id,1,character varying,2,YES,"���R�[�h���ID: ""YS""���Z�b�g���R�[�h�t�H�[�}�b�g����肷��"
+jvd_ys,data_kubun,2,character varying,1,YES,�f�[�^�敪: 1:�J�×\��(�N�����_)�@2:�J�×\��(�J�Ò��O���_)�@3:�J�ÏI��(���ъm�莞�_) 9:�J�Ò��~�@0:�Y�����R�[�h�폜(�񋟃~�X�Ȃǂ̗��R�ɂ��)
+jvd_ys,data_sakusei_nengappi,3,character varying,8,YES,�f�[�^�쐬�N����: ����4���{�����e2�� yyyymmdd �`��
+jvd_ys,kaisai_nen,4,character varying,4,NO,�J�ÔN: �Y�����[�X�{�s�N ����4�� yyyy�`��
+jvd_ys,kaisai_tsukihi,5,character varying,4,NO,�J�Ì���: �Y�����[�X�{�s���� �e2�� mmdd�`��
+jvd_ys,keibajo_code,6,character varying,2,NO,���n��R�[�h: �Y�����[�X�{�s���n�� <�R�[�h�\ 2001.���n��R�[�h>�Q��
+jvd_ys,kaisai_kai,7,character varying,2,YES,�J�É�[��N��]: �Y�����[�X�{�s�� ���̋��n��ł��̔N�̉���ڂ̊J�Â�������
+jvd_ys,kaisai_nichime,8,character varying,2,YES,�J�Ó���[N����]: �Y�����[�X�{�s���� ���̃��[�X�{�s��ŉ����ڂ̊J�Â�������
+jvd_ys,yobi_code,9,character varying,1,YES,�j���R�[�h: �Y�����[�X�{�s�j�� <�R�[�h�\ 2002.�j���R�[�h>�Q��
+jvd_ys,jusho_joho_1,10,character varying,118,YES,<�d�܈ē�>: nan
+jvd_ys,jusho_joho_2,11,character varying,118,YES,���ʋ����ԍ�: �d�܃��[�X�̂ݐݒ� �����I�ɂ͉ߋ��̓��ꃌ�[�X�ƈ�v����ԍ�(������O�L��)
+jvd_ys,jusho_joho_3,12,character varying,118,YES,�������{��: �S�p30�����@���[�X���̖{��
