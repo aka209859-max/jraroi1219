@@ -402,17 +402,17 @@ _CYB = [
     Factor325(278, "jrd_cyb", "chokyo_corse_polytrack","cyb_chokyo_corse_polytrack","NUMERIC",  "調教ポリトラックタイム",  n_bins=5),
     Factor325(279, "jrd_cyb", "chokyo_corse_pool",     "cyb_chokyo_corse_pool",     "NUMERIC",  "調教プール",             n_bins=5),
     Factor325(280, "jrd_cyb", "chokyo_corse_shiba",    "cyb_chokyo_corse_shiba",    "NUMERIC",  "調教コース芝タイム",      n_bins=5),
-    Factor325(281, "jrd_cyb", "chokyo_course_shubetsu","cyb_chokyo_course_shubetsu","CATEGORY", "調教コース種別"),
-    Factor325(282, "jrd_cyb", "chokyo_hyoka_1",        "cyb_chokyo_hyoka_1",        "CATEGORY", "調教評価1"),
-    Factor325(283, "jrd_cyb", "chokyo_hyoka_2",        "cyb_chokyo_hyoka_2",        "CATEGORY", "調教評価2"),
-    Factor325(284, "jrd_cyb", "chokyo_hyoka_3",        "cyb_chokyo_hyoka_3",        "CATEGORY", "調教評価3"),
+    Factor325(281, "jrd_cyb", "chokyo_corse_shubetsu", "cyb_chokyo_corse_shubetsu", "CATEGORY", "調教コース種別"),          # 正: corse (not course)
+    Factor325(282, "jrd_cyb", "chokyo_hyoka",          "cyb_chokyo_hyoka",          "CATEGORY", "調教評価"),               # 正: 1カラムのみ
+    Factor325(283, "jrd_cyb", "chokyo_hyoka_2",        "cyb_chokyo_hyoka_2",        "SKIP",     "調教評価2",           "NOT_IN_DB"),
+    Factor325(284, "jrd_cyb", "chokyo_hyoka_3",        "cyb_chokyo_hyoka_3",        "SKIP",     "調教評価3",           "NOT_IN_DB"),
     Factor325(285, "jrd_cyb", "chokyo_juten",          "cyb_chokyo_juten",          "CATEGORY", "調教重点"),
     Factor325(286, "jrd_cyb", "chokyo_type",           "cyb_chokyo_type",           "CATEGORY", "調教タイプ"),
-    Factor325(287, "jrd_cyb", "chokyoshi_code",        "cyb_chokyoshi_code",        "SKIP",     "調教師コード（CYB）",  "IDENTIFIER"),
-    Factor325(288, "jrd_cyb", "chokyoshi_mei",         "cyb_chokyoshi_mei",         "SKIP",     "調教師名（CYB）",      "IDENTIFIER"),
-    Factor325(289, "jrd_cyb", "choshubetsu",           "cyb_choshubetsu",           "CATEGORY", "調種別"),
+    Factor325(287, "jrd_cyb", "chokyoshi_code",        "cyb_chokyoshi_code",        "SKIP",     "調教師コード（CYB）",  "NOT_IN_DB"),
+    Factor325(288, "jrd_cyb", "chokyoshi_mei",         "cyb_chokyoshi_mei",         "SKIP",     "調教師名（CYB）",      "NOT_IN_DB"),
+    Factor325(289, "jrd_cyb", "choshubetsu",           "cyb_choshubetsu",           "SKIP",     "調種別",              "NOT_IN_DB"),
     Factor325(290, "jrd_cyb", "oikiri_shisu",          "cyb_oikiri_shisu",          "NUMERIC",  "追切指数",              n_bins=5),
-    Factor325(291, "jrd_cyb", "sakusha_hyoka_f_h",     "cyb_sakusha_hyoka_f_h",     "CATEGORY", "作者評価F/H"),
+    Factor325(291, "jrd_cyb", "sakusha_hyoka_f_h",     "cyb_sakusha_hyoka_f_h",     "SKIP",     "作者評価F/H",          "NOT_IN_DB"),
     Factor325(292, "jrd_cyb", "shiage_shisu",          "cyb_shiage_shisu",          "NUMERIC",  "仕上指数",              n_bins=5),
 ]
 
@@ -433,7 +433,7 @@ _SED = [
     Factor325(303, "jrd_sed", "race_comments",        "sed_race_comments",        "SKIP",     "レースコメント",         "IDENTIFIER"),
     Factor325(304, "jrd_sed", "race_pace",            "sed_race_pace",            "CATEGORY", "レースペース"),
     Factor325(305, "jrd_sed", "race_pace_runner",     "sed_race_pace_runner",     "SKIP",     "レースペース走者",       "IDENTIFIER"),
-    Factor325(306, "jrd_sed", "race_pen_type",        "sed_race_pen_type",        "CATEGORY", "レースペンタイプ"),
+    Factor325(306, "jrd_sed", "race_pen_type",        "sed_race_pen_type",        "SKIP",     "レースペンタイプ",   "NOT_IN_DB"),
 ]
 
 # =============================================================================
@@ -442,14 +442,14 @@ _SED = [
 _JOA = [
     Factor325(307, "jrd_joa", "cid",                                       "joa_cid",                                       "SKIP",     "CID",             "IDENTIFIER"),
     Factor325(308, "jrd_joa", "em",                                         "joa_em",                                         "CATEGORY", "EM評価"),
-    Factor325(309, "jrd_joa", "jockey_banushi_nijumaru_tansho_kaishuritsu", "joa_jockey_banushi_nijumaru_tansho_kaishuritsu", "NUMERIC",  "騎手×馬主◎◎単勝回収率", n_bins=5),
+    Factor325(309, "jrd_joa", "jockey_banushi_nijumaru_tansho_kaishuritsu", "joa_jockey_banushi_nijumaru_tansho_kaishuritsu", "SKIP",     "騎手×馬主◎◎単勝回収率", "NOT_IN_DB"),
     Factor325(310, "jrd_joa", "kishu_bb_shirushi",                          "joa_kishu_bb_shirushi",                          "CATEGORY", "騎手◎印"),
     Factor325(311, "jrd_joa", "kyusha_bb_shirushi",                         "joa_kyusha_bb_shirushi",                         "CATEGORY", "厩舎◎印"),
     Factor325(312, "jrd_joa", "kyusha_bb_nijumaru_tansho_kaishuritsu",      "joa_kyusha_bb_nijumaru_tansho_kaishuritsu",      "NUMERIC",  "厩舎◎◎単勝回収率",     n_bins=5),
     Factor325(313, "jrd_joa", "ls_hyoka",                                   "joa_ls_hyoka",                                   "CATEGORY", "LS評価"),
     Factor325(314, "jrd_joa", "ls_shisu",                                   "joa_ls_shisu",                                   "NUMERIC",  "LS指数",                n_bins=10),
-    Factor325(315, "jrd_joa", "ten_shisu",                                  "joa_ten_shisu",                                  "NUMERIC",  "テン指数（JOA）",       n_bins=5),
-    Factor325(316, "jrd_joa", "uma_gucchi",                                 "joa_uma_gucchi",                                 "CATEGORY", "馬ぐっち"),
+    Factor325(315, "jrd_joa", "ten_shisu",                                  "joa_ten_shisu",                                  "SKIP",     "テン指数（JOA）",       "NOT_IN_DB"),
+    Factor325(316, "jrd_joa", "uma_gucchi",                                 "joa_uma_gucchi",                                 "SKIP",     "馬ぐっち",              "NOT_IN_DB"),
 ]
 
 # =============================================================================
@@ -457,14 +457,14 @@ _JOA = [
 # =============================================================================
 _BAC = [
     Factor325(317, "jrd_bac", "baken_hatsubai_flag",  "bac_baken_hatsubai_flag",  "CATEGORY", "馬券発売フラグ"),
-    Factor325(318, "jrd_bac", "baba_sa_saishujikoku", "bac_baba_sa_saishujikoku", "SKIP",     "馬場差最終時刻",         "ADMINISTRATIVE"),
+    Factor325(318, "jrd_bac", "baba_sa_saishujikoku", "bac_baba_sa_saishujikoku", "SKIP",     "馬場差最終時刻",         "NOT_IN_DB"),
     Factor325(319, "jrd_bac", "fukashokin",           "bac_fukashokin",           "NUMERIC",  "付加賞金（BAC）",        n_bins=5),
     Factor325(320, "jrd_bac", "honshokin",            "bac_honshokin",            "NUMERIC",  "本賞金",                 n_bins=5),
-    Factor325(321, "jrd_bac", "kaisai_nen_gappi",     "bac_kaisai_nen_gappi",     "SKIP",     "開催年月日",             "IDENTIFIER"),
-    Factor325(322, "jrd_bac", "kyoso_joken",          "bac_kyoso_joken",          "CATEGORY", "競走条件"),
-    Factor325(323, "jrd_bac", "race_code_zenhan",     "bac_race_code_zenhan",     "SKIP",     "レースコード前半",        "IDENTIFIER"),
-    Factor325(324, "jrd_bac", "race_comment",         "bac_race_comment",         "SKIP",     "レースコメント（BAC）",  "IDENTIFIER"),
-    Factor325(325, "jrd_bac", "track_baba_sa",        "bac_track_baba_sa",        "NUMERIC",  "トラック馬場差",          n_bins=5),
+    Factor325(321, "jrd_bac", "kaisai_nen_gappi",     "bac_kaisai_nen_gappi",     "SKIP",     "開催年月日",             "NOT_IN_DB"),
+    Factor325(322, "jrd_bac", "kyoso_joken",          "bac_kyoso_joken",          "SKIP",     "競走条件",               "NOT_IN_DB"),
+    Factor325(323, "jrd_bac", "race_code_zenhan",     "bac_race_code_zenhan",     "SKIP",     "レースコード前半",        "NOT_IN_DB"),
+    Factor325(324, "jrd_bac", "race_comment",         "bac_race_comment",         "SKIP",     "レースコメント（BAC）",  "NOT_IN_DB"),
+    Factor325(325, "jrd_bac", "track_baba_sa",        "bac_track_baba_sa",        "SKIP",     "トラック馬場差",          "NOT_IN_DB"),
 ]
 
 # =============================================================================

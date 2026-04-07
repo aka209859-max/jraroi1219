@@ -7,9 +7,11 @@ JRA-VAN 13テーブル + JRDB 5テーブルを結合し、
 特記事項:
     - jvd_wc / jvd_hc は時系列JOINが未確定のため除外（17+7=24列はNO_JOIN）
     - jvd_hr は複勝オッズ取得専用CTE経由（別処理済み）
-    - JRDBは jrd_*_fixed テーブルを使用（8byte race_key JOIN）
-    - jrd_sed は固定テーブルが存在しない可能性があるため graceful fallback
+    - JRDBは jrd_kyi, jrd_cyb, jrd_joa, jrd_bac, jrd_sed（実テーブル）を使用
+    - JRDB JOIN条件: keibajo_code + race_shikonen(YYMMDD) + kaisai_kai + kaisai_nichime
+                    + race_bango (+ umaban for horse-level tables)
     - 全カラムが character varying 型 → 数値はアプリ側でキャスト
+    - ACTUAL_DB_SCHEMA_2293_COLUMNS.csv に存在しないカラムは一切SELECTしない
 
 メモリ制限対応:
     年単位の分割クエリ（load_by_year）を提供する。
@@ -18,14 +20,11 @@ JRA-VAN 13テーブル + JRDB 5テーブルを結合し、
 from typing import Optional, List
 
 import pandas as pd
-import numpy as np
 
 from roi_pipeline.config.db import DBConfig, get_connection
 from roi_pipeline.engine.data_loader_v2 import (
-    JVAN_TO_JRDB_RACE_KEY8,
     JRA_KEIBAJO_CODES,
     _build_fukusho_unpivot_cte,
-    _check_fixed_tables_exist,
 )
 
 
@@ -41,39 +40,44 @@ CASE
 END
 """
 
+# =============================================================================
+# JRDB JOIN 条件テンプレート
+#   JRA-VAN の kaisai_nen(YYYY) + kaisai_tsukihi(MMDD)
+#   → JRDB の race_shikonen(YYMMDD) に変換して結合
+# =============================================================================
+def _jrdb_horse_join(alias: str) -> str:
+    """馬単位JRDB表のJOIN条件（keibajo+日付+kai+nichime+race_bango+umaban）。"""
+    return f"""    LEFT JOIN {alias.split('_as_')[0] if '_as_' not in alias else alias} AS {alias.split('_as_')[1] if '_as_' in alias else alias}
+        ON se.keibajo_code = {alias}.keibajo_code
+        AND (SUBSTRING(se.kaisai_nen, 3, 2) || se.kaisai_tsukihi) = {alias}.race_shikonen
+        AND se.kaisai_kai = {alias}.kaisai_kai
+        AND se.kaisai_nichime = {alias}.kaisai_nichime
+        AND se.race_bango = {alias}.race_bango
+        AND TRIM(se.umaban) = TRIM({alias}.umaban)"""
 
-def _build_full_query(date_from: str, date_to: str, include_sed: bool = True) -> str:
+
+def _jrdb_race_join(alias: str) -> str:
+    """レース単位JRDB表のJOIN条件（umaban なし）。"""
+    return f"""    LEFT JOIN {alias.split('_as_')[0] if '_as_' not in alias else alias} AS {alias.split('_as_')[1] if '_as_' in alias else alias}
+        ON se.keibajo_code = {alias}.keibajo_code
+        AND (SUBSTRING(se.kaisai_nen, 3, 2) || se.kaisai_tsukihi) = {alias}.race_shikonen
+        AND se.kaisai_kai = {alias}.kaisai_kai
+        AND se.kaisai_nichime = {alias}.kaisai_nichime
+        AND se.race_bango = {alias}.race_bango"""
+
+
+def _build_full_query(date_from: str, date_to: str) -> str:
     """
     全カラムを取得するSQL文を生成する。
 
     Args:
         date_from: 開始日 YYYYMMDD
         date_to: 終了日 YYYYMMDD
-        include_sed: jrd_sed を結合するか（テーブル存在確認後に設定）
 
     Returns:
         SQL文字列
     """
     fukusho_cte = _build_fukusho_unpivot_cte()
-
-    sed_join = ""
-    sed_cols = ""
-    if include_sed:
-        sed_join = f"""
-    LEFT JOIN jrd_sed AS sed
-        ON ({JVAN_TO_JRDB_RACE_KEY8}) = sed.jrdb_race_key8
-        AND TRIM(se.umaban) = TRIM(sed.umaban)
-"""
-        sed_cols = """
-        -- jrd_sed
-        sed.babasa                AS sed_babasa,
-        sed.bataiju_zogen         AS sed_bataiju_zogen,
-        sed.furi                  AS sed_furi,
-        sed.pace                  AS sed_pace,
-        sed.pace_shisu            AS sed_pace_shisu,
-        sed.race_pace             AS sed_race_pace,
-        sed.race_pen_type         AS sed_race_pen_type,
-"""
 
     query = f"""
     WITH fukusho_pay AS (
@@ -231,7 +235,9 @@ def _build_full_query(date_from: str, date_to: str, include_sed: bool = True) ->
         ch_tbl.tozai_shozoku_code AS ch_tozai_shozoku_code,
 
         -- =====================================================================
-        -- JRD_KYI_FIXED: 指数系（主要）
+        -- JRD_KYI: 指数系（主要）
+        --   全132列のうちACTIVEなものを選択
+        --   ACTUAL_DB_SCHEMA_2293_COLUMNS.csv 確認済み
         -- =====================================================================
         kyi.idm                   AS kyi_idm,
         kyi.joho_shisu            AS kyi_joho_shisu,
@@ -296,48 +302,55 @@ def _build_full_query(date_from: str, date_to: str, include_sed: bool = True) ->
         kyi.uma_deokure_ritsu     AS kyi_uma_deokure_ritsu,
 
         -- =====================================================================
-        -- JRD_CYB_FIXED: 調教分析
+        -- JRD_CYB: 調教分析
+        --   ACTUAL_DB_SCHEMA確認済み: chokyo_corse_shubetsu, chokyo_hyoka (単一)
+        --   非存在カラムを除外: chokyoshi_code/mei, choshubetsu, hyoka_2/3, sakusha_hyoka_f_h
         -- =====================================================================
-        cyb.chokyo_corse_dirt     AS cyb_chokyo_corse_dirt,
-        cyb.chokyo_corse_hanro    AS cyb_chokyo_corse_hanro,
+        cyb.chokyo_corse_dirt      AS cyb_chokyo_corse_dirt,
+        cyb.chokyo_corse_hanro     AS cyb_chokyo_corse_hanro,
         cyb.chokyo_corse_polytrack AS cyb_chokyo_corse_polytrack,
-        cyb.chokyo_corse_pool     AS cyb_chokyo_corse_pool,
-        cyb.chokyo_corse_shiba    AS cyb_chokyo_corse_shiba,
-        cyb.chokyo_course_shubetsu AS cyb_chokyo_course_shubetsu,
-        cyb.chokyo_hyoka_1        AS cyb_chokyo_hyoka_1,
-        cyb.chokyo_hyoka_2        AS cyb_chokyo_hyoka_2,
-        cyb.chokyo_hyoka_3        AS cyb_chokyo_hyoka_3,
-        cyb.chokyo_juten          AS cyb_chokyo_juten,
-        cyb.chokyo_type           AS cyb_chokyo_type,
-        cyb.choshubetsu           AS cyb_choshubetsu,
-        cyb.oikiri_shisu          AS cyb_oikiri_shisu,
-        cyb.sakusha_hyoka_f_h     AS cyb_sakusha_hyoka_f_h,
-        cyb.shiage_shisu          AS cyb_shiage_shisu,
+        cyb.chokyo_corse_pool      AS cyb_chokyo_corse_pool,
+        cyb.chokyo_corse_shiba     AS cyb_chokyo_corse_shiba,
+        cyb.chokyo_corse_shubetsu  AS cyb_chokyo_corse_shubetsu,
+        cyb.chokyo_hyoka           AS cyb_chokyo_hyoka,
+        cyb.chokyo_juten           AS cyb_chokyo_juten,
+        cyb.chokyo_type            AS cyb_chokyo_type,
+        cyb.oikiri_shisu           AS cyb_oikiri_shisu,
+        cyb.shiage_shisu           AS cyb_shiage_shisu,
 
         -- =====================================================================
-        -- JRD_JOA_FIXED: 騎手・厩舎評価
+        -- JRD_JOA: 騎手・厩舎評価
+        --   ACTUAL_DB_SCHEMA確認済み
+        --   非存在カラムを除外: jockey_banushi_..., ten_shisu, uma_gucchi
         -- =====================================================================
         joa.em                    AS joa_em,
-        joa.jockey_banushi_nijumaru_tansho_kaishuritsu AS joa_jockey_banushi_nijumaru_tansho_kaishuritsu,
         joa.kishu_bb_shirushi     AS joa_kishu_bb_shirushi,
         joa.kyusha_bb_shirushi    AS joa_kyusha_bb_shirushi,
         joa.kyusha_bb_nijumaru_tansho_kaishuritsu AS joa_kyusha_bb_nijumaru_tansho_kaishuritsu,
         joa.ls_hyoka              AS joa_ls_hyoka,
         joa.ls_shisu              AS joa_ls_shisu,
-        joa.ten_shisu             AS joa_ten_shisu,
-        joa.uma_gucchi            AS joa_uma_gucchi,
 
         -- =====================================================================
-        -- JRD_BAC_FIXED: レース基本情報
+        -- JRD_BAC: レース基本情報（レース単位）
+        --   ACTUAL_DB_SCHEMA確認済み
+        --   非存在カラムを除外: baba_sa_saishujikoku, kaisai_nen_gappi,
+        --                      kyoso_joken, race_code_zenhan, race_comment, track_baba_sa
         -- =====================================================================
         bac.baken_hatsubai_flag   AS bac_baken_hatsubai_flag,
         bac.fukashokin            AS bac_fukashokin,
         bac.honshokin             AS bac_honshokin,
-        bac.kyoso_joken           AS bac_kyoso_joken,
-        bac.track_baba_sa         AS bac_track_baba_sa,
-        bac.juryo_shubetsu_code   AS bac_juryo_shubetsu_code,
 
-        {sed_cols}
+        -- =====================================================================
+        -- JRD_SED: レース詳細（馬単位）
+        --   ACTUAL_DB_SCHEMA確認済み
+        --   非存在カラムを除外: race_pen_type
+        -- =====================================================================
+        sed.babasa                AS sed_babasa,
+        sed.bataiju_zogen         AS sed_bataiju_zogen,
+        sed.furi                  AS sed_furi,
+        sed.pace                  AS sed_pace,
+        sed.pace_shisu            AS sed_pace_shisu,
+        sed.race_pace             AS sed_race_pace,
 
         -- =====================================================================
         -- 結果データ（ROI計算用）
@@ -351,8 +364,7 @@ def _build_full_query(date_from: str, date_to: str, include_sed: bool = True) ->
         -- セグメント付与用
         ({SURFACE_EXPR}) AS surface_2,
         ra.track_code             AS track_code_for_course,
-        ra.kyori                  AS kyori_for_course,
-        ({JVAN_TO_JRDB_RACE_KEY8}) AS synth_race_key8
+        ra.kyori                  AS kyori_for_course
 
     FROM jvd_se AS se
 
@@ -375,7 +387,7 @@ def _build_full_query(date_from: str, date_to: str, include_sed: bool = True) ->
         AND se.race_bango = ck.race_bango
         AND se.ketto_toroku_bango = ck.ketto_toroku_bango
 
-    -- JRA-VAN データマイニング（馬単位JOINキーを確認し、umaban列がなければレース単位で結合）
+    -- JRA-VAN データマイニング（レース単位）
     LEFT JOIN jvd_dm AS dm
         ON se.keibajo_code = dm.keibajo_code
         AND se.kaisai_nen = dm.kaisai_nen
@@ -443,23 +455,49 @@ def _build_full_query(date_from: str, date_to: str, include_sed: bool = True) ->
         AND se.race_bango = fp.race_bango
         AND TRIM(se.umaban) = fp.umaban
 
-    -- JRDB固定テーブル
-    LEFT JOIN jrd_kyi_fixed AS kyi
-        ON ({JVAN_TO_JRDB_RACE_KEY8}) = kyi.jrdb_race_key8
+    -- JRDB: jrd_kyi（馬単位）
+    LEFT JOIN jrd_kyi AS kyi
+        ON se.keibajo_code = kyi.keibajo_code
+        AND (SUBSTRING(se.kaisai_nen, 3, 2) || se.kaisai_tsukihi) = kyi.race_shikonen
+        AND se.kaisai_kai = kyi.kaisai_kai
+        AND se.kaisai_nichime = kyi.kaisai_nichime
+        AND se.race_bango = kyi.race_bango
         AND TRIM(se.umaban) = TRIM(kyi.umaban)
 
-    LEFT JOIN jrd_cyb_fixed AS cyb
-        ON ({JVAN_TO_JRDB_RACE_KEY8}) = cyb.jrdb_race_key8
+    -- JRDB: jrd_cyb（馬単位）
+    LEFT JOIN jrd_cyb AS cyb
+        ON se.keibajo_code = cyb.keibajo_code
+        AND (SUBSTRING(se.kaisai_nen, 3, 2) || se.kaisai_tsukihi) = cyb.race_shikonen
+        AND se.kaisai_kai = cyb.kaisai_kai
+        AND se.kaisai_nichime = cyb.kaisai_nichime
+        AND se.race_bango = cyb.race_bango
         AND TRIM(se.umaban) = TRIM(cyb.umaban)
 
-    LEFT JOIN jrd_joa_fixed AS joa
-        ON ({JVAN_TO_JRDB_RACE_KEY8}) = joa.jrdb_race_key8
+    -- JRDB: jrd_joa（馬単位）
+    LEFT JOIN jrd_joa AS joa
+        ON se.keibajo_code = joa.keibajo_code
+        AND (SUBSTRING(se.kaisai_nen, 3, 2) || se.kaisai_tsukihi) = joa.race_shikonen
+        AND se.kaisai_kai = joa.kaisai_kai
+        AND se.kaisai_nichime = joa.kaisai_nichime
+        AND se.race_bango = joa.race_bango
         AND TRIM(se.umaban) = TRIM(joa.umaban)
 
-    LEFT JOIN jrd_bac_fixed AS bac
-        ON ({JVAN_TO_JRDB_RACE_KEY8}) = bac.jrdb_race_key8
+    -- JRDB: jrd_bac（レース単位）
+    LEFT JOIN jrd_bac AS bac
+        ON se.keibajo_code = bac.keibajo_code
+        AND (SUBSTRING(se.kaisai_nen, 3, 2) || se.kaisai_tsukihi) = bac.race_shikonen
+        AND se.kaisai_kai = bac.kaisai_kai
+        AND se.kaisai_nichime = bac.kaisai_nichime
+        AND se.race_bango = bac.race_bango
 
-    {sed_join}
+    -- JRDB: jrd_sed（馬単位）
+    LEFT JOIN jrd_sed AS sed
+        ON se.keibajo_code = sed.keibajo_code
+        AND (SUBSTRING(se.kaisai_nen, 3, 2) || se.kaisai_tsukihi) = sed.race_shikonen
+        AND se.kaisai_kai = sed.kaisai_kai
+        AND se.kaisai_nichime = sed.kaisai_nichime
+        AND se.race_bango = sed.race_bango
+        AND TRIM(se.umaban) = TRIM(sed.umaban)
 
     WHERE
         (se.kaisai_nen || se.kaisai_tsukihi) >= '{date_from}'
@@ -470,19 +508,6 @@ def _build_full_query(date_from: str, date_to: str, include_sed: bool = True) ->
     return query
 
 
-def _check_sed_fixed_exists(conn) -> bool:
-    """jrd_sed_fixed テーブルが存在するか確認する。"""
-    query = """
-        SELECT COUNT(*) FROM information_schema.tables
-        WHERE table_name = 'jrd_sed_fixed'
-    """
-    try:
-        df = pd.read_sql_query(query, conn)
-        return int(df.iloc[0, 0]) >= 1
-    except Exception:
-        return False
-
-
 def load_full_factor_data(
     date_from: str,
     date_to: str,
@@ -490,6 +515,9 @@ def load_full_factor_data(
 ) -> pd.DataFrame:
     """
     全ファクター対応の結合済みDataFrameを返す。
+
+    JRDBは jrd_kyi, jrd_cyb, jrd_joa, jrd_bac, jrd_sed（実テーブル）を使用。
+    ACTUAL_DB_SCHEMA_2293_COLUMNS.csv に存在しないカラムは一切SELECTしない。
 
     Args:
         date_from: 開始日 YYYYMMDD（例: "20160101"）
@@ -501,13 +529,7 @@ def load_full_factor_data(
     """
     conn = get_connection(config)
     try:
-        if not _check_fixed_tables_exist(conn):
-            raise RuntimeError(
-                "jrd_*_fixed テーブルが存在しません。"
-                "先にJRDBパーサーを実行してください。"
-            )
-        include_sed = _check_sed_fixed_exists(conn)
-        query = _build_full_query(date_from, date_to, include_sed=include_sed)
+        query = _build_full_query(date_from, date_to)
         df = pd.read_sql_query(query, conn)
     finally:
         conn.close()
