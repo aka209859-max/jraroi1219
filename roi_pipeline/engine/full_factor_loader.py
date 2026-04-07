@@ -375,7 +375,7 @@ def _build_full_query(date_from: str, date_to: str, include_sed: bool = True) ->
         AND se.race_bango = ck.race_bango
         AND se.ketto_toroku_bango = ck.ketto_toroku_bango
 
-    -- JRA-VAN データマイニング
+    -- JRA-VAN データマイニング（馬単位JOINキーを確認し、umaban列がなければレース単位で結合）
     LEFT JOIN jvd_dm AS dm
         ON se.keibajo_code = dm.keibajo_code
         AND se.kaisai_nen = dm.kaisai_nen
@@ -383,7 +383,6 @@ def _build_full_query(date_from: str, date_to: str, include_sed: bool = True) ->
         AND se.kaisai_kai = dm.kaisai_kai
         AND se.kaisai_nichime = dm.kaisai_nichime
         AND se.race_bango = dm.race_bango
-        AND TRIM(se.umaban) = TRIM(dm.umaban)
 
     -- JRA-VAN 馬マスタ
     LEFT JOIN jvd_um AS um
