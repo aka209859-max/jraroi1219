@@ -419,7 +419,7 @@ def _build_full_query(date_from: str, date_to: str, include_sed: bool = True) ->
         AND se.kaisai_nichime = h6.kaisai_nichime
         AND se.race_bango = h6.race_bango
 
-    -- JRA-VAN 出走区分（馬単位）
+    -- JRA-VAN 出走区分（馬単位: ketto_toroku_bangoでJOIN）
     LEFT JOIN jvd_jg AS jg
         ON se.keibajo_code = jg.keibajo_code
         AND se.kaisai_nen = jg.kaisai_nen
@@ -427,7 +427,7 @@ def _build_full_query(date_from: str, date_to: str, include_sed: bool = True) ->
         AND se.kaisai_kai = jg.kaisai_kai
         AND se.kaisai_nichime = jg.kaisai_nichime
         AND se.race_bango = jg.race_bango
-        AND TRIM(se.umaban) = TRIM(jg.umaban)
+        AND se.ketto_toroku_bango = jg.ketto_toroku_bango
 
     -- JRA-VAN 調教師マスタ
     LEFT JOIN jvd_ch AS ch_tbl
