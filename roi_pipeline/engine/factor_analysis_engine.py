@@ -336,6 +336,11 @@ def analyze_factor(
         result.skip_reason = "BIN_FAILED"
         return result
 
+    # 高カーディナリティCATEGORYはCOURSE_27をスキップ
+    # 1000超のユニーク値 × 27コース × groupby は OOM/タイムアウトの原因
+    n_unique = binned.nunique(dropna=True)
+    skip_course27 = (factor.kind == "CATEGORY" and n_unique > 1000)
+
     # セグメント付与
     surface = _assign_surface(df)
     course27 = _assign_course_27(df)
@@ -420,6 +425,11 @@ def analyze_factor(
             ))
 
     # ----- COURSE_27 -----
+    # 高カーディナリティCATEGORY（1000超ユニーク値）はスキップ
+    if skip_course27:
+        result.bins = all_bins
+        return result
+
     course_names = list(ALL_CATEGORIES.keys())
     for course_val in course_names:
         course_grp = work[work["_course27"] == course_val]

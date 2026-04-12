@@ -7,11 +7,13 @@ JRA-VAN 13テーブル + JRDB 5テーブルを結合し、
 特記事項:
     - jvd_wc / jvd_hc は時系列JOINが未確定のため除外（17+7=24列はNO_JOIN）
     - jvd_hr は複勝オッズ取得専用CTE経由（別処理済み）
-    - JRDBは jrd_kyi, jrd_cyb, jrd_joa, jrd_bac, jrd_sed（実テーブル）を使用
+    - JRDBは jrd_kyi_fixed(490,149件), jrd_cyb, jrd_joa, jrd_bac, jrd_sed を使用
+    - jrd_kyi_fixed: 38カラム（実テーブル jrd_kyi は 517件のみのため使用不可）
     - JRDB JOIN条件: keibajo_code + race_shikonen(YYMMDD) + kaisai_kai + kaisai_nichime
                     + race_bango (+ umaban for horse-level tables)
     - 全カラムが character varying 型 → 数値はアプリ側でキャスト
     - ACTUAL_DB_SCHEMA_2293_COLUMNS.csv に存在しないカラムは一切SELECTしない
+    - jvd_ck 成績カラム(18文字=3字×6フィールド)はロード後に勝率に変換する
 
 メモリ制限対応:
     年単位の分割クエリ（load_by_year）を提供する。
@@ -24,6 +26,7 @@ import pandas as pd
 from roi_pipeline.config.db import DBConfig, get_connection
 from roi_pipeline.engine.data_loader_v2 import (
     JRA_KEIBAJO_CODES,
+    JVAN_TO_JRDB_RACE_KEY8,
     _build_fukusho_unpivot_cte,
 )
 
@@ -235,71 +238,27 @@ def _build_full_query(date_from: str, date_to: str) -> str:
         ch_tbl.tozai_shozoku_code AS ch_tozai_shozoku_code,
 
         -- =====================================================================
-        -- JRD_KYI: 指数系（主要）
-        --   全132列のうちACTIVEなものを選択
-        --   ACTUAL_DB_SCHEMA_2293_COLUMNS.csv 確認済み
+        -- JRD_KYI_FIXED: 指数系（主要）
+        --   jrd_kyi_fixed: 490,149件 (2016-2026), 38カラム
+        --   ※ jrd_kyi（実テーブル）は 517件のみ(2026-03-14 1日分)のため使用不可
+        --   ※ jrd_kyi_fixedに存在する23データカラムのみSELECT
         -- =====================================================================
         kyi.idm                   AS kyi_idm,
-        kyi.joho_shisu            AS kyi_joho_shisu,
         kyi.kishu_shisu           AS kyi_kishu_shisu,
+        kyi.sogo_shisu            AS kyi_sogo_shisu,
         kyi.agari_shisu           AS kyi_agari_shisu,
         kyi.chokyo_shisu          AS kyi_chokyo_shisu,
-        kyi.gekiso_shisu          AS kyi_gekiso_shisu,
         kyi.ichi_shisu            AS kyi_ichi_shisu,
         kyi.kyusha_shisu          AS kyi_kyusha_shisu,
-        kyi.manken_shisu          AS kyi_manken_shisu,
         kyi.pace_shisu            AS kyi_pace_shisu,
-        kyi.sogo_shisu            AS kyi_sogo_shisu,
         kyi.ten_shisu             AS kyi_ten_shisu,
-        kyi.uma_start_shisu       AS kyi_uma_start_shisu,
-        kyi.agari_shisu_juni      AS kyi_agari_shisu_juni,
-        kyi.dochu_juni            AS kyi_dochu_juni,
-        kyi.dochu_sa              AS kyi_dochu_sa,
-        kyi.dochu_uchisoto        AS kyi_dochu_uchisoto,
-        kyi.gekiso_juni           AS kyi_gekiso_juni,
-        kyi.goal_juni             AS kyi_goal_juni,
-        kyi.goal_sa               AS kyi_goal_sa,
-        kyi.goal_uchisoto         AS kyi_goal_uchisoto,
-        kyi.ichi_shisu_juni       AS kyi_ichi_shisu_juni,
-        kyi.kohan_3f_juni         AS kyi_kohan_3f_juni,
-        kyi.kohan_3f_sa           AS kyi_kohan_3f_sa,
-        kyi.kohan_3f_uchisoto     AS kyi_kohan_3f_uchisoto,
-        kyi.ls_shisu_juni         AS kyi_ls_shisu_juni,
-        kyi.pace_shisu_juni       AS kyi_pace_shisu_juni,
-        kyi.ten_shisu_juni        AS kyi_ten_shisu_juni,
         kyi.chokyo_yajirushi_code AS kyi_chokyo_yajirushi_code,
-        kyi.class_code            AS kyi_class_code,
-        kyi.gekiso_type           AS kyi_gekiso_type,
-        kyi.hizume_code           AS kyi_hizume_code,
-        kyi.hobokusaki_rank       AS kyi_hobokusaki_rank,
-        kyi.joshodo_code          AS kyi_joshodo_code,
         kyi.kishu_code            AS kyi_kishu_code,
-        kyi.kyakushitsu_code      AS kyi_kyakushitsu_code,
-        kyi.kyori_tekisei_code    AS kyi_kyori_tekisei_code,
-        kyi.kyusha_hyoka_code     AS kyi_kyusha_hyoka_code,
+        kyi.kyakushitsu           AS kyi_kyakushitsu_code,
+        kyi.kyori_tekisei         AS kyi_kyori_tekisei_code,
         kyi.kyusha_rank           AS kyi_kyusha_rank,
-        kyi.kyuyo_riyu_bunrui_code AS kyi_kyuyo_riyu_bunrui_code,
-        kyi.manken_shirushi       AS kyi_manken_shirushi,
-        kyi.pace_yoso             AS kyi_pace_yoso,
-        kyi.tekisei_code_omo      AS kyi_tekisei_code_omo,
-        kyi.yuso_kubun            AS kyi_yuso_kubun,
-        kyi.kakutoku_shokin_ruikei AS kyi_kakutoku_shokin_ruikei,
-        kyi.kijun_ninkijun_fukusho AS kyi_kijun_ninkijun_fukusho,
-        kyi.kijun_ninkijun_tansho  AS kyi_kijun_ninkijun_tansho,
-        kyi.kijun_odds_fukusho    AS kyi_kijun_odds_fukusho,
-        kyi.kijun_odds_tansho     AS kyi_kijun_odds_tansho,
-        kyi.shutoku_shokin_ruikei AS kyi_shutoku_shokin_ruikei,
-        kyi.kishu_kitai_rentai_ritsu AS kyi_kishu_kitai_rentai_ritsu,
-        kyi.kishu_kitai_sanchakunai_ritsu AS kyi_kishu_kitai_sanchakunai_ritsu,
-        kyi.kishu_kitai_tansho_ritsu AS kyi_kishu_kitai_tansho_ritsu,
-        kyi.taikei_sogo_1         AS kyi_taikei_sogo_1,
-        kyi.taikei_sogo_2         AS kyi_taikei_sogo_2,
-        kyi.taikei_sogo_3         AS kyi_taikei_sogo_3,
-        kyi.uma_tokki_1           AS kyi_uma_tokki_1,
-        kyi.uma_tokki_2           AS kyi_uma_tokki_2,
-        kyi.uma_tokki_3           AS kyi_uma_tokki_3,
+        kyi.omo_tekisei_code      AS kyi_tekisei_code_omo,
         kyi.futan_juryo           AS kyi_futan_juryo,
-        kyi.uma_deokure_ritsu     AS kyi_uma_deokure_ritsu,
 
         -- =====================================================================
         -- JRD_CYB: 調教分析
@@ -455,13 +414,12 @@ def _build_full_query(date_from: str, date_to: str) -> str:
         AND se.race_bango = fp.race_bango
         AND TRIM(se.umaban) = fp.umaban
 
-    -- JRDB: jrd_kyi（馬単位）
-    LEFT JOIN jrd_kyi AS kyi
-        ON se.keibajo_code = kyi.keibajo_code
-        AND (SUBSTRING(se.kaisai_nen, 3, 2) || se.kaisai_tsukihi) = kyi.race_shikonen
-        AND se.kaisai_kai = kyi.kaisai_kai
-        AND se.kaisai_nichime = kyi.kaisai_nichime
-        AND se.race_bango = kyi.race_bango
+    -- JRDB: jrd_kyi_fixed（馬単位: 490,149件 2016-2026）
+    --   jrd_kyi（実テーブル）は 517件のみのため jrd_kyi_fixed を使用する
+    --   JOIN: jrdb_race_key8 (8byte key) + umaban
+    --   key8 = keibajo(2) + year_last2(2) + kai(1) + hex(nichime)(1) + race(2)
+    LEFT JOIN jrd_kyi_fixed AS kyi
+        ON ({JVAN_TO_JRDB_RACE_KEY8}) = kyi.jrdb_race_key8
         AND TRIM(se.umaban) = TRIM(kyi.umaban)
 
     -- JRDB: jrd_cyb（馬単位）
@@ -516,8 +474,9 @@ def load_full_factor_data(
     """
     全ファクター対応の結合済みDataFrameを返す。
 
-    JRDBは jrd_kyi, jrd_cyb, jrd_joa, jrd_bac, jrd_sed（実テーブル）を使用。
+    JRDBは jrd_kyi_fixed(490,149件), jrd_cyb, jrd_joa, jrd_bac, jrd_sed を使用。
     ACTUAL_DB_SCHEMA_2293_COLUMNS.csv に存在しないカラムは一切SELECTしない。
+    jvd_ck 成績カラム（18文字=3字×6フィールド）はロード後に勝率(0.0-1.0)に変換する。
 
     Args:
         date_from: 開始日 YYYYMMDD（例: "20160101"）
@@ -525,7 +484,7 @@ def load_full_factor_data(
         config: DB接続設定
 
     Returns:
-        結合済みDataFrame
+        結合済みDataFrame（jvd_ck成績カラムは勝率に変換済み）
     """
     conn = get_connection(config)
     try:
@@ -533,6 +492,16 @@ def load_full_factor_data(
         df = pd.read_sql_query(query, conn)
     finally:
         conn.close()
+
+    # -------------------------------------------------------------------------
+    # jvd_ck 成績カラムの後処理:
+    #   18文字エンコード（3字×6フィールド）→ 勝率(f1/f6) に変換
+    #   変換後は NUMERIC として factor_analysis_engine が正常に分析できる
+    # -------------------------------------------------------------------------
+    for col in _CK_SEISEKI_ALIASES:
+        if col in df.columns:
+            df[col] = df[col].map(_parse_ck_seiseki_win_rate)
+
     return df
 
 
@@ -589,35 +558,88 @@ def load_all_years(
     return pd.concat(frames, ignore_index=True)
 
 
-def extract_win_rate_from_record(series: pd.Series) -> pd.Series:
-    """
-    jvd_ckの成績カラム（例: "020100" = 2-1-0-0, 3走で勝率66%）から勝率を算出する。
+# =============================================================================
+# jvd_ck 成績カラム後処理
+#   jvd_ck の距離別・場別成績カラムは 18文字エンコード（3字×6フィールド）:
+#     f1=chars[0:3]   = 1着数
+#     f2=chars[3:6]   = 2着数
+#     f3=chars[6:9]   = 3着数
+#     f4=chars[9:12]  = 4着以下(?)
+#     f5=chars[12:15] = (不明)
+#     f6=chars[15:18] = 総出走数
+#   例: "001003001002000018" → f1=1,f2=3,f3=1,f4=2,f5=0,f6=18
+#       win_rate = 1/18 ≈ 0.056
+# =============================================================================
+_CK_SEISEKI_ALIASES: List[str] = [
+    "ck_chuo_gokei",
+    "ck_dirt_1200_ika",
+    "ck_dirt_1201_1400",
+    "ck_dirt_1401_1600",
+    "ck_dirt_1601_1800",
+    "ck_dirt_1801_2000",
+    "ck_dirt_2001_2200",
+    "ck_dirt_2201_2400",
+    "ck_dirt_2401_2800",
+    "ck_dirt_2801_ijo",
+    "ck_dirt_choku",
+    "ck_dirt_chukyo",
+    "ck_dirt_fukushima",
+    "ck_dirt_hakodate",
+    "ck_dirt_hanshin",
+    "ck_dirt_kokura",
+    "ck_dirt_kyoto",
+    "ck_dirt_migi",
+    "ck_shiba_1201_1400",
+    "ck_shiba_1401_1600",
+    "ck_shiba_1601_1800",
+]
 
-    JRA-VAN の成績カラムは "WWSSTTXX" 形式（W=1着数, S=2着, T=3着, X=着外）
-    各2桁の10進数。例: "020100" → 2勝1連対0三着0着外
+
+def _parse_ck_seiseki_win_rate(val: object) -> float:
+    """
+    jvd_ck 成績カラム（18文字=3字×6フィールド）から勝率を算出する。
+
+    フォーマット:
+        f1=chars[0:3]   = 1着数
+        f2=chars[3:6]   = 2着数
+        f3=chars[6:9]   = 3着数
+        f4=chars[9:12]  = 4着以下(?)
+        f5=chars[12:15] = (不明)
+        f6=chars[15:18] = 総出走数
 
     Args:
-        series: 成績カラム (character varying)
+        val: 18文字の成績エンコード文字列
 
     Returns:
-        勝率 (0.0-1.0)。NaN if parse fails.
+        勝率 = f1 / f6 (0.0-1.0)。NaN if parse fails or f6==0.
     """
-    def parse_record(val) -> float:
-        if pd.isna(val) or str(val).strip() == "":
+    if pd.isna(val) or str(val).strip() == "":
+        return float("nan")
+    s = str(val).strip()
+    if len(s) != 18:
+        return float("nan")
+    try:
+        f1 = int(s[0:3])
+        f6 = int(s[15:18])
+        if f6 == 0:
             return float("nan")
-        s = str(val).strip()
-        if len(s) < 8:
-            return float("nan")
-        try:
-            wins = int(s[0:2])
-            places = int(s[2:4])
-            shows = int(s[4:6])
-            outs = int(s[6:8])
-            total = wins + places + shows + outs
-            if total == 0:
-                return float("nan")
-            return wins / total
-        except (ValueError, IndexError):
-            return float("nan")
+        return float(f1) / float(f6)
+    except (ValueError, IndexError):
+        return float("nan")
 
-    return series.map(parse_record)
+
+def extract_win_rate_from_record(series: pd.Series) -> pd.Series:
+    """
+    jvd_ck の成績カラムシリーズから勝率を算出する。
+
+    jvd_ck の成績カラムは 18文字エンコード（3字×6フィールド）:
+        f1=1着数, f2=2着数, f3=3着数, f4-f5=不明, f6=総出走数
+    例: "001003001002000018" → 1勝/18走 = 勝率0.056
+
+    Args:
+        series: 成績カラムのSeriesオブジェクト
+
+    Returns:
+        勝率Series (0.0-1.0)。NaN if parse fails.
+    """
+    return series.map(_parse_ck_seiseki_win_rate)
