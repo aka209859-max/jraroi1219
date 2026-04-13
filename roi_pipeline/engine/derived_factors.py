@@ -667,6 +667,102 @@ def _bin_ls_shisu_4(df: pd.DataFrame) -> pd.Series:
     return result
 
 
+def _compute_kyuyou_weeks(df: pd.DataFrame) -> pd.Series:
+    """
+    休養週数（今走 race_date - 前走 race_date_prev1）をビン化して返す。
+
+    race_date は YYYYMMDD 文字列。race_date_prev1 はprev_race_loaderが付与する。
+    ビン:
+      1未満 / 1以上3未満 / 3以上5未満 / 5以上7未満 /
+      7以上9未満 / 9以上10未満 / 10以上
+
+    初出走・前走不明は NaN。
+    """
+    if "race_date" not in df.columns or "race_date_prev1" not in df.columns:
+        logger.warning("derived_factors: race_date / race_date_prev1 が df に存在しない → kyuyou_weeks は NULL")
+        return pd.Series(np.nan, index=df.index, dtype=object)
+
+    cur = pd.to_datetime(df["race_date"], format="%Y%m%d", errors="coerce")
+    prev = pd.to_datetime(df["race_date_prev1"], format="%Y%m%d", errors="coerce")
+    weeks = (cur - prev).dt.days / 7.0
+
+    bins = [0, 1, 3, 5, 7, 9, 10, 9999]
+    labels = ["1未満", "1-3未満", "3-5未満", "5-7未満", "7-9未満", "9-10未満", "10以上"]
+    return pd.cut(weeks, bins=bins, labels=labels, right=False)
+
+
+def _load_sed_prev(conn, df: pd.DataFrame) -> pd.DataFrame:
+    """
+    jrd_sed から前走の race_pace と kyakushitsu_code を取得してマージする。
+
+    JOIN キー（df 側）:
+      ketto_toroku_bango + race_date_prev1[:4](=kaisai_nen)
+      + race_date_prev1[4:](=kaisai_tsukihi) + keibajo_code_prev1 + race_bango_prev1
+
+    jrd_sed 側:
+      ketto_toroku_bango + kaisai_nen + kaisai_tsukihi + keibajo_code + race_bango
+
+    必要条件: race_date_prev1, keibajo_code_prev1, race_bango_prev1 が df に存在すること。
+    """
+    req = ["race_date_prev1", "keibajo_code_prev1", "race_bango_prev1", "ketto_toroku_bango"]
+    missing = [c for c in req if c not in df.columns]
+    if missing:
+        logger.warning("derived_factors: jrd_sed JOIN キー不足 %s → prev1_race_pace/kyakushitsu_sed は NULL", missing)
+        return pd.DataFrame()
+
+    try:
+        unique_years = set()
+        for rd in df["race_date_prev1"].dropna():
+            s = str(rd).strip()
+            if len(s) >= 4:
+                unique_years.add(s[:4])
+        if not unique_years:
+            return pd.DataFrame()
+
+        years_sql = ", ".join(f"'{y}'" for y in unique_years)
+        unique_keibajo = df["keibajo_code_prev1"].dropna().astype(str).str.strip().unique().tolist()
+        keibajo_sql = ", ".join(f"'{k}'" for k in unique_keibajo) if unique_keibajo else "'00'"
+
+        query = f"""
+        SELECT
+            TRIM(ketto_toroku_bango) AS ketto_toroku_bango,
+            TRIM(keibajo_code)       AS keibajo_code_prev1,
+            TRIM(kaisai_nen)         AS _sed_kaisai_nen,
+            TRIM(kaisai_tsukihi)     AS _sed_kaisai_tsukihi,
+            TRIM(race_bango)         AS race_bango_prev1,
+            TRIM(race_pace)          AS prev1_race_pace,
+            TRIM(kyakushitsu_code)   AS prev1_kyakushitsu_sed
+        FROM jrd_sed
+        WHERE kaisai_nen IN ({years_sql})
+          AND keibajo_code IN ({keibajo_sql})
+        """
+        sed = pd.read_sql_query(query, conn)
+        if sed.empty:
+            return pd.DataFrame()
+
+        # race_date_prev1 から kaisai_nen / kaisai_tsukihi を分割
+        df2 = df[req + ["umaban"]].copy()
+        df2["_prev1_kaisai_nen"] = df2["race_date_prev1"].astype(str).str[:4]
+        df2["_prev1_kaisai_tsukihi"] = df2["race_date_prev1"].astype(str).str[4:]
+        df2["race_bango_prev1"] = df2["race_bango_prev1"].astype(str).str.strip()
+        df2["keibajo_code_prev1"] = df2["keibajo_code_prev1"].astype(str).str.strip()
+
+        merged = df2.merge(
+            sed,
+            left_on=["ketto_toroku_bango", "keibajo_code_prev1",
+                     "_prev1_kaisai_nen", "_prev1_kaisai_tsukihi", "race_bango_prev1"],
+            right_on=["ketto_toroku_bango", "keibajo_code_prev1",
+                      "_sed_kaisai_nen", "_sed_kaisai_tsukihi", "race_bango_prev1"],
+            how="left",
+        )
+        return merged[["ketto_toroku_bango", "keibajo_code_prev1",
+                        "_prev1_kaisai_nen", "_prev1_kaisai_tsukihi", "race_bango_prev1",
+                        "prev1_race_pace", "prev1_kyakushitsu_sed"]]
+    except Exception as e:
+        logger.warning("derived_factors: jrd_sed 前走取得エラー: %s", e)
+        return pd.DataFrame()
+
+
 # =============================================================================
 # 公開 API
 # =============================================================================
@@ -801,6 +897,41 @@ def derive_all_factors(df: pd.DataFrame, conn) -> pd.DataFrame:
     # Phase 8: スキーマ未存在カラムを NULL で追加
     # -------------------------------------------------------------------------
     df = _add_null_col(df, "prev_rpci", "ACTUAL_DB_SCHEMA に rpci カラムが存在しない")
+
+    # -------------------------------------------------------------------------
+    # Phase 8.5: 休養週数（kyuyou_weeks）
+    # race_date_prev1 は prev_race_loader が _PREV_COLS に race_date を追加後に取得
+    # -------------------------------------------------------------------------
+    df["kyuyou_weeks"] = _compute_kyuyou_weeks(df)
+
+    # -------------------------------------------------------------------------
+    # Phase 8.6: 前走 race_pace / kyakushitsu_sed（jrd_sed より取得）
+    # -------------------------------------------------------------------------
+    logger.info("derived_factors: jrd_sed から前走 race_pace / kyakushitsu_sed を取得します")
+    sed_prev = _load_sed_prev(conn, df)
+    if not sed_prev.empty:
+        # umaban なしで ketto_toroku_bango + prev1 race キーでマージ
+        df["_prev1_kaisai_nen"] = df["race_date_prev1"].astype(str).str[:4]
+        df["_prev1_kaisai_tsukihi"] = df["race_date_prev1"].astype(str).str[4:]
+        rbp = "race_bango_prev1"
+        kbp = "keibajo_code_prev1"
+        if rbp in df.columns and kbp in df.columns:
+            df[rbp] = df[rbp].astype(str).str.strip()
+            df[kbp] = df[kbp].astype(str).str.strip()
+            df = _safe_merge(
+                df,
+                sed_prev[["ketto_toroku_bango", "keibajo_code_prev1",
+                           "_prev1_kaisai_nen", "_prev1_kaisai_tsukihi",
+                           "race_bango_prev1",
+                           "prev1_race_pace", "prev1_kyakushitsu_sed"]],
+                on=["ketto_toroku_bango", "keibajo_code_prev1",
+                    "_prev1_kaisai_nen", "_prev1_kaisai_tsukihi", "race_bango_prev1"],
+            )
+        df.drop(columns=["_prev1_kaisai_nen", "_prev1_kaisai_tsukihi"],
+                inplace=True, errors="ignore")
+    else:
+        df = _add_null_col(df, "prev1_race_pace", "jrd_sed 前走データ取得不可")
+        df = _add_null_col(df, "prev1_kyakushitsu_sed", "jrd_sed 前走データ取得不可")
 
     logger.info("derived_factors: 全加工ファクター生成完了（行数: %d）", len(df))
     return df

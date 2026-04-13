@@ -77,6 +77,8 @@ _PREV_COLS = [
     "keibajo_code",
     "kyori",
     "track_code",
+    "race_date",   # 休養週数計算に使用（YYYYMMDD 文字列）
+    "race_bango",  # jrd_sed との前走 JOIN キー
 ]
 
 # JRA競馬場コード（NARデータを除外）
