@@ -92,12 +92,17 @@ def _make_base_df(**overrides) -> pd.DataFrame:
 
 
 def _make_large_df(n: int = 100) -> pd.DataFrame:
-    """ROI 計算テスト用の大きめ DataFrame を生成する。"""
+    """ROI 計算テスト用の大きめ DataFrame を生成する。
+
+    fukusho_odds（jvd_hr UNPIVOT）は3着内のみ非NULL。
+    _compute_roi_table の複勝計算は fillna(0.0) で非3着内馬をゼロリターンとして扱う。
+    """
     rng = np.random.default_rng(42)
     horses = [f"H{i:03d}" for i in range(20)]
     rows = []
     for i in range(n):
         h = horses[i % len(horses)]
+        chakujun = float(rng.integers(1, 18))
         rows.append({
             "ketto_toroku_bango": h,
             "keibajo_code": "06",
@@ -106,9 +111,12 @@ def _make_large_df(n: int = 100) -> pd.DataFrame:
             "race_bango": "01",
             "umaban": str((i % 18) + 1).zfill(2),
             "race_date": f"202{i % 5}0101",
-            "kakutei_chakujun": float(rng.integers(1, 18)),
+            "kakutei_chakujun": chakujun,
             "tansho_odds": float(rng.uniform(1.5, 30.0)),
-            "fukusho_odds": float(rng.uniform(1.1, 10.0)),
+            # kijun_odds_fukusho_joa: 全馬に存在する基準複勝オッズ（修正後のデフォルト福勝オッズ列）
+            "kijun_odds_fukusho_joa": float(rng.uniform(1.1, 5.0)),
+            # fukusho_odds: jvd_hr UNPIVOTから。3着内のみ非NULL（バグの原因列）
+            "fukusho_odds": float(rng.uniform(1.1, 5.0)) if chakujun <= 3 else np.nan,
             "track_code": "11",
             "kyori": 1600,
             "se_bataiju": float(rng.uniform(420, 500)),
@@ -205,15 +213,19 @@ class TestComputeRoiTable:
     """_compute_roi_table() のユニットテスト"""
 
     def test_basic_output_columns(self) -> None:
-        """出力 DataFrame が必要カラムを持つこと"""
+        """出力 DataFrame が必要カラムを全て持つこと"""
         df = _make_large_df(100)
         df["_factor_bin"] = (df["kyi_idm"] // 10 * 10).astype(int).astype(str)
         table = _compute_roi_table(df, ["_factor_bin"], min_samples=5)
         expected_cols = {
-            "ビン", "単勝件数", "単勝的中率(%)", "複勝件数",
-            "複勝的中率(%)", "単勝補正回収率", "複勝補正回収率",
+            "ビン",
+            "単勝件数", "単勝的中数", "単勝的中率(%)", "単勝回収率(%)",
+            "複勝件数", "複勝的中数", "複勝的中率(%)", "複勝回収率(%)",
+            "単勝平均回収率", "単勝補正回収率", "複勝補正回収率",
         }
-        assert expected_cols.issubset(set(table.columns))
+        assert expected_cols.issubset(set(table.columns)), (
+            f"不足カラム: {expected_cols - set(table.columns)}"
+        )
 
     def test_min_samples_filter(self) -> None:
         """min_samples 未満のビンは除外されること"""
@@ -243,13 +255,19 @@ class TestComputeRoiTable:
             assert all(" × " in b for b in table["ビン"].values)
 
     def test_hit_rate_range(self) -> None:
-        """的中率が 0〜100% の範囲にあること"""
+        """的中率・件数・的中数が妥当な範囲にあること"""
         df = _make_large_df(100)
         df["_b"] = "A"
         table = _compute_roi_table(df, ["_b"], min_samples=10)
         if not table.empty:
             assert all(0 <= v <= 100 for v in table["単勝的中率(%)"])
             assert all(0 <= v <= 100 for v in table["複勝的中率(%)"])
+            # 単勝的中数 <= 単勝件数
+            assert all(row["単勝的中数"] <= row["単勝件数"] for _, row in table.iterrows())
+            # 複勝的中数 <= 複勝件数
+            assert all(row["複勝的中数"] <= row["複勝件数"] for _, row in table.iterrows())
+            # 単勝件数 == 複勝件数（同一基底セット）
+            assert all(row["単勝件数"] == row["複勝件数"] for _, row in table.iterrows())
 
     def test_empty_df_returns_empty(self) -> None:
         """空の DataFrame を渡すと空のテーブルが返ること"""
@@ -258,6 +276,67 @@ class TestComputeRoiTable:
         table = _compute_roi_table(df, ["some_col"])
         assert isinstance(table, pd.DataFrame)
         assert table.empty
+
+    def test_fukusho_hit_rate_not_100_percent(self) -> None:
+        """
+        【バグ修正検証】複勝的中率が 100% にならないこと。
+
+        _compute_roi_table は着順から直接 _is_fukusho を計算するため、
+        オッズ列の NULL に関係なく正しい的中率が得られる。
+        """
+        df = _make_large_df(300)
+        df["_b"] = "A"
+        table = _compute_roi_table(df, ["_b"], min_samples=10)
+        assert not table.empty, "サンプルが不足"
+        fukusho_hit_rate = table.at[0, "複勝的中率(%)"]
+        # 3着内確率は 3/17 ≈ 17.6% なので 100% には絶対ならない
+        assert fukusho_hit_rate < 90.0, (
+            f"複勝的中率が異常（{fukusho_hit_rate}%）。"
+            "fukusho_odds(3着内のみ非NULL)ではなく kijun_odds_fukusho_joa(全馬)を使うこと。"
+        )
+        # 合理的な範囲 (5% - 50%) に収まること
+        assert 5.0 <= fukusho_hit_rate <= 50.0, (
+            f"複勝的中率 {fukusho_hit_rate}% が期待範囲外"
+        )
+
+    def test_fukusho_roi_is_realistic(self) -> None:
+        """
+        【バグ修正検証】複勝補正回収率が正常範囲 (0-200%) に収まること。
+
+        バグ時は 150-600% になっていた。
+        """
+        df = _make_large_df(300)
+        df["_b"] = "A"
+        table = _compute_roi_table(df, ["_b"], min_samples=10)
+        if not table.empty:
+            fukusho_roi = table.at[0, "複勝補正回収率"]
+            assert fukusho_roi < 200.0, (
+                f"複勝補正回収率が異常（{fukusho_roi}%）。バグ修正が正しく適用されていない。"
+            )
+
+    def test_fukusho_uses_kijun_odds_column(self) -> None:
+        """
+        デフォルト fukusho_col="fukusho_odds" での動作確認。
+
+        複勝的中率(%): 着順から直接計算するため列に依存しない。
+        複勝補正回収率: fukusho_odds.fillna(0.0) × is_place の年次重み付け平均。
+                        dropna を使わないため的中率100%バグは発生しない。
+        """
+        df = _make_large_df(300)
+        df["_b"] = "A"
+
+        # デフォルト: fukusho_odds（fillna(0.0)で非3着内をゼロリターン）
+        table_default = _compute_roi_table(df, ["_b"], min_samples=10)
+
+        if not table_default.empty:
+            # 複勝的中率は正しい範囲（~20%前後）
+            hit_rate = table_default.at[0, "複勝的中率(%)"]
+            assert hit_rate < 90.0, f"複勝的中率が異常: {hit_rate}%"
+
+            # 複勝補正回収率は正常範囲 (< 200%)
+            f_roi = table_default.at[0, "複勝補正回収率"]
+            assert f_roi < 200.0, f"複勝補正回収率が異常: {f_roi}%"
+            assert f_roi >= 0.0, f"複勝補正回収率が負: {f_roi}%"
 
     def test_missing_factor_col_uses_na(self) -> None:
         """ファクター列が存在しない場合でも例外が起きないこと"""

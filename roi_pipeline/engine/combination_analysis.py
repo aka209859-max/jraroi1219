@@ -26,7 +26,8 @@ from typing import Optional
 import numpy as np
 import pandas as pd
 
-from roi_pipeline.engine.corrected_return import calc_corrected_return_rate
+from roi_pipeline.engine.corrected_return import calc_corrected_return_rate, TARGET_PAYOUT
+from roi_pipeline.config.year_weights import get_year_weight
 from roi_pipeline.engine.data_loader_v2 import (
     JRA_KEIBAJO_CODES,
     JVAN_TO_JRDB_RACE_KEY8,
@@ -152,12 +153,10 @@ def _load_combo_base(conn, lookback_start: str, end_date: str) -> pd.DataFrame:
         ON ({JVAN_TO_JRDB_RACE_KEY8}) = kyi.jrdb_race_key8
         AND TRIM(se.umaban) = TRIM(kyi.umaban)
     LEFT JOIN jrd_joa AS joa
-        ON  se.keibajo_code   = joa.keibajo_code
-        AND (SUBSTRING(se.kaisai_nen, 3, 2) || se.kaisai_tsukihi) = joa.race_shikonen
-        AND se.kaisai_kai     = joa.kaisai_kai
-        AND se.kaisai_nichime = joa.kaisai_nichime
-        AND se.race_bango     = joa.race_bango
-        AND TRIM(se.umaban)   = TRIM(joa.umaban)
+        ON  TRIM(se.ketto_toroku_bango) = TRIM(joa.ketto_toroku_bango)
+        AND (SUBSTRING(se.kaisai_nen, 3, 2)
+             || SUBSTRING(se.kaisai_tsukihi, 3, 2)
+             || SUBSTRING(se.kaisai_tsukihi, 1, 2)) = joa.race_shikonen
     LEFT JOIN jrd_joa_fixed AS joaf
         ON ({JVAN_TO_JRDB_RACE_KEY8}) = joaf.jrdb_race_key8
         AND TRIM(se.umaban) = TRIM(joaf.umaban)
@@ -550,19 +549,35 @@ def _compute_roi_table(
     min_samples: int = _MIN_SAMPLES,
 ) -> pd.DataFrame:
     """
-    factor_cols のクロスビンごとに補正回収率テーブルを生成する。
+    factor_cols のクロスビンごとに回収率テーブルを生成する。
 
-    Returns:
-        | ビン | 単勝件数 | 単勝的中率(%) | 複勝件数 | 複勝的中率(%) | 単勝補正回収率 | 複勝補正回収率 |
+    複勝回収率(%)     : fukusho_col（デフォルト="fukusho_odds"）を使用。
+                       jvd_hr UNPIVOT の fukusho_odds は 3 着内のみ非 NULL だが、
+                       fillna(0.0) で非3着内馬を「ゼロリターン」として扱い正しく計算する。
+    複勝補正回収率    : 年次重み付けを適用した複勝回収率。
+                       dropna しないため的中率100%バグが発生しない。
+                       オッズ帯別補正は行わない（事前オッズデータが馬ごとに存在しないため）。
+
+    Returns DataFrame 列:
+        ビン | 単勝件数 | 単勝的中数 | 単勝的中率(%) | 単勝回収率(%) |
+        複勝件数 | 複勝的中数 | 複勝的中率(%) | 複勝回収率(%) |
+        単勝平均回収率 | 単勝補正回収率 | 複勝補正回収率
+
+    用語:
+        単勝回収率(%)   : 100円均等買い方式の単勝回収率
+        複勝回収率(%)   : 100円均等買い方式の複勝回収率（実際の払戻オッズ使用）
+        単勝平均回収率  : 均等払い戻し方式（補正なし・年次重み付けなし）
+        単勝補正回収率  : 均等払い戻し方式 + オッズ帯別補正 + 年次重み付け
+        複勝補正回収率  : 実際の複勝払戻を使った年次重み付け平均回収率
     """
     df = df.copy()
 
-    # 着順整数化
+    # 着順整数化（character varying → numeric。文字列比較バグを防ぐため必ず変換）
+    # 例: '10' < '3' (文字列) → pd.to_numeric で 10.0 > 3.0 (数値) に正しく変換
     df["_kakujun"] = pd.to_numeric(df["kakutei_chakujun"], errors="coerce")
     df["_is_tansho"] = (df["_kakujun"] == 1).astype(float).where(df["_kakujun"].notna(), other=np.nan)
     df["_is_fukusho"] = (df["_kakujun"] <= 3).astype(float).where(df["_kakujun"].notna(), other=np.nan)
 
-    # 欠損列を空文字列に（groupby のため）
     # Categorical 型（pd.cut 結果）は fillna 前に str 変換が必要
     for col in factor_cols:
         if col not in df.columns:
@@ -584,28 +599,73 @@ def _compute_roi_table(
         if bin_val == "N/A" or "N/A" in str(bin_val):
             continue
 
-        # 単勝
-        t = calc_corrected_return_rate(
-            grp, odds_col=tansho_col, hit_flag_col="_is_tansho",
-            year_col=year_col, is_fukusho=False,
-        )
-        # 複勝
-        f = calc_corrected_return_rate(
-            grp, odds_col=fukusho_col, hit_flag_col="_is_fukusho",
-            year_col=year_col, is_fukusho=True,
-        )
-
-        if t["n_samples"] < min_samples:
+        # ---- 基底セット: tansho_odds・着順・kaisai_nen が全て非 NULL ----
+        valid = grp.dropna(subset=[tansho_col, "_is_tansho", year_col])
+        n = len(valid)
+        if n < min_samples:
             continue
 
+        odds_t = pd.to_numeric(valid[tansho_col], errors="coerce")
+        is_win  = valid["_is_tansho"].astype(float)
+        is_place = valid["_is_fukusho"].astype(float)
+
+        # ---- 単勝: 件数・的中数・的中率 ----
+        n_hit_t    = int(is_win.sum())
+        hit_rate_t = n_hit_t / n * 100
+
+        # 単勝回収率(%): 100円均等買い = sum(odds × is_win) / n × 100
+        tansho_roi_simple = float((odds_t * is_win).sum() / n * 100) if n > 0 else 0.0
+
+        # 単勝平均回収率: 均等払い戻し方式（補正なし・年次重み付けなし）
+        #   bet_i = TARGET_PAYOUT / odds_i, payout_i = TARGET_PAYOUT × is_win_i
+        pos_mask  = odds_t > 0
+        bet_sum_t = (TARGET_PAYOUT / odds_t[pos_mask]).sum()
+        pay_sum_t = (TARGET_PAYOUT * is_win[pos_mask]).sum()
+        tansho_avg_roi = float(pay_sum_t / bet_sum_t * 100) if bet_sum_t > 0 else 0.0
+
+        # 単勝補正回収率（年次重み付け + オッズ帯別補正）
+        t = calc_corrected_return_rate(
+            valid, odds_col=tansho_col, hit_flag_col="_is_tansho",
+            year_col=year_col, is_fukusho=False,
+        )
+
+        # ---- 複勝: 複勝件数 = 単勝件数（同一基底セット） ----
+        n_hit_f    = int(is_place.sum())
+        hit_rate_f = n_hit_f / n * 100
+
+        # 複勝回収率(%): 100円均等買い（実際の払戻オッズ使用、非3着内馬=0）
+        if fukusho_col in valid.columns:
+            odds_f = pd.to_numeric(valid[fukusho_col], errors="coerce").fillna(0.0)
+            fukusho_roi_simple = float((odds_f * is_place).sum() / n * 100) if n > 0 else 0.0
+        else:
+            fukusho_roi_simple = 0.0
+
+        # 複勝補正回収率: 年次重み付け平均回収率
+        # dropna を使わず fillna(0.0) で非3着内馬をゼロリターンとして扱う。
+        # オッズ帯別補正は行わない（馬ごとの事前複勝オッズが利用不可のため）。
+        f_actual = pd.to_numeric(
+            valid[fukusho_col] if fukusho_col in valid.columns else pd.Series(dtype=float),
+            errors="coerce",
+        ).fillna(0.0)
+        f_returns = (f_actual * is_place.values)
+        year_vals = valid[year_col].astype(str).values
+        year_w = np.array([get_year_weight(y) for y in year_vals], dtype=float)
+        total_w = float(year_w.sum())
+        f_corrected_roi = float((f_returns * year_w).sum() / total_w * 100) if total_w > 0 else 0.0
+
         records.append({
-            "ビン": bin_val,
-            "単勝件数": t["n_samples"],
-            "単勝的中率(%)": round(t["hit_rate"], 2),
-            "複勝件数": f["n_samples"],
-            "複勝的中率(%)": round(f["hit_rate"], 2),
+            "ビン":         bin_val,
+            "単勝件数":     n,
+            "単勝的中数":   n_hit_t,
+            "単勝的中率(%)": round(hit_rate_t, 2),
+            "単勝回収率(%)": round(tansho_roi_simple, 2),
+            "複勝件数":     n,               # 同一基底セット
+            "複勝的中数":   n_hit_f,
+            "複勝的中率(%)": round(hit_rate_f, 2),
+            "複勝回収率(%)": round(fukusho_roi_simple, 2),
+            "単勝平均回収率": round(tansho_avg_roi, 2),
             "単勝補正回収率": round(t["corrected_return_rate"], 2),
-            "複勝補正回収率": round(f["corrected_return_rate"], 2),
+            "複勝補正回収率": round(f_corrected_roi, 2),
         })
 
     return pd.DataFrame(records)
